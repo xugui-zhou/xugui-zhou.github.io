@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Xugui Zhou  - News</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="style.css" title="style1">
+    <link rel="icon" type="image/ico" href="images/favicon.ico">
+    <!-- <link href='https://fonts.googleapis.com/css?family=Open+Sans:400' rel='stylesheet' type='text/css'> -->
+</head>
+<body>
+
+    <ul id="nav">
+	    <li><a href="index.html">Home</a></li>
+	    <li><a style="color:#232C2D; background:#FFFFFF" href="research.html">Research</a></li>
+	    <li><a href="pub.html">Publications</a></li>
+	    <!-- <li><a href="students.html">People</a></li> -->
+	    <!-- <li><a href="teaching.html">Teaching</a></li> -->
+	    <li><a  href="news.html">News</a></li>
+	</ul>
+
+    <div id="all">
+        <div id="floatleft">
+            <img width="70%" src="images/headshot.jpg" style="border-radius: 50% !important">
+            </br>
+            </br>
+            <h2>Xugui Zhou</h5>
+            <p style="font-size:100%;"> Ph.D. Candidate </br> 
+            <a href="https://engineering.virginia.edu/departments/electrical-and-computer-engineering" style="color:#236B8E">Electrical & Computer Engineering </a> </br> 
+            <!-- Institute for Software Integrated Systems   -->
+            <a href="https://www.virginia.edu/" style="color:#236B8E">University of Virginia</a>  
+            </br>Email: xugui@virginia.edu </p>
+            <hr>
+            
+            </br>
+            </br>
+            </br>
+    
+            </br>
+            </br>
+        </div>
+
+        <div id="news">
+            <h3>Context-Aware Safety Monitoring in Cyber-Physical Systems</h3>
+            Designing a run-time monitor for timely and accurate detection of safety violations in CPS is challenging as it requires the precise modeling and analysis of the physical process, the environment, the cyber components that affect the physical process, and their interactions in both temporal and spatial domains. 
+            This research aims to investigate the fundamental problem of run-time safety assurance in autonomous CPS and propose a formal framework for the specification and design of context-aware hazard detection and mitigation mechanisms. 
+            An optimization approach is also proposed for further refinement of context-specific safety properties to capture the inter-scenario variability (e.g., different patient profiles or driving scenarios) and improve detection accuracy using a weakly supervised STL learning method. 
+            </br>
+            <img width="70%"  src="images/dsn21-1.png" style="margin-right: 2%;">
+            <img width="25%"  src="images/dsn21-5.png">
+        </div>
+
+        <div  id="news">
+            <h3>Integrating Domain Knowledge into Neural Network to Enforce Satisfaction of Safety Propoties</h3>
+            <p>
+                Machine learning techniques are powerful to capture the input-output relations with high accuracy 
+                but should be constrainted to satisfy safety-related properties, especially in safety-critical 
+                applicatons (e.g., ADS, medical CPS).
+                This work proposes a combined knowledge and data-driven approach for runtime prediction and mitigation of hazards. 
+                The proposed approach combines expert <i>Knowledge</i> on domain-specific <i>Safety constraints</i> with data 
+                from the closed-loop CPS operation to design a safety engine that can be integrated with a CPS controller’s interface 
+                to infer system context, predict impending hazards, and prevent the execution of unsafe control actions 
+                through generating preemptive and corrective actions.
+            </p>
+            </br>
+            <img width="50%" src="images/combine.png">
+
+        </div>
+
+        <div id="news">
+            <h3>Strategic Safety Validation in Advanced Driver Assistance Sysrems (ADAS)</h3>
+            <p>In this work, we use an orthogonal model-driven approach
+                to the regular data-driven techniques. Instead of focusing on
+                exploring the entirety of the fault parameter space, we focus
+                on a systematic characterization of the effect of the values of
+                the parameter space (e.g., start time and duration of faults) in
+                conjunction with the dynamic state of the vehicle to identify
+                the most opportune system contexts to launch the attacks.
+                We propose a Context-Aware safety-critical attack that can find
+                the most critical context during a driving scenario to activate
+                attacks that strategically corrupt the ADAS outputs, with the
+                goal of (1) maximizing the chance of hazards and (2) causing
+                hazards as soon as possible, before being detected/mitigated
+                by the human driver or the ADAS safety mechanisms.
+            </p>
+            <video width="45%" controls loop> 
+                <source src="images/ADAS-collision-short2.mp4" type="video/mp4"> 
+            </video>
+            <video width="45%" controls loop> 
+                <source src="images/ADAS-CollisionPreventedByDeriver.mp4" type="video/mp4"> 
+            </video>
+            <p>
+                Left: An example collision resulted from the attack. Right: An attack is stopped by simulated driver intervention.
+            </p>
+            <!-- <table >
+                <tr>
+                    <td width="50%" align="center"> An example collision resulted from the attack.</td>
+                    <td width="70%" align="right"> An attack is stopped by simulated driver intervention.</td>
+                </tr>
+            </table> -->
+
+        </div>
+
+        
+    </div>
+
+
+
+</body>
+</html>
