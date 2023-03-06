@@ -2,7 +2,7 @@ body	{text-align:center; margin:0; padding:0; background:#FFFFFF; color:#272626 
 p		{margin:0; padding:0 0 10px 0; line-height:140%; font-family: Open Sans;}
 h1		{margin:0; padding:0 0 5px 0; font-family:Open Sans; font-weight:normal; font-size:110%; }
 h2		{margin:0; padding:0 0 5px 0; font-family:Open Sans; font-weight:normal; font-size:180%; }
-a		{text-decoration:none; direction: ltr;}
+a		{text-decoration:none; color:#236B8E ; direction: ltr; target:"_blank"}
 a:hover	{text-decoration:none; }
 ul      {text-align: left; margin:0 0 0px 0; padding:0px 0px 0px 10px;}
 
