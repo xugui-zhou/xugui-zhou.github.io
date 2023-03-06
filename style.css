@@ -5,6 +5,7 @@ h2		{margin:0; padding:0 0 5px 0; font-family:Open Sans; font-weight:normal; fon
 a		{text-decoration:none; color:#236B8E ; direction: ltr; target:"_blank"}
 a:hover	{text-decoration:none; }
 ul      {text-align: left; margin:0 0 0px 0; padding:0px 0px 0px 10px;}
+li      {margin-bottom: 8px;}
 
 /*structural*/
 #floatleft      {float:left; margin:20px 10px auto auto; padding:15px 10px 10px 20px; width:auto; height: max-content;}
