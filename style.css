@@ -2,20 +2,20 @@ body	{text-align:center; margin:0; padding:0; background:#FFFFFF; color:#272626 
 p		{margin:0; padding:0 0 10px 0; line-height:140%; font-family: Open Sans;}
 h1		{margin:0; padding:0 0 5px 0; font-family:Open Sans; font-weight:normal; font-size:110%; }
 h2		{margin:0; padding:0 0 5px 0; font-family:Open Sans; font-weight:normal; font-size:180%; }
-a		{text-decoration:none; color:#236B8E ; direction: ltr; target:"_blank"}
+a		{text-decoration:none; color:#236B8E ; direction: ltr;}
 a:hover	{text-decoration:none; }
 ul      {text-align: left; margin:0 0 0px 0; padding:0px 0px 0px 10px;}
 li      {margin-bottom: 8px;}
 
 /*structural*/
 #floatleft      {position: fixed;float:left; margin:40px 10px auto auto; padding:15px 10px 10px 20px; width:auto; height: max-content;}
-#intro	        {margin:60px 30px auto 300px; padding:20px auto 200px 30px ; font-size: large; font-weight:normal; text-align:left; display:block; }
-#home-news	    {margin:20px 30px auto 300px; padding:20px auto 200px 30px ; font-size: medium; font-weight:normal; text-align:left; display:block; }
-#news	        {margin:60px 30px auto 300px; padding:20px auto 200px 30px ; font-size: medium; font-weight:normal; text-align:left; display:block; }
-#pub	        {margin:60px 30px auto 300px; padding:20px auto 200px 30px ; font-size: medium; font-weight:normal; text-align:left; display:block; }
+#intro	        {margin:60px 30px auto 25px; padding:20px auto 200px 30px ; font-size: large; font-weight:normal; text-align:left; display:block;}
+#home-news	    {margin:10px 30px auto 25px; padding:20px auto 200px 30px ; font-size: medium; font-weight:normal; text-align:left; display:block; }
+#news	        {margin:60px 30px auto 25px; padding:20px auto 200px 30px ; font-size: medium; font-weight:normal; text-align:left; display:block; }
+#pub	        {margin:60px 30px auto 25px; padding:20px auto 200px 30px ; font-size: medium; font-weight:normal; text-align:left; display:block; }
 #main           {margin:60px auto 50px auto; padding:1px; width:1000px; background:#FFFFFF; text-align:left; align: left;border: 2px solid Tomato;}
 
-#all			{margin:5px auto 10px auto; padding:1px; width:auto; background:#FFFFFF; text-align:left; align: left; border-left: 20px solid grey ;}
+#all			{margin:5px auto 10px 285px; padding:1px; width:auto; background:#FFFFFF; text-align:left; align: left;  border-left: 1px solid #236B8E;}
 #content		{float:left; padding:15px 0px 0px 0px; width:auto;}
 #content_p		{float:left; padding:15px 10px 5px 10px; width:auto;}
 #rightColumn1	{float:right; padding:5px 10px 5px 20px; width:220px; margin:-505px 0px 0 0; background:#232C2D; border:1px solid #232C2D; color:#FFFFFF; font-size:100%;}
