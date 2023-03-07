@@ -8,12 +8,12 @@ ul      {text-align: left; margin:0 0 0px 0; padding:0px 0px 0px 10px;}
 li      {margin-bottom: 8px;}
 
 /*structural*/
-#floatleft      {float:left; margin:20px 10px auto auto; padding:15px 10px 10px 20px; width:auto; height: max-content;}
-#intro	        {margin:20px 30px auto auto; padding:20px auto 200px 30px ; font-size: large; font-weight:normal; text-align:left; display:block; }
-#home-news	    {margin:20px 30px auto 300px; padding:20px auto 200px 30px ; font-size: medium; font-weight:normal; text-align:left; display:block; }
-#news	        {margin:20px 30px auto 300px; padding:20px auto 200px 30px ; font-size: medium; font-weight:normal; text-align:left; display:block; }
-#pub	        {margin:20px 30px auto 300px; padding:20px auto 200px 30px ; font-size: medium; font-weight:normal; text-align:left; display:block; }
-#main           {margin:50px auto 50px auto; padding:1px; width:1000px; background:#FFFFFF; text-align:left; align: left;border: 2px solid Tomato;}
+#floatleft      {position: fixed;float:left; margin:40px 10px auto auto; padding:15px 10px 10px 20px; width:auto; height: max-content;}
+#intro	        {margin:60px 30px auto 300px; padding:20px auto 200px 30px ; font-size: large; font-weight:normal; text-align:left; display:block; }
+#home-news	    {margin:60px 30px auto 300px; padding:20px auto 200px 30px ; font-size: medium; font-weight:normal; text-align:left; display:block; }
+#news	        {margin:60px 30px auto 300px; padding:20px auto 200px 30px ; font-size: medium; font-weight:normal; text-align:left; display:block; }
+#pub	        {margin:60px 30px auto 300px; padding:20px auto 200px 30px ; font-size: medium; font-weight:normal; text-align:left; display:block; }
+#main           {margin:60px auto 50px auto; padding:1px; width:1000px; background:#FFFFFF; text-align:left; align: left;border: 2px solid Tomato;}
 
 #all			{margin:5px auto 10px auto; padding:1px; width:auto; background:#FFFFFF; text-align:left; align: left}
 #content		{float:left; padding:15px 0px 0px 0px; width:auto;}
@@ -30,7 +30,7 @@ h1#intro	{background:#FFFFDF no-repeat 0 0; color:#FFFFFF; margin:0; padding:20p
 h1#intro a	{text-decoration:none; display:block; }
 
 /*navigation*/
-ul#nav			{text-align: right; margin:0 0 5px 0; padding:10px 20px 10px 10px; background:#232C2D; font-weight: bold;}
+ul#nav			{position: fixed; top: 0px; width: 98%; text-align: right; margin:0 0 5px 0; padding:10px 2% 10px 0px; background:#232C2D; font-weight: bold;}
 #nav li			{margin:0; padding:0; list-style:none; display:inline; color:#232C2D; background:#FFFFFF}
 #nav a			{color:#FFFFFF; text-decoration:none; padding:10px 20px; text-transform:uppercase; background:#232C2D; }
 #nav a:hover	{color:#232C2D; background:#999988}
