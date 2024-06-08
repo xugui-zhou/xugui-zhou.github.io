@@ -8,7 +8,7 @@ ul      {text-align: left; margin:0 0 0px 0; padding:0px 0px 0px 10px;}
 li      {margin-bottom: 8px;}
 
 /*structural*/
-#floatleft      {position: fixed;float:left; margin:40px 10px auto auto; padding:15px 10px 10px 20px; width:auto; height: max-content; border-right: #999988;}
+#floatleft      {position: fixed;float:left; margin:40px 10px auto auto; padding:15px 10px 10px 20px; width:auto; height: max-content; border-right: 1px solid #999988;}
 #intro	        {margin:60px 30px auto 25px; padding:20px auto 200px 30px ; font-size: large; font-weight:normal; text-align:left; display:block;}
 #home-news	    {margin:10px 30px auto 25px; padding:20px auto 200px 30px ; font-size: medium; font-weight:normal; text-align:left; display:block; }
 #news	        {margin:60px 30px auto 25px; padding:20px auto 200px 30px ; font-size: medium; font-weight:normal; text-align:left; display:block; }
