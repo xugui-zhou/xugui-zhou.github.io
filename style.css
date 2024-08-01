@@ -8,12 +8,12 @@ ul      {text-align: left; margin:0 0 0px 0; padding:0px 0px 0px 10px;}
 li      {margin-bottom: 8px;}
 
 /*structural*/
-#floatleft      {position: fixed;float:left; margin:35px 10px auto 0px; padding:15px 10px 10px 20px; width: 150px; height: 100%; text-align: left; border-right: 1px solid #191915;}
+#floatleft      {position: fixed;float:left; margin:35px 10px auto 0px; padding:15px 10px 10px 20px; width: 130px; height: 100%; text-align: left; border-right: 1px solid #191915;}
 #floatleft .contact-links a {
     line-height: 2; /* Adjust this value to increase line spacing */
 }
 
-#intro	        {margin:60px 30px auto 25px; padding:20px auto 200px 30px ; font-size: large; font-weight:normal; text-align:left; display:block;}
+#intro	        {margin:60px 30px auto 25px; padding:20px auto 200px 30px ; font-size: medium; font-weight:normal; text-align:left; display:block;}
 #home-news	    {margin:10px 30px auto 25px; padding:20px auto 200px 30px ; font-size: medium; font-weight:normal; text-align:left; display:block; }
 #news	        {margin:60px 30px auto 25px; padding:20px auto 200px 30px ; font-size: medium; font-weight:normal; text-align:left; display:block; }
 #pub	        {margin:60px 30px auto 25px; padding:20px auto 200px 30px ; font-size: medium; font-weight:normal; text-align:left; display:block; }
