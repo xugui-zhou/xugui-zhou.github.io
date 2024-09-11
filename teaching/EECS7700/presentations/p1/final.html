@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Residual Learning for Image Recognition</title>
+    <style>
+        /* Styling for colors and readability */
+        body {
+	    background-color: #c1c9c7;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #003366;
+            font-size: 2em;
+        }
+
+        h2 {
+	    text-decoration: underline;
+            color: #0066cc;
+            margin-top: 30px;
+		
+        }
+        h3 {
+            color: #0066cc;
+            margin-top: 30px;
+		
+        }
+
+        p {
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        /* Image styles */
+        .image-left {
+            float: left;
+            margin-right: 20px;
+            margin-bottom: 20px;
+            width: 300px; /* Adjust as necessary */
+        }
+
+        .image-right {
+            float: right;
+            margin-left: 20px;
+            margin-bottom: 20px;
+            width: 300px; /* Adjust as necessary */
+        }
+
+        /* Clearfix to handle float elements */
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        /* For blockquote */
+        blockquote {
+            font-style: italic;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: #f4f4f4;
+            border-left: 10px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Deep Residual Learning for Image Recognition</h1>
+
+    <p><strong>Authors:</strong> Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun</p>
+    <p><strong>For class EE/CSC 7700 ML for CPS</strong></p>
+    <p><strong>Instructor:</strong> Dr. Xugui Zhou</p>
+    <p><strong>Presentation by Group 1:</strong> Joshua McCain (Presenter), Lauren Bristol, Joshua Rovira</p>
+    <p><strong>Summarized by Group 6:</strong> Yunpeng Han, Yuhong Wang, Pranav Pothapragada</p>
+    <p><strong>Time:</strong> Monday, September 9, 2024</p>
+
+    <h2>Summary</h2>
+    <p>As the number of layers of neural networks increases, the problems of overfitting, gradient vanishing, and gradient explosion often occur, so this article came into being. In this paper, the concept of deep residual networks (ResNets) is proposed. By introducing "shortcut connections," this study solves the problem of gradient vanishing in deep network training and has an important impact on the field of deep learning. The method of the paper explicitly redefines the network layers as learning residual functions relative to the inputs. By learning residuals, the network can be optimized more easily and can train deeper models more efficiently. Therefore, this method can help solve the performance degradation problem that may occur when the network layer increases. In addition, the article displays the experimental part. The model shows significant improvements in handling large-scale visual recognition tasks like ImageNet and CIFAR-10. The application of deep residual networks in major visual recognition competitions like ILSVRC and COCO 2015 further proves their power and wide applicability.</p>
+<hr style="border: 1px solid #ccc; margin: 20px 0;">
+
+    <h2>Slide Outlines</h2>
+
+    <h3>History</h3>
+    <div class="clearfix">
+        <a href="Slide2.jpg"><img src="Slide2.jpg" alt="History Image" class="image-left"></a>
+        <p>ResNets (Residual Networks) is introduced, and it is mentioned that ResNets won the 2015 ImageNet Large Scale Visual Recognition Challenge. People's curiosity about how they accomplished this led to the publication of the paper in December 2015.</p>
+    </div>
+
+    <h3>Introduction</h3>
+    <div class="clearfix">
+        <a href="Slide3.jpg"><img src="Slide3.jpg" alt="Introduction Image" class="image-right"></a>
+        <p>In ML, deeper networks are known to yield more accuracy in machine learning. But a crucial problem surfaced: performance wasn't always enhanced by deeper networks. Contrary to the expectation of overfitting, the 56-layer network performs significantly worse than the 20-layer network, as demonstrated in the slides.</p>
+    </div>
+
+    <h3>Problem</h3>
+    <div class="clearfix">
+        <a href="Slide4.jpg"><img src="Slide4.jpg" alt="Problem Image" class="image-left"></a>
+        <p>The problem of degradation in deeper networks was addressed. Three main issues with degradation were introduced: exploding/vanishing gradients in backpropagation, difficulty learning the identity mapping, and optimization issues. For vanishing gradients, deeper layers had no reference to the original input. Therefore, it is difficult to adjust weights, especially in deeper networks, and will lead to exploding or vanishing gradients that caused networks to either not converge or get stuck in local minima. For the second problem, difficulty learning identity mapping, the expectation was that a deeper network could map identity (the output should match the input), but this wasn’t the case, and deeper networks failed to maintain accuracy. The third problem is optimization complexity. Each layer in traditional networks had to create a completely new function for every input, increasing the complexity and number of parameters unnecessarily.</p>
+    </div>
+
+    <h3>Solution</h3>
+    <div class="clearfix">
+        <a href="Slide5.jpg"><img src="Slide5.jpg" alt="Solution Image" class="image-right"></a>
+        <p>Introduces the concept of residual functions, where instead of trying to map new complex functions in each layer, the residual connection focuses on learning the difference (residual) between input and output and adds that to the input. Formulation: X + F(x) = H(x) where X is input, F means residual layer, F(x) means what after Residual, H(x) means output.</p>
+    </div>
+
+    <h3>Residual Example</h3>
+    <div class="clearfix">
+        <a href="Slide6.jpg"><img src="Slide6.jpg" alt="Residual Example 1" class="image-left"></a>
+	<a href="Slide7.jpg"><img src="Slide7.jpg" alt="Residual Example 2" class="image-left"></a>
+        <p>Provides a visual representation of residual functions: X + F(x) = H(x), where x is a blurred image, F(x) is a residual layer, and H(x) is the output image, which is very clear.</p>
+    </div>
+
+    <h3>Residual Blocks</h3>
+    <div class="clearfix">
+        <a href="Slide8.jpg"><img src="Slide8.jpg" alt="Residual Blocks Image" class="image-right"></a>
+        <p>This part shows how the input is carried through a shortcut and added to the residual function to produce the output, solving the degradation problem.</p>
+    </div>
+
+    <h3>Residual Solution</h3>
+    <div class="clearfix">
+        <a href="Slide9.jpg"><img src="Slide9.jpg" alt="Residual Solution Image" class="image-left"></a>
+        <p>It shows ResNets has some advantages:
+            <ul>
+                <li>The original input gets factored into gradients</li>
+                <li>Identity connections no longer have to try to fit a new complex image every layer.</li>
+                <li>Residuals in deep networks are small</li>
+            </ul>
+            Corresponding to the problem: Exploding/Vanishing gradients in backpropagation, difficulty learning the identity mapping, and optimization issues.
+        </p>
+    </div>
+
+    <h3>Residual Network (ResNets)</h3>
+    <div class="clearfix">
+        <a href="Slide10.jpg"><img src="Slide10.jpg" alt="Residual Network Image" class="image-right"></a>
+        <p>VGG-19, 34-layer Plain, and 34-layer Residual were compared. Residual shows it had ~5x less FLOPs (floating point operations) than VGG networks.</p>
+    </div>
+
+    <h3>Shortcut Connection Dimensions</h3>
+    <div class="clearfix">
+        <a href="Slide11.jpg"><img src="Slide11.jpg" alt="Shortcut Connection Dimensions Image" class="image-left"></a>
+	<a href="Slide12.jpg"><img src="Slide12.jpg" alt="Shortcut upscaling Dimensions" class="image-left"></a>
+        <p>Dimensions change between input and output. How can we solve it? By adding a Square Matrix Linear Transformation, the dimension will change. For upscaling dimensions, there were two methods of padding tested. The first method is the zero having shortcuts (No extra parameters). The other is 1x1 Convolution Projection Shortcuts.</p>
+    </div>
+
+    <h3>Experiments (ResNet Testing)</h3>
+    <div class="clearfix">
+        <a href="Slide13.jpg"><img src="Slide13.jpg" alt="Experiments 1" class="image-right"></a>
+	<a href="Slide14.jpg"><img src="Slide14.jpg" alt="Experiments 2" class="image-right"></a>
+        <p>There are three methods that can do dimension shifting: Zero padding on dimension shifting only, 1x1 Convolutions on dimension shifting only, and 1x1 Convolutions on every shortcut connection. The ResNets team tested the network on different datasets to verify its effectiveness. ResNets improved top 1 and top 5 error rates, showing it could generalize well to new datasets.</p>
+    </div>
+
+    <h3>Bottleneck Block Design</h3>
+    <div class="clearfix">
+        <a href="Slide15.jpg"><img src="Slide15.jpg" alt="Bottleneck Block Design Image" class="image-left"></a>
+        <p>The bottleneck block was introduced, which helped ResNets reach 152 layers while maintaining performance and reducing training time by resizing images inside blocks.</p>
+    </div>
+
+    <h3>Limitations</h3>
+    <div class="clearfix">
+        <a href="Slide16.jpg"><img src="Slide16.jpg" alt="Limitations Image" class="image-right"></a>
+        <p>While ResNets solved many drawbacks, deeper networks beyond 1000 layers showed overfitting, indicating limitations in scaling depth indefinitely. ResNets was also computationally intensive and not ideal for every task.</p>
+    </div>
+
+    <h3>Main Takeaways</h3>
+    <div class="clearfix">
+        <a href="Slide17.jpg"><img src="Slide17.jpg" alt="Main Takeaways Image" class="image-left"></a>
+        <p>Residual networks can solve the degradation problem through these shortcut connections, which allow networks to go deeper while improving accuracy and reducing the number of parameters required. ResNets did so with fewer parameters than everyone else.</p>
+    </div>
+
+    <h3>Aftermath</h3>
+    <div class="clearfix">
+        <a href="Slide18.jpg"><img src="Slide18.jpg" alt="Aftermath Image" class="image-right"></a>
+        <p>This paper was very influential and cited over 230k times in Google Scholar, which is a foundational paper in machine learning.</p>
+    </div>
+
+    <h3>Cyber-Physical System Example</h3>
+    <div class="clearfix">
+        <a href="Slide19.jpg"><img src="Slide19.jpg" alt="Cyber-Physical System Example Image" class="image-left"></a>
+        <p>ResNets has broad applications, including autonomous driving systems where accuracy is crucial for tasks like object detection and classification. For example, image detection of stop signs or a car is crucial.</p>
+    </div>
+
+    <h3>Teamwork Acknowledgement</h3>
+    <div class="clearfix">
+        <a href="Slide20.jpg"><img src="Slide20.jpg" alt="Teamwork Acknowledgement Image" class="image-right"></a>
+        <p>The presenter acknowledges the contributions of teammates who helped with research, examples, and questions.</p>
+    </div>
+<hr style="border: 1px solid #ccc; margin: 20px 0;">
+
+    <h2>Q&A</h2>
+
+    <h3>Q1: Why are we using 1*1 convolutions in the network?</h3>
+    <p>The idea behind ResNets is to add the input to the output of a set of layers while the layers train to only compute the difference. However, given that the dimensionality of the input is not necessarily the same as the output, we use 1x1 convolutions to extend dimensionality. Other methods of extending, such as zero padding, have also been tested. Still, only performing convolutions on layers that need it seems to strike the right balance between computational complexity and model accuracy.</p>
+
+    <h3>Q2: Is the gradient flowing through the shortcut in the network? Is that why we solve the problem of exploding gradients?</h3>
+    <p>While it is intuitive to think of it as gradients flowing through the shortcuts presented in the network, it is more accurate to say that the input itself is factored into the gradient. Since the residuals are generally small, we can better avoid vanishing or exploding gradients during backpropagation.</p>
+
+    <h3>Q3: It has been presented that ResNets are computationally expensive; how does that affect their use in real-time systems?</h3>
+    <p>ResNets indeed introduce additional computational complexity and overhead, which is potentially an issue for certain systems. For smaller datasets and less complex applications where very high accuracy is not needed, using ResNets might be overkill and not worth the tradeoff. But when it comes to systems that require accuracy, such as autonomous driving, this might not be that big of an issue, given that while ResNets take slightly more time, they are still fast enough to make real-time decisions without dangerous delays (given a powerful enough computer). In short, it's about balancing speed and accuracy based on importance.</p>
+
+    <h3>Q4: Where in the networks are we subtracting to get the namesake—Residuals?</h3>
+    <p>In the ResNet, the network doesn’t subtract the final (required) output from X as is mentioned in the slides; it was an illustration to show how the residuals came into the picture. Instead of generating the necessary input H(x) and subtracting from x to get the residual F(x), the system directly learns to generate the residual F(x), which is generally smaller and hence eliminates the issues presented by generating H(x) directly.</p>
+<hr style="border: 1px solid #ccc; margin: 20px 0;">
+
+    <h2>Discussion</h2>
+
+    <h3>
+        <strong>Q1:</strong> What technologies, especially in cyber-physical systems, could benefit from residual learning?
+        
+    </h3>
+	<ul>
+		<li><strong>Utilizing video footage for control</strong>: Group 1’s other team members present the potential use of ResNets to generate realtime control, given visual input. The team member also offered a specific example of detecting hand positions from a video feed and using it to control robotic ones.</li>
+		<li><strong>Steak grading/ Image classification</strong>: Group 9 presented the idea of utilizing ResNets for steak grading; given the proven potential of ResNets in classification, this potential application is efficient.</li>
+		<li><strong>Utilization in low-light enhancement</strong>: Group 3 presented a potential idea of utilizing resents for low-light image enhancement, specifically for improving classification performance in low-light images.</li>
+		<li><strong>For quality assurance of chemical products</strong>: Group 4 and Group 5 presented an application to potentially understand the chemical compositions of products, specifically for quality assurance. This idea is presented as a classification problem, which plays to the strengths of the model</li>
+		<li><strong>For reverse engineering binaries to code</strong>: Group 7 presented the application of these networks in reverse engineering binaries, which presents an exciting and potentially helpful application in detecting potential malware in binary file formats such as .exe</li>
+		<li><strong>For embryo detection</strong>: Group 2 presented their previous work using ResNets on detecting embryos. They also presented that utilizing ResNets gave a 97% accuracy, which further proves the usefulness of ResNets.</li>
+		<li><strong>Identification of closed architecture models</strong>: Group 3 presented the idea of reversing and identifying the models, given a closed architecture neural network.</li>
+	</ul>
+<h3>
+<strong>Q2:</strong> How many layers do you think optimal residual networks will use in 2024, especially for image recognition? Is it different for other applications?
+</h3>
+<ul>
+<li><strong>For Image Recognition</strong>: Some groups predicted that for complex image recognition tasks, the optimal number of layers remains around 152, as was suggested in the original ResNet architecture. However, others speculated that fewer layers—perhaps 50 to 100—would be sufficient to balance accuracy and computational efficiency for less complex tasks.</li>
+<li><strong>For Image Recognition</strong>: Some groups predicted that for complex image recognition tasks, the optimal number of layers remains around 152, as was suggested in the original ResNet architecture. However, others speculated that fewer layers—perhaps 50 to 100—would be sufficient to balance accuracy and computational efficiency for less complex tasks.</li>
+<li><strong>General Trends</strong>: Many participants agreed that while the optimal layer count hasn't increased significantly over the years, ResNet architectures are continually evolving. The general agreement was that the number of layers depends mainly on the application’s complexity and real-time requirements and may not always need to push the boundary beyond 152 layers.</li>
+</ul>
+<hr style="border: 1px solid #ccc; margin: 20px 0;">
+<blocktext>
+<strong>Bonus Insight from the Presenter</strong> <p>The presenter wrapped up the discussion by pointing out that although robotics wasn’t mentioned much during the conversation, ResNets are relevant in that domain. Like the popular dog robots, robots need sophisticated vision systems to detect and interact with their surroundings. Additionally, for most applications, the number of layers in ResNet models seems to max out at 152, with fewer layers used for less complex tasks.</p>
+</blocktext>
+</body>
+</html>
