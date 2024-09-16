@@ -96,7 +96,7 @@
 
     <h3>The Transformer</h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide2.jpg"><img src="Slide2.jpg" class="image-left"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide2.JPG"><img src="Slide2.JPG" class="image-left"></a>
         <p>The Transformer is introduced, which revolutionized the NLP field by replacing the need for recurrence (as in RNNs) and instead using an attention mechanism to capture dependencies between inputs and outputs. The transformers looks to address sequence,
             transduction problems. Specifically, the transformer was developed with natural language processing in mind specifically, for example, language translation from an English sentence to a French and a German sentence.
             </p>
@@ -104,38 +104,38 @@
 
     <h3>What Problems Are We Addressing？</h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide3.jpg"><img src="Slide3.jpg" class="image-right"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide3.JPG"><img src="Slide3.JPG" class="image-right"></a>
         <p>The Transformer was built to address sequence transduction problems, such as language translation, text auto-completion, and text summarization. These problems involve converting an input sequence to an output sequence.</p>
     </div>
 
     <h3>Related Work: RNNs</h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide4.jpg"><img src="Slide4.jpg" class="image-left"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide4.JPG"><img src="Slide4.JPG" class="image-left"></a>
         <p>RNNs is not ideal to be applied to sequence modeling, sequence transaction problems, specifically when it comes to natural language processing. RNNs can store memory for sequence processing but suffer from long-term dependency issues, meaning they struggle to remember important information from earlier in the sequence. Also, RNNs perform computations sequentially, which slows down the training process.</p>
     </div>
 
     <h3>Related Work: CNNs</h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide5.jpg"><img src="Slide5.jpg" class="image-right"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide5.JPG"><img src="Slide5.JPG" class="image-right"></a>
         <p> CNNs allow parallel computation, but they face difficulties in capturing long-distance dependencies in the sequence in the text. A convolution neural network processes input through a sliding window, and these sliding windows can sometimes be smaller, which also struggles to capture the relationships in the full sentence and instead would focus on smaller parts of the sentence.</p>
     </div>
 
     <h3>Related Work: Attention Mechanisms</h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide6.jpg"><img src="Slide6.jpg" class="image-left"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide6.JPG"><img src="Slide6.JPG" class="image-left"></a>
         <p>Attention mechanisms reduce the need for sequential computation and help preserve context in the input. Self-attention relates different parts of a sequence to compute its representation, allowing for parallel computation and capturing long-distance dependencies.</p>
     </div>
 
     <h3>Related Work: Encoder-Decoder Architecture</h3>
     <div class="clearfix">
-	<a target="_blank" rel="noopener noreferrer" href="Slide7.jpg"><img src="Slide7.jpg" class="image-right"></a>
+	<a target="_blank" rel="noopener noreferrer" href="Slide7.JPG"><img src="Slide7.JPG" class="image-right"></a>
         <p>The encoder-decoder architecture creates meaningful representations of input sequences. The encoder processes the input, creating a context vector, which the decoder uses to generate an output sequence. This architecture is used in tasks like language translation. For example,"She is eating a green apple", this has been translated into a context vector, which is a numerical representation and fed into the decoder. And it can be translated based the trained dictionary for the target vocabulary.</p>
     </div>
 
     <h3>Related Work: RNN Encoder/Decoder </h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide8.jpg"><img src="Slide8.jpg" class="image-left"></a>
-        <a target="_blank" rel="noopener noreferrer" href="Slide9.jpg"><img src="Slide9.jpg" class="image-left"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide8.JPG"><img src="Slide8.JPG" class="image-left"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide9.JPG"><img src="Slide9.JPG" class="image-left"></a>
         <p>RNNs and CNNs can be used within an encoder-decoder architecture. CNNs are really good for understanding images, which used a lot in computer vision. In RNN-based decoder, neural network is able to generate a sequence of text that describes that image, but the sliding windows are still pretty small. However, both models face issues, such as sequential dependencies (RNNs) and difficulty in capturing complex relationships (CNNs), limiting their efficiency in tasks like language translation or image captioning. For example,it may be difficult for the CNN to fully understand and represent the connections between different elements of different parts of a pretty chaotic image.
             </p>
     </div>
@@ -143,20 +143,20 @@
 
     <h3>Motivations</h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide10.jpg"><img src="Slide10.jpg" class="image-right"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide10.JPG"><img src="Slide10.JPG" class="image-right"></a>
         <p>The weaknesses of RNNs and CNNs in handling long-term dependencies and sequential computations motivated the development of the Transformer. The example sentence "I grew up in Germany...I speak fluent" illustrates how RNNs might fail to preserve the necessary context for understanding later parts of the sentence.</p>
     </div>
 
     <h3>Why Is Context Important?</h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide11.jpg"><img src="Slide11.jpg" class="image-left"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide11.JPG"><img src="Slide11.JPG" class="image-left"></a>
         <p>Understanding context is crucial in sequence transduction. The example of google translation mishap, where the term "matcha latte" is translated to "fireman", highlights how incorrect context can lead to flawed outputs.</p>
     </div>
 
     <h3>The Transformer Definition</h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide12.jpg"><img src="Slide12.jpg" class="image-right"></a>
-        <a target="_blank" rel="noopener noreferrer" href="Slide13.jpg"><img src="Slide13.jpg" class="image-right"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide12.JPG"><img src="Slide12.JPG" class="image-right"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide13.JPG"><img src="Slide13.JPG" class="image-right"></a>
         <p>The transformer model architecture that does not need or require any recurrence.Additionally, it relies entirely on an attention mechanism. 
             It uses attention mechanisms to be able to understand the dependencies and the relationships between the different words in the sentence.
             The long-term dependency relationships has also helped to be resolved by the attention mechanisms.</p>
@@ -164,7 +164,7 @@
 
     <h3>The Transformer Architecture</h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide14.jpg"><img src="Slide14.jpg" class="image-left"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide14.JPG"><img src="Slide14.JPG" class="image-left"></a>
         <p>The architecture consists of input embedding, positional encoding, multi-head attention, feed-forward networks, add and norm steps, encoder, and decoder.
             The word embedding is a learned embedding that's a vector that's a learned embedding that represents the word.
             The positional encoding has to do with sine and cosines, and it represents where the word is in the sentence relative to all the other tokens.
@@ -173,7 +173,7 @@
 
     <h3> Example</h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide15.jpg"><img src="Slide15.jpg" class="image-left"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide15.JPG"><img src="Slide15.JPG" class="image-left"></a>
         <p>The example sentence "The animal didn’t cross the street because it was too tired." were used throughout the presentation to show how the Transformer model processes input and generates output, 
             including show the inputs and outputs of the encoding and positional encoding and word embedding step.
             </p>
@@ -181,52 +181,52 @@
 
     <h3>Architecture: Input Embedding and Positional Encoding</h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide16.jpg"><img src="Slide16.jpg" class="image-left"></a>
-        <a target="_blank" rel="noopener noreferrer" href="Slide17.jpg"><img src="Slide17.jpg" class="image-left"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide16.JPG"><img src="Slide16.JPG" class="image-left"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide17.JPG"><img src="Slide17.JPG" class="image-left"></a>
         <p>Input sequences are converted into word embeddings (numerical representations of words) and positional encodings, 
             which capture the position of each word in the sentence. This allows the Transformer to understand the order and relationships of words.</p>
     </div>
 
     <h3>Example</h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide18.jpg"><img src="Slide18.jpg" class="image-right"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide18.JPG"><img src="Slide18.JPG" class="image-right"></a>
         <p>This slide presents the operation above in the example, the word encoding vector and positional encoding vector are combined to get a single embedding with positional context.</p>
     </div>
 
     <h3>Architecture: Encoder</h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide19.jpg"><img src="Slide19.jpg" class="image-left"></a>
-        <a target="_blank" rel="noopener noreferrer" href="Slide20.jpg"><img src="Slide20.jpg" class="image-left"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide19.JPG"><img src="Slide19.JPG" class="image-left"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide20.JPG"><img src="Slide20.JPG" class="image-left"></a>
         <p>The next step is the utilization of the encoder, which processes the embeddings and positional encodings and applies multi-head attention and feed-forward networks. 
             This step helps generate context-rich representations of each token in the input. The input embedded input with positional encoding is sent through a set of N stacked encoders, each containing the above mentioned networks. The networks are the same as the ones used in the next few steps and are directly explained there.</p>
     </div>
 
     <h3>Example</h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide21.jpg"><img src="Slide21.jpg" class="image-right"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide21.JPG"><img src="Slide21.JPG" class="image-right"></a>
         <p>This example shows the encoder stack taking in the previously generated input, and generating the corresponding encodings, which we now assume to have all the context in the input text.</p>
     </div>
 
     <h3>Intuition: Multi-Head Attention</h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide22.jpg"><img src="Slide22.jpg"  class="image-left"></a>
-        <!-- <a target="_blank" rel="noopener noreferrer" href="Slide23.jpg"><img src="Slide23.jpg" class="image-left"></a> -->
-        <!-- <a target="_blank" rel="noopener noreferrer" href="Slide24.jpg"><img src="Slide24.jpg" class="image-left"></a> -->
-        <a target="_blank" rel="noopener noreferrer" href="Slide25.jpg"><img src="Slide25.jpg" class="image-left"></a>
-        <a target="_blank" rel="noopener noreferrer" href="Slide26.jpg"><img src="Slide26.jpg" class="image-left"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide22.JPG"><img src="Slide22.JPG"  class="image-left"></a>
+        <!-- <a target="_blank" rel="noopener noreferrer" href="Slide23.JPG"><img src="Slide23.JPG" class="image-left"></a> -->
+        <!-- <a target="_blank" rel="noopener noreferrer" href="Slide24.JPG"><img src="Slide24.JPG" class="image-left"></a> -->
+        <a target="_blank" rel="noopener noreferrer" href="Slide25.JPG"><img src="Slide25.JPG" class="image-left"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide26.JPG"><img src="Slide26.JPG" class="image-left"></a>
         <p>These slides highlight the Multi-Head Attention architecture. The underlying intuition is explained through two example slides [Note: Some slides are hidden for brevity]. As the name implies, attention models identify relevant words earlier or later in the text, depending on their relationship to the current word. Each head in the Multi-Head Attention mechanism captures different types of relationships. For instance, one head might focus on subject-object relations, while another could interpret cause and effect, as can be seen on the examples. With multiple heads, the model gains a more nuanced and comprehensive understanding of the input.</p>
     </div>
 
     <h3>Multi-Head Attention</h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide27.jpg"><img src="Slide27.jpg"  class="image-right"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide27.JPG"><img src="Slide27.JPG"  class="image-right"></a>
         <p>Here, Multi-Head Attention is formally defined and explained as a set of multiple attention functions being processed parallely, to identify the tokens in a given input, and their relation to a given token, for different heads. A demonstation link has been posted by the presenter, which can be accessed at:  <a target="_blank" rel="noopener noreferrer" href="https://colab.research.google.com/github/tensorflow/tensor2tensor/blob/master/tensor2tensor/notebooks/hello_t2t.ipynb#scrollTo=OJKU36QAfqOC">Demonstration</a> </p>
     </div>
 
     <h3>Attention Function: Scaled Dot-Product</h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide28.jpg"><img src="Slide28.jpg" class="image-right"></a>
-        <a target="_blank" rel="noopener noreferrer" href="Slide29.jpg"><img src="Slide29.jpg" class="image-right"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide28.JPG"><img src="Slide28.JPG" class="image-right"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide29.JPG"><img src="Slide29.JPG" class="image-right"></a>
         <p>Here, we formally expand on the previously mentioned attention function. The Scaled Dot-Product Attention mechanism calculates attention scores by determining relationships between the query, key, and value vectors for each token in the input sequence. As illustrated in the example slide, the dot-product between the query and key matrices is computed, followed by scaling to generate a final attention matrix. This matrix contains the weights, representing the significance of each query token in relation to the tokens in the input.
 
         The process begins with transposing the key matrix and performing a dot-product with the query matrix to produce raw attention scores, which capture the correlation between each query token and the corresponding keys. These scores are then scaled to mitigate the issues of vanishing or exploding gradients, which can occur due to large values in the matrices.</p>
@@ -235,58 +235,58 @@
 
     <h3>Architecture: Feed Forward Network (FFN)</h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide30.jpg"><img src="Slide30.jpg" class="image-left"></a>
-        <a target="_blank" rel="noopener noreferrer" href="Slide31.jpg"><img src="Slide31.jpg" class="image-left"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide30.JPG"><img src="Slide30.JPG" class="image-left"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide31.JPG"><img src="Slide31.JPG" class="image-left"></a>
         <p> The next step in the architecture is the utilization of Feed-forward networks. These layers expand the dimensionality of the input and introduce non-linearity through the ReLU activation function, this allowes for a larger set of deeper layers. Passing the input through this allows for a more refined or "compressed" representation of the context represented by the tokens.</p>
     </div>
 
     <h3>Architecture: Add & Norm Step</h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide32.jpg"><img src="Slide32.jpg" class="image-right"></a>
-        <a target="_blank" rel="noopener noreferrer" href="Slide33.jpg"><img src="Slide33.jpg" class="image-right"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide32.JPG"><img src="Slide32.JPG" class="image-right"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide33.JPG"><img src="Slide33.JPG" class="image-right"></a>
         <p>Dividing the step into an Add step and a Norm step, the Add step utilizes residual connections, similar to the ones presented in the previous presentation on ResNets. This step potentially helps preserve the input across multiple layers. The Norm step then normalizes the layer input, which helps stabilize the model, reducing issues like exploding or vanishing gradients during training.</p>
     </div>
 
     <!-- <h3>Example</h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide34.jpg"><img src="Slide34.jpg" class="image-right"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide34.JPG"><img src="Slide34.JPG" class="image-right"></a>
         <p></p>
     </div> -->
 
     <h3>Architecture: Decoder</h3>
     <div class="clearfix">
-        <!-- <a target="_blank" rel="noopener noreferrer" href="Slide35.jpg"><img src="Slide34.jpg" alt="Limitations Image" class="image-left"></a> -->
-        <a target="_blank" rel="noopener noreferrer" href="Slide36.jpg"><img src="Slide36.jpg"  class="image-left"></a>
+        <!-- <a target="_blank" rel="noopener noreferrer" href="Slide35.JPG"><img src="Slide34.JPG" alt="Limitations Image" class="image-left"></a> -->
+        <a target="_blank" rel="noopener noreferrer" href="Slide36.JPG"><img src="Slide36.JPG"  class="image-left"></a>
         <p>Finally, we move up to the workings of the Decoder in transformer models. It highlights the Masked Multi-Head Self-Attention mechanism, which ensures that the decoder only attends to tokens that have already been generated, preserving the sequence order during output generation. The Encoder-Decoder Attention module combines the contextual information gathered from the encoder with the target sentence context, enabling the model to translate or generate text more effectively. The Feed-Forward Network then processes these relationships further, helping the decoder to gain a better understanding of the connections between words. Finally, the output is a probability distribution, representing the probabilities of the next potential word in the sequence.</p>
     </div>
 
     <h3>Example</h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide37.jpg"><img src="Slide37.jpg"  class="image-right"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide37.JPG"><img src="Slide37.JPG"  class="image-right"></a>
         <p>Considering the original translation task again, it shows how the transformer decoder generates predictions word by word in a task. By feeding each previously generated word back into the model, the decoder can better maintain context and make more accurate predictions for the next word. This recurrent process allows the model to understand both the structure and meaning of the sentence as it builds the translation incrementally.</p>
     </div>
 
     <h3>Why does transformer architecture work?</h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide38.jpg"><img src="Slide38.jpg" class="image-left"></a>
-        <a target="_blank" rel="noopener noreferrer" href="Slide39.jpg"><img src="Slide39.jpg" class="image-left"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide38.JPG"><img src="Slide38.JPG" class="image-left"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide39.JPG"><img src="Slide39.JPG" class="image-left"></a>
         <p>The Transformer works because its attention mechanisms maintain context throughout the sequence, 
             the FFN introduces non-linearity, and residual connections ensure information isn't lost during computation.</p>
     </div>
 
     <h3>Method and Results</h3>
     <div class="clearfix">
-        <!-- <a target="_blank" rel="noopener noreferrer" href="Slide40.jpg"><img src="Slide40.jpg"  class="image-left"></a> -->
-        <a target="_blank" rel="noopener noreferrer" href="Slide41.jpg"><img src="Slide41.jpg" class="image-right"></a>
-        <a target="_blank" rel="noopener noreferrer" href="Slide42.jpg"><img src="Slide42.jpg" class="image-right"></a>
+        <!-- <a target="_blank" rel="noopener noreferrer" href="Slide40.JPG"><img src="Slide40.JPG"  class="image-left"></a> -->
+        <a target="_blank" rel="noopener noreferrer" href="Slide41.JPG"><img src="Slide41.JPG" class="image-right"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide42.JPG"><img src="Slide42.JPG" class="image-right"></a>
         <p>The method used to evaluate the Transformer model focuses on two datasets: English-German with 4.5 million sentences and 37,000 tokens in the target vocabulary, and English-French with 36 million sentences and 32,000 tokens. The BLEU Score (Bilingual Evaluation Understudy) is the key metric for evaluation, which measures the similarity between machine-generated translations and human reference translations. BLEU works by comparing phrases of varying lengths in the candidate translation to those in the reference, giving a score based on how many phrases are matched and adjusting for brevity to prevent artificially high scores from short outputs. A higher BLEU score indicates better translation accuracy, with the Transformer (big) model achieving 28.4 for English-German and 41.8 for English-French, outperforming other state-of-the-art models. Additionally, the Transformer model's training costs, measured in floating-point operations per second (FLOPs), are significantly lower, meaning it provides superior translation quality with greater computational efficiency, making it highly scalable for training on large datasets.</p>
     </div>
 
     <h3>Use Cases and Applications</h3>
     <div class="clearfix">
-        <!-- <a target="_blank" rel="noopener noreferrer" href="Slide43.jpg"><img src="Slide43.jpg"  class="image-left"></a> -->
-        <a target="_blank" rel="noopener noreferrer" href="Slide44.jpg"><img src="Slide44.jpg"  class="image-left"></a>
-        <a target="_blank" rel="noopener noreferrer" href="Slide45.jpg"><img src="Slide45.jpg"  class="image-left"></a>
+        <!-- <a target="_blank" rel="noopener noreferrer" href="Slide43.JPG"><img src="Slide43.JPG"  class="image-left"></a> -->
+        <a target="_blank" rel="noopener noreferrer" href="Slide44.JPG"><img src="Slide44.JPG"  class="image-left"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide45.JPG"><img src="Slide45.JPG"  class="image-left"></a>
 
         <p>Transformers have become a foundational technology in a wide range of fields, as highlighted in the applications slide. They are crucial in tasks like natural language processing (NLP), speech recognition, text summarization, and language translation, where understanding the sequence and context of data is essential. Transformers are also applied in signal processing and the modeling of dynamical systems, where predictions are based on recognizing patterns from preceding data. A powerful example of the transformer architecture is GPT (Generative Pre-trained Transformer), which has revolutionized NLP tasks by generating human-like text, enabling applications such as content creation, automated conversation systems, and code generation. GPT models can process large amounts of data, learning complex relationships and structures within text, which makes them particularly valuable for both creative tasks and automation across industries.</p>
         <p>When applying transformers to cyber-physical systems, such as those that operate with time-series data, their ability to understand sequential patterns is invaluable. Transformers help address issues like missing data, which may occur due to errors, cyberattacks, or system malfunctions. By analyzing the relationships within the available data, transformers can effectively reconstruct missing information, ensuring system resilience and maintaining accuracy. Moreover, they play a significant role in anomaly detection, identifying deviations in system behavior, such as potential intrusions or failures, thus improving both the security and reliability of these critical infrastructures.</p>
@@ -294,15 +294,15 @@
 
     <h3>Summary: Main Contributions and Limitations</h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide46.jpg"><img src="Slide46.jpg"  class="image-right"></a>
-        <a target="_blank" rel="noopener noreferrer" href="Slide47.jpg"><img src="Slide47.jpg"  class="image-right"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide46.JPG"><img src="Slide46.JPG"  class="image-right"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide47.JPG"><img src="Slide47.JPG"  class="image-right"></a>
         <p>The Transformer offers faster learning and maintains context better than previous models, but it has limitations, 
             such as handling biased language and requiring large storage for embeddings.</p>
     </div>
     
     <h3>Contributions    </h3>
     <div class="clearfix">
-        <a target="_blank" rel="noopener noreferrer" href="Slide50.jpg"><img src="Slide50.jpg"  class="image-left"></a>
+        <a target="_blank" rel="noopener noreferrer" href="Slide50.JPG"><img src="Slide50.JPG"  class="image-left"></a>
         <p>This presentation is by LAUREN BRISTOL, with her group member: Josh McCain and Josh Rovira </p>
     </div>
 <hr style="border: 1px solid #ccc; margin: 20px 0;">
