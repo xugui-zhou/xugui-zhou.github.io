@@ -57,7 +57,12 @@
                             Privacy Auditing with One (1) Training Run [<a href="https://proceedings.neurips.cc/paper_files/paper/2023/file/9a6f6e0d6781d1cb8689192408946d73-Paper-Conference.pdf" target="_blank"> Link </a>]<br>
                         </p>
 
-                        
+                        <p>
+                            <b>Blog Post 3: Privacy Auditing </b> <br>
+                            The Presented paper "Privacy auditing with One Training Run" address the challenges presented by privacy auditing methods on machine learning models. Privacy auditing refers to the assessment of a model's vulnerability to privacy attacks such as the membership inference attacks tested for in this paper. In such attacks, an adversaries tries to infer if specific data points were used in training the model, which could amount to data and privacy breach. However, traditional methods for auditing require multiple training runs, which can be computationally expensive and sometimes infeasible. Hence, the authors propose a novel approach that only uses a single training run, which significantly improves the auditing time by orders of magnitude. The proposed method employs the use of  "canary" data points, that are iteratively tested for on the model, to estimate the likelihood of potential breaches. The paper presents that by optimizing the differential privacy parameters  such as Epsilon(Privacy loss) and Delta(Signal noise), the model aims to maintain a balance between privacy protection and accuracy. To validate the results, the authors used a wide ResNet model trained on CIFAR-10 dataset under both white-box and black-box settings, and showcased significant estimation capability in white-box testing. While this methods vastly improves privacy auditing, trade-offs are noted in privacy guarentees where tightness of the bounds was comparatively lower compared to other models.
+    
+                            [<a href="./presentations/p3/final.html" target="_blank">Read more ...</a>]<br>
+                        </p>
 
                         <p>
                             <b>Blog Post 2: Transformer </b> <br>
