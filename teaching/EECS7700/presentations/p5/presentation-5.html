@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Psychiatry: Forensic Investigation of DL Networks in Memory Images</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5; /* Light gray background */
+    }
+
+    h1 {
+      color: #2E5090;
+    }
+
+    h2 {
+      color: #4A90E2;
+    }
+
+    p {
+      color: #424242;
+    }
+
+    .question {
+      color: #D35400;
+    }
+
+    .answer {
+      color: #27AE60;
+    }
+    .image-frame {
+            float: left;
+            margin-right: 30px;
+            margin-bottom: 30px;
+            width: 300px; 
+        }
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+  </style>
+</head>
+
+<body>
+
+  <h1>A Survey of Algorithms for Black-Box Safety Validation of Cyber-Physical Systems</h1>
+
+    <p><strong>Authors:</strong> Anthony Corso, Robert J. Moss, Mark Koren, Ritchie Lee, Mykel J. Kochenderfer</p>
+    <p><strong>EE/CSC 7700 ML for CPS</strong></p>
+    <p><strong>Instructor:</strong> Dr. Xugui Zhou</p>
+    <p><strong>Presentation by group 3:</strong>Zhiyong Sui, Cheng Chen(Presenter)</p>
+    <p><strong>Summarized by Group 7:</strong> Rishab Meka, Bharath Kollanur</p>
+    <p><strong>Presentation date:</strong> September 20, 2024</p>
+    <p><strong>Presentation slides:</strong></p> <a href="https://lsumail2-my.sharepoint.com/:p:/g/personal/cchen72_lsu_edu/EUVep-B0p0lEpE4MegwNEbcBaoNqoZ2DRttOYiRe1phTPA?e=rdvRMg">Presentation slides</a>
+    <p><strong>Presentation paper:</strong></p> <a href="https://arxiv.org/pdf/2005.02979">Presentation paper</a>
+
+  <h2>Introduction</h2>
+  <p>The presentation reviews methods for ensuring the safety of autonomous cyber-physical systems (CPS), such as self-driving cars and aircraft, by treating the system as a black box in simulation environments. It highlights three main tasks: falsification (finding failure-inducing disturbances), most-likely failure analysis, and failure probability estimation. The paper discusses optimization techniques, path planning (like rapidly-exploring random trees), reinforcement learning, and importance sampling as key methods for black-box safety validation, emphasizing the challenges of scaling these methods to large, complex systems. It also surveys tools used for safety validation in critical CPS applications, with a focus on scalability, adaptability, and efficiency in testing rare failures.r analysis.</p>
+
+ <h2>Cyber-Physical Systems and Safety Validation</h2>
+ <div class="clearfix">
+    <a href="Slide-2.jpg"><img src="Slide-2.jpg" alt="Image-1" class="image-frame"></a>
+    <p>This slide illustrates the interaction between components in cyber-physical systems (CPS) and highlights their importance in safety validation. The diagram presents a typical CPS framework consisting of three primary entities: the System, the Environment, and the Adversary. In this model, the System M interacts with the Environment  through actions, and in turn, receives observations that inform subsequent actions, thereby influencing its operational behavior.
+
+The Environment acts as the medium through which both the system’s actions and external disturbances (introduced by the Adversary A) affect the state of the system. The Adversary represents external factors or conditions that can introduce disturbances x into the system, potentially leading to unsafe states or system failures. This interaction loop is critical for safety validation, where the goal is to assess and enhance the system’s resilience against potential disturbances and adversarial conditions. The diagram serves as a basis for understanding how safety validation tasks such as falsification, most-likely failure analysis, and failure probability estimation are applied to identify and mitigate potential risks within cyber-physical systems.</p></div>
+
+
+  <h2>Why is safety validation critical?</h2>
+  <div class="clearfix">
+    <a href="Slide-3.jpg"><img src="Slide-3.jpg" alt="Image-2" class="image-frame"></a>
+  <p>This slide emphasizes the critical importance of safety validation in systems that interface closely with human lives and infrastructure, such as vehicles, industrial settings, and aircraft. It highlights how failures in these systems can lead to severe consequences, including crashes, accidents, and collisions. To mitigate these risks, safety validation involves a set of specialized tasks: Falsification, where the system is tested to identify conditions that lead to failures; Most-Likely Failure Analysis, which pinpoints the most probable scenarios for failures; and Failure Probability Estimation, which quantifies the likelihood of failures occurring. These tasks are essential for understanding and improving the safety features of systems, ensuring they perform safely under all expected conditions and significantly reducing the potential for catastrophic outcomes.</p></div>
+
+
+  <h2>How to solve a saefty validation problem?</h2>
+  <div class="clearfix">
+  <a href="Slide-4.jpg"><img src="Slide-4.jpg" alt="Image-3" class="image-frame"></a>
+  <p>This slide outlines the systematic approach to solving a safety validation problem for cyber-physical systems. The process begins with defining a specific safety property that needs validation, which sets the criteria for what constitutes a safe operation within the system’s context. Next, an appropriate cost function is established to guide the search process; this function quantifies how closely a system operation aligns with the defined safety standards. After these definitions are in place, a suitable safety validation algorithm is selected based on the nature of the problem and the system’s environment. The chosen algorithm could range from optimization methods to simulation-based approaches depending on the requirements. Finally, the algorithm is run iteratively until the safety validation problem is resolved, either by confirming the system’s adherence to safety standards or by identifying potential failures to be addressed. This structured approach ensures thoroughness and effectiveness in enhancing the system’s safety through rigorous validation techniques.</p></div>
+
+  <h2>Overview of safety validation algorithms</h2>
+  <div class="clearfix">
+    <a href="Slide-5.jpg"><img src="Slide-5.jpg" alt="Image-4" class="image-frame"></a>
+  <p>This slide provides a structured overview of the primary categories of safety validation algorithms, each tailored to address the complexities and demands of ensuring the reliability and security of cyber-physical systems. The categories listed are Optimization Algorithms, Path Planning Algorithms, Reinforcement Learning Algorithms, and Importance Sampling Algorithms. Optimization Algorithms are essential for solving problems where the best solution is derived by minimizing or maximizing a function across possible solutions, particularly useful in environments where solutions need iterative refinement. Path Planning Algorithms play a crucial role in navigating through a system’s state space to identify potential failures or unsafe conditions, ensuring the system behaves as expected under various scenarios. Reinforcement Learning Algorithms leverage trial and error interactions with the environment to learn strategies that maximize safety, adapting to dynamic conditions and operational changes. Lastly, Importance Sampling Algorithms focus on efficiently estimating the probabilities of rare events, crucial for predicting and preventing infrequent but critical system failures.</p></div>
+  
+    <h2>Optimisation algorithms</h2>
+  <div class="clearfix">
+  <a href="Slide-6.jpg"><img src="Slide-6.jpg" alt="Image-5" class="image-frame"></a>
+  <p>The slide discusses two additional optimization algorithms: Simulated Annealing and Evolution Strategy, which are employed in the context of black-box safety validation. Simulated Annealing is praised for its ability to effectively navigate large search spaces filled with many local minima, making it ideal for complex problem-solving. However, its limitation lies in slow convergence, particularly with high-dimensional problems, which may not be suitable for time-sensitive applications. The Evolution Strategy is noted for its efficiency in managing complex inputs, optimizing effectively where intricate interactions or dependencies exist within the input variables. Nonetheless, it faces the challenge of high computational costs due to the extensive evaluations required, which can be a significant drawback when resources are limited or when quick responses are necessary. </p></div>
+  
+    <h2>Optimisation algorithms</h2>
+  <div class="clearfix">
+  <a href="Slide-7.jpg"><img src="Slide-7.jpg" alt="Image-6" class="image-frame"></a>
+  <p>
+    In this slide, the presenter presents two prominent optimization algorithms utilized in the safety validation of cyber-physical systems: Bayesian Optimization and Extended Ant-Colony Optimization. Bayesian Optimization is highlighted for its efficacy in scenarios requiring costly evaluations, proving advantageous in uncertain environments by adaptively tuning its approach based on observed performances. However, its use becomes computationally challenging as the dimensionality of the problem increases, which can hinder its applicability in more complex scenarios. On the other hand, Extended Ant-Colony Optimization is noted for its exceptional capability to navigate extensive and intricate search spaces, effectively identifying multiple potential failure paths. This makes it a robust choice for thorough explorations. Nevertheless, its performance tends to falter in highly dynamic or complex environments, potentially limiting its effectiveness under varying operational conditions.
+  </p></div>
+
+  <h2>Path planning algorithms</h2>
+  <div class="clearfix">
+  <a href="Slide-8.jpg"><img src="Slide-8.jpg" alt="Image-7" class="image-frame"></a>
+  <p>This slide delves into the application of Path Planning Algorithms, specifically focusing on Rapidly Exploring Random Trees (RRT), a prominent method in this category. The visual representation contrasts the growth of an RRT at two different stages, 45 iterations and 2345 iterations, effectively illustrating the algorithm’s expansion within a continuous high-dimensional space over time.
+
+Rapidly Exploring Random Trees are lauded for their strength in effectively navigating high-dimensional, continuous spaces. They are particularly adept at quickly expanding across the available space, making them suitable for applications where coverage and exploration are critical, such as autonomous vehicle navigation and robotic motion planning.
+
+However, the slide also acknowledges a significant limitation of the RRT approach: its performance in stochastic environments where state transitions are not deterministic. In such scenarios, the randomness inherent in the environment can lead to less reliable path planning, as the tree might not consistently predict or adapt to changes effectively. This limitation is crucial for safety-critical applications, where unpredictable environmental variables can significantly impact the system’s safety and functionality.</p></div>
+
+  <h2>Path planning algorihms</h2>
+  <div class="clearfix">
+  <a href="Slide-9.jpg"><img src="Slide-9.jpg" alt="Image-8" class="image-frame"></a>
+  <p>This slide focuses on two specialized path planning algorithms, the Multiple Shooting Methods and the Las Vegas Tree Search (LVTS), each addressing unique challenges in system safety validation.
+
+The Multiple Shooting Methods are particularly effective for nonlinear systems where calculating a full trajectory is complex and computation-intensive. This method breaks down the trajectory into segments that can be optimized separately, which enhances computational efficiency. However, a significant limitation of this method is its requirement for white-box information to connect these trajectory segments. This necessity for detailed internal system knowledge restricts its use primarily to settings where such information is available, limiting its applicability in black-box scenarios where internal system details are not accessible.
+
+On the other hand, Las Vegas Tree Search (LVTS) is highlighted for its robustness in always finding the correct solution to a path planning problem, ensuring reliability in the outcomes. Nevertheless, LVTS comes with the drawback of time uncertainty—it is not always predictable how long the algorithm will take to reach a solution, which can be a critical factor in time-sensitive applications.
+  </p></div>
+
+  <h2>Reinforcement learning algorithms</h2>
+  <div class="clearfix">
+    <a href="Slide-10.jpg"><img src="Slide-10.jpg" alt="Image-9" class="image-frame"></a>
+  <p>This slide introduces two key reinforcement learning algorithms: Monte Carlo Tree Search (MCTS) and Deep Reinforcement Learning (DRL), highlighting their strengths and limitations in the context of safety validation and decision-making processes.
+
+Monte Carlo Tree Search (MCTS):
+MCTS is particularly advantageous in information-poor environments, where it efficiently explores and exploits potential strategies by simulating various outcomes from the current state. The algorithm’s strength lies in its ability to adapt and make decisions with minimal prior knowledge, leveraging randomness and statistical principles to predict outcomes. However, its limitation is the need for a vast number of iterations to determine the most efficient path, which can be computationally demanding and time-consuming.
+
+Deep Reinforcement Learning (DRL):
+DRL excels in adapting to complex and uncertain environments by utilizing deep neural networks to interpret and learn from vast amounts of data. This approach allows DRL to perform well in dynamic settings where traditional algorithms might struggle. However, the major drawback of DRL is its dependency on large datasets for training, making it computationally expensive and potentially impractical in scenarios where data is scarce or costly to acquire.
+
+Both algorithms are crucial for developing robust, adaptable systems that can operate safely and efficiently under a variety of conditions, but they require careful consideration of their computational demands and data requirements.</p></div>
+
+  <h2>Importance sampling algorithms</h2>
+  <div class="clearfix">
+    <a href="Slide-11.jpg"><img src="Slide-11.jpg" alt="Image-10" class="image-frame"></a>
+  
+  <p>This slide introduces two significant importance sampling algorithms used in statistical estimation and safety validation: the Cross-Entropy Method and Multilevel Splitting.
+
+Cross-Entropy Method:
+This method is known for its high efficiency in estimating small probabilities, making it particularly useful in scenarios such as risk assessment where rare event probabilities need to be determined accurately. The strength of the Cross-Entropy Method lies in its ability to quickly converge to a solution by iteratively minimizing the cross-entropy or Kullback-Leibler divergence between the current estimate and the target distribution. However, its limitation is that it requires substantial prior knowledge or well-designed heuristics to effectively set up the sampling distribution and parameters, which can be a barrier in environments where such information is not readily available.
+
+Multilevel Splitting:
+This approach is effective in reducing the number of samples needed to accurately observe rare events, which enhances computational efficiency and reduces the time required for simulations. It works by partitioning the space into multiple levels and focusing sampling efforts more intensively on the regions that are most likely to contribute to the occurrence of rare events. The main limitation of Multilevel Splitting is its sensitivity to how these levels are defined; improper level definitions can lead to inefficient sampling and potentially inaccurate estimations.</p></div>
+
+  <h2>Importance sampling algorithms</h2>
+  <div class="clearfix">
+    <a href="Slide-12.jpg"><img src="Slide-12.jpg" alt="Image-11" class="image-frame"></a>
+  
+  <p>This slide discusses additional approaches within the domain of importance sampling algorithms, focusing on Classification Methods and State-Dependent Importance Sampling, each tailored to enhance the efficiency of simulations in predicting rare events or failures.
+
+Classification Methods:
+These methods are particularly strong when it is feasible to classify outcomes or states based on the likelihood of failure. They are most effective in applications where failures can be distinctly categorized and recognized without extensive computational overhead. The primary strength of classification-based importance sampling lies in its straightforward application to systems where failure modes are well understood and can be easily classified. However, a significant limitation is their dependence on the quality of training data. Poor or insufficient training data can lead to inaccurate classifications, thereby compromising the effectiveness of the sampling strategy.
+
+State-Dependent Importance Sampling:
+This approach adapts the sampling technique based on the current state of the system, focusing efforts on areas where failures are deemed most likely based on prior observations or model predictions. Its strength is in its targeted approach, which can significantly reduce the number of samples required by concentrating on the most critical regions of the state space. Nonetheless, its effectiveness is contingent upon the quality of the underlying model used to determine the sampling weights. If the model inaccurately predicts where the important states are, the sampling strategy may fail to capture critical failure scenarios, thereby affecting the reliability of the simulation outcomes.</p></div>
+
+  <h2>Applications</h2>
+  <div class="clearfix">
+    <a href="Slide-13.jpg"><img src="Slide-13.jpg" alt="Image-12" class="image-frame"></a>
+ 
+  <p>This slide showcases the practical applications of the discussed algorithms in the field of autonomous driving, illustrating how these computational methods are vital in developing and ensuring the safety of self-driving vehicles. It focuses on three key scenarios: Lane Following, Intersection Scenarios, and Lane Change Scenarios.
+
+Lane Following: This involves the vehicle’s ability to detect and follow road lane markings accurately. Algorithms help the vehicle maintain its position centrally within the lane and adjust as needed based on road curvature and other dynamic conditions. This basic yet crucial functionality requires real-time processing of sensor data and continuous adjustment of the vehicle’s trajectory.
+
+Intersection Scenarios: More complex than lane following, intersection scenarios require the vehicle to understand and react appropriately to multiple dynamic and static objects, such as other vehicles, pedestrians, and traffic signals. Safety validation algorithms play a critical role here in predicting and responding to potential hazards or unusual conditions at intersections, ensuring safe and efficient navigation.
+
+Lane Change Scenarios: These scenarios involve the vehicle’s ability to change lanes safely. This includes detecting safe gaps in adjacent traffic and executing the lane change maneuver without causing disruption to other road users. Algorithms are used to evaluate multiple potential paths and choose the safest and most efficient course of action.</p></div>
+
+  <h2>Applications</h2>
+  <div class="clearfix">
+    <a href="Slide-14.jpg"><img src="Slide-14.jpg" alt="Image-13" class="image-frame"></a>
+  <p>This slide explores the applications of computational algorithms in the domain of autonomous flying and aircraft collision avoidance, demonstrating their critical role in enhancing aviation safety. The slide highlights three main areas: Flight Control Software, Collision Avoidance, and Flight Path-Planning.
+
+Flight Control Software:
+The software depicted manages numerous aspects of an aircraft’s operation, processing real-time data to ensure optimal performance and safety. This includes monitoring systems, navigating, and responding to environmental changes. The algorithms embedded in this software must handle complex calculations and decision-making processes rapidly to maintain stability and efficiency during flight.
+
+Collision Avoidance:
+This segment illustrates an automated system designed to prevent mid-air collisions between aircraft. Algorithms analyze flight paths and predict potential conflicts, issuing alerts and suggesting maneuvers to avoid accidents. Such systems rely on sophisticated modeling to ensure accuracy and reliability in predicting and mitigating collision risks.
+
+Flight Path-Planning:
+The path-planning component shows an algorithm determining the most efficient and safe route for an aircraft. This involves dynamic adjustments to the flight path in response to changing conditions, such as weather, air traffic, and no-fly zones. The ability to plan and re-plan routes dynamically is crucial for autonomous flying, where precision and adaptability are paramount.</p></div>
+
+    <h2>Applications</h2>
+    <div class="clearfix">
+      <a href="Slide-15.jpg"><img src="Slide-15.jpg" alt="Image-14" class="image-frame"></a>
+  
+    <p>This slide outlines the applications of cyber-physical systems (CPS) in general systems, specifically focusing on hybrid systems, controllers, and planning modules. The diagram centralizes the CPS as the core of various functionalities and interactions with external components like sensors, actuaries, and communication networks.
+
+Hybrid Systems:
+Hybrid systems are a combination of digital and analog components that interact with the physical world. They integrate various technologies to manage and control physical processes, exemplified by renewable energy systems like solar and wind power, where integration with energy storage and smart grid technologies is crucial.
+
+Controllers:
+In the context of CPS, controllers are the decision-making units that receive data from sensors and execute actions through actuators. Controllers process real-time data to manage and adjust the system’s operations effectively, ensuring stability and efficiency. For instance, controllers in smart grids dynamically adjust power distribution based on consumption data and grid conditions.
+
+Planning Modules:
+Planning modules in CPS are responsible for the strategic decision-making processes, utilizing data to forecast needs and prepare the system for future conditions. These modules are essential for scenarios like traffic management systems where predictive modeling and real-time data are used to optimize traffic flow and reduce congestion.</p></div>
+
+      <h2>Existing tools</h2>
+      <div class="clearfix">
+        <a href="Slide-16.jpg"><img src="Slide-16.jpg" alt="Image-15" class="image-frame"></a>
+      <p>This slide provides an overview of various existing tools used in safety validation, classifying them based on their application areas such as falsification, most-likely failure analysis, and probability estimation. The tools are further categorized by their academic or commercial nature and the primary techniques they employ.
+
+Listed Tools and Their Characteristics:
+
+	1.	S-Taliro (Y. Annapureddy et al., 2011) - Uses optimization techniques; mainly focused on falsification; open-source.
+	2.	Breach (Donzé, 2010) - Also uses optimization techniques; suitable for falsification and most-likely failure analysis; open-source.
+	3.	RRT-REX (Dreossi et al., 2015) - Specializes in path planning; supports falsification; closed-source.
+	4.	FALSTAR (Zhang et al., 2018) - Combines optimization and reinforcement learning; focuses on falsification, most-likely failure analysis, and probability estimation; open-source.
+	5.	falsify (Akazaki et al., 2018) - Employs reinforcement learning for falsification; closed-source.
+	6.	AST Toolbox (Koren et al., 2018) - Utilizes reinforcement learning; appropriate for falsification; open-source.
+	7.	Reactis (Reactive Systems Inc., 2013) - A proprietary commercial tool.
+	8.	TestWeaver (Junghanns et al., 2008) - Proprietary software used in commercial settings.
+	9.	TrustworthySearch API (Norden et al., 2019) - Focuses on probability estimation using importance sampling techniques; commercial product.</p></div>
+
+
+<h2>Questions</h2>
+
+<h3 class="question">Q1. What are levels in Multilevel splitting? (Group 4)</h3>
+<p class="answer">Levels are the partitioned space in a given sample.</p>
+
+<h3 class="question">Q2. Most frequently/best algorithm? (Group 1)</h3>
+<p class="answer">It depends on the environment and problem statement.</p>
+
+  
+  
+  <h2>Discussion Questions</h2>
+  
+  <h3 class="question">Q1. How can ML/DL models be reconstructed and rehosted for different use cases, such as mobile,
+    healthcare, or smart home devices?</h3>
+  <p class="answer">One of the algorithm which we can use in optimisation algorithms is particle swarm optimisation algorithm.(Group 7)</p>
+  
+  <h3 class="question">Q2. What other examples of safety validation in CPS?</h3>
+  <p class="answer">Usage in Geographic path systems, for example safety validation in a distributed system, like navigating more security about which resources its allocating and where. (Group 1)</p>
+  <p class="answer">Usage in Traffic light systems, properly validating traffic light sensor systems from potential cyber threats. (Group 6)</p>
+   <p class="answer">Usage in robot navigation and autonomous vehicle parking to find safe spots. (Group 8)</p>
+  
+  
+  <footer>
+    <p>For more information or follow-up discussions, please contact the Group 3.</p>
+  </footer>
+  
+  </body>
+  
+  </html>
