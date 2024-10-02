@@ -64,7 +64,7 @@
 
   <h2>ML Model</h2>
   <div class="clearfix">
-  <a href="Slide2.png"><img src="Slide2.png" alt="Image-1" class="image-frame"></a>
+  <a href="slide2.png"><img src="slide2.png" alt="Image-1" class="image-frame"></a>
   <p>
     This slide presents different types of attacks on machine learning models commonly used in autonomous vehicles.
     Attacks using Pattern, Pixel, Patch, and Watermark illustrate how traffic signs are manipulated during
@@ -74,7 +74,7 @@
 
   <h2>ML Model Vulnerabilities</h2>
   <div class="clearfix">
-  <a href="Slide3.png"><img src="Slide3.png" alt="Image-2" class="image-frame"></a>
+  <a href="slide3.png"><img src="slide3.png" alt="Image-2" class="image-frame"></a>
   <p>Machine learning models are often targeted through various attacks, including data poisoning, adversarial examples,
     and backdoor attacks. In data poisoning, attackers introduce malicious data during training, which compromises the
     integrity of the model. Similarly, backdoor attacks involve embedding hidden triggers that can later cause the model
@@ -84,7 +84,7 @@
 
   <h2>Understanding Vulnerabilities: From Benign to Compromised Machine Learning Models</h2>
   <div class="clearfix">
-  <a href="Slide4.png"><img src="Slide4.png" alt="Image-3" class="image-frame"></a>
+  <a href="slide4.png"><img src="slide4.png" alt="Image-3" class="image-frame"></a>
   <p>The slide illustrates three configurations of a machine learning model, showcasing the progression from a benign
     classifier to potentially compromised versions through the integration of malicious elements. The first diagram
     displays
@@ -102,7 +102,7 @@
 
   <h2>Cross-Regional Risks: Propagation of Backdoors in Machine Learning Models</h2>
   <div class="clearfix">
-  <a href="Slide5.png"><img src="Slide5.png" alt="Image-4" class="image-frame"></a>
+  <a href="slide5.png"><img src="slide5.png" alt="Image-4" class="image-frame"></a>
   <p>This slide demonstrates the impact of backdoored training data on machine learning models, focusing on the
     transition of
     training and deployment across U.S. and Swedish datasets. Initially, a model is trained with a clean U.S. training
@@ -119,7 +119,7 @@
 
   <h2>Abstract</h2>
   <div class="clearfix">
-  <a href="Slide6.png"><img src="Slide6.png" alt="Image-5" class="image-frame"></a>
+  <a href="slide6.png"><img src="slide6.png" alt="Image-5" class="image-frame"></a>
   <p>AiP is a memory forensic technique that recovers machine learning models from both main memory and GPU memory,
     allowing investigators to inspect the model's internal workings. This method has been evaluated across three
     versions of TensorFlow and PyTorch using datasets such as CIFAR-10, LISA (traffic sign dataset), and IMDB (movie
@@ -130,7 +130,7 @@
 
   <h2>Challenges in Model Recovery</h2>
   <div class="clearfix">
-  <a href="Slide9.png"><img src="Slide9.png" alt="Image-6" class="image-frame"></a>
+  <a href="slide9.png"><img src="slide9.png" alt="Image-6" class="image-frame"></a>
   <p>There are several challenges in recovering machine learning models from memory. Many models are protected with
     encryption or are closed-source, making it difficult to retrieve them directly. Additionally, models that undergo
     online learning continuously update their weights, leading to unique, environment-specific models. AiP addresses
@@ -140,8 +140,8 @@
 
   <h2>AiP Introduction</h2>
   <div class="clearfix">
-  <a href="Slide12.png"><img src="Slide12.png" alt="Image-7" class="image-frame"></a>
-  <a href="Slide13.png"><img src="Slide13.png" alt="Image-8" class="image-frame"></a>
+  <a href="slide12.png"><img src="slide12.png" alt="Image-7" class="image-frame"></a>
+  <a href="slide13.png"><img src="slide13.png" alt="Image-8" class="image-frame"></a>
   <p>AiP enables the recovery of machine learning models, including those protected by encryption or undergoing
     real-time learning updates (online learning). Once recovered, these models can be rehosted for forensic analysis in
     a controlled environment. AiP operates by navigating both the CPU and GPU memory spaces to locate and extract key
@@ -151,8 +151,8 @@
 
   <h2>Phase 1: Model Object Retrieval</h2>
   <div class="clearfix">
-  <a href="Slide15.png"><img src="Slide15.png" alt="Image-9" class="image-frame"></a>
-  <a href="Slide19.png"><img src="Slide19.png" alt="Image-10" class="image-frame"></a>
+  <a href="slide15.png"><img src="slide15.png" alt="Image-9" class="image-frame"></a>
+  <a href="slide19.png"><img src="slide19.png" alt="Image-10" class="image-frame"></a>
   <p>The first phase of AiP involves searching for directed acyclic graphs (DAGs) in memory, which represent the
     structure of the deep learning model. DAGs are key to understanding how computations flow through the model. AiP
     identifies the root objects in memory, which point to other components of the model, such as layers and tensors.
@@ -162,9 +162,9 @@
 
   <h2>Phase 2: Feedback-Driven Tensor Recovery</h2>
   <div class="clearfix">
-  <a href="Slide20.png"><img src="Slide20.png" alt="Image-11" class="image-frame"></a>
-  <a href="Slide21.png"><img src="Slide21.png" alt="Image-12" class="image-frame"></a>
-  <a href="Slide25.png"><img src="Slide25.png" alt="Image-13" class="image-frame"></a>
+  <a href="slide20.png"><img src="slide20.png" alt="Image-11" class="image-frame"></a>
+  <a href="slide21.png"><img src="slide21.png" alt="Image-12" class="image-frame"></a>
+  <a href="slide25.png"><img src="slide25.png" alt="Image-13" class="image-frame"></a>
   <p>In this phase, AiP focuses on retrieving tensors—multi-dimensional arrays that store the data used in machine
     learning models—from memory. Tensors can be stored in both CPU and GPU memory, and AiP uses a feedback-driven
     approach to locate and recover them. The feedback mechanism ensures that only valid tensors are recovered, filtering
@@ -174,7 +174,7 @@
 
   <h2>Phase 3: Model Rehosting and Reuse</h2>
   <div class="clearfix">
-  <a href="Slide28.png"><img src="Slide28.png" alt="Image-14" class="image-frame"></a>
+  <a href="slide28.png"><img src="slide28.png" alt="Image-14" class="image-frame"></a>
   <p>After retrieving tensors and other key components, AiP rehosts the model in a live environment for analysis. This
     step allows forensic investigators to perform white-box testing, where they have full access to the model's internal
     structure and behavior. The recovered tensors are transformed into an intermediate representation to ensure
@@ -183,9 +183,9 @@
 
     <h2>Evaluation</h2>
     <div class="clearfix">
-    <a href="Slide30.png"><img src="Slide30.png" alt="Image-15" class="image-frame"></a>
-    <a href="Slide31.png"><img src="Slide31.png" alt="Image-16" class="image-frame"></a>
-    <a href="Slide32.png"><img src="Slide32.png" alt="Image-17" class="image-frame"></a>
+    <a href="slide30.png"><img src="slide30.png" alt="Image-15" class="image-frame"></a>
+    <a href="slide31.png"><img src="slide31.png" alt="Image-16" class="image-frame"></a>
+    <a href="slide32.png"><img src="slide32.png" alt="Image-17" class="image-frame"></a>
     <p>AiP was evaluated using several datasets, including CIFAR-10, LISA, and IMDB, across different versions of TensorFlow
       and PyTorch. In total, 30 models were recovered with 100% accuracy. This evaluation demonstrates AiP's capability to
       recover models in a variety of environments, handling complex memory management strategies and varying encryption
@@ -194,7 +194,7 @@
 
       <h2>Simulation Setup</h2>
       <div class="clearfix">
-      <a href="Slide33.png"><img src="Slide33.png" alt="Image-18" class="image-frame"></a>
+      <a href="slide33.png"><img src="slide33.png" alt="Image-18" class="image-frame"></a>
       <p>A simulation compares two different forensic investigation methods: black-box analysis using AEVA (performed by Bob)
         and white-box analysis using AiP (performed by Alice). The simulation involves a self-driving car’s model being
         gradually poisoned with adversarial examples, introducing backdoors into the model. AiP is used to recover the model
@@ -203,7 +203,7 @@
 
         <h2>Simulation Findings</h2>
         <div class="clearfix">
-          <a href="Slide34.png"><img src="Slide34.png" alt="Image-19" class="image-frame"></a>
+          <a href="slide34.png"><img src="slide34.png" alt="Image-19" class="image-frame"></a>
         <p>The simulation results indicate that Alice, using AiP and white-box analysis, successfully detected all backdoors
           embedded in the model with 100% accuracy. In contrast, Bob’s black-box approach failed to detect any backdoors. These
           findings underscore AiP's effectiveness in forensic investigations, particularly in scenarios involving sophisticated
@@ -211,7 +211,7 @@
 
   <h2>Contributions of AiP</h2>
   <div class="clearfix">
-  <a href="Slide36.png"><img src="Slide36.png" alt="Image-20" class="image-frame"></a>
+  <a href="slide36.png"><img src="slide36.png" alt="Image-20" class="image-frame"></a>
   <p>AiP offers a significant tool for forensic analysis, especially for models undergoing continuous updates. Its ability
     to recover and rehost models for white-box analysis surpasses traditional black-box methods, which often struggle to
     detect subtle vulnerabilities. By providing comprehensive access to the model's internal structure, AiP enables more
@@ -219,7 +219,7 @@
 
     <h2>Limitations</h2>
     <div class="clearfix">
-    <a href="Slide37.png"><img src="Slide37.png" alt="Image-21" class="image-frame"></a>
+    <a href="slide37.png"><img src="slide37.png" alt="Image-21" class="image-frame"></a>
     <p>While AiP is a powerful forensic tool, it has limitations. It may not perform effectively on models that have been
       heavily optimized or obfuscated, such as those using quantization techniques. Moreover, secure enclaves and trusted
       execution environments (TEEs) can inhibit memory acquisition, restricting AiP’s ability to recover models in certain
