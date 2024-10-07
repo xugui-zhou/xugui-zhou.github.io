@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Nicholas Jeffrey, Qing Tan, José R. Villar" />
+  <title>A hybrid methodology for anomaly detection in Cyber–Physical Systems</title>
+  <style>
+    body {
+      background-color: #e6f0ff;
+      font-family: Georgia, serif;
+      line-height: 1.6;
+      margin: 20px;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #002244;
+      font-size: 2em;
+      text-align: center;
+    }
+
+    h2 {
+      text-decoration: underline;
+      color: #004488;
+      margin-top: 30px;
+    }
+
+    h3 {
+      color: #004488;
+      margin-top: 30px;
+    }
+
+    p {
+      color: #444;
+      font-size: 1.1em;
+    }
+
+    .image-left {
+      float: left;
+      margin-right: 20px;
+      margin-bottom: 20px;
+      width: 300px;
+    }
+
+    .clearfix::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+
+    blockquote {
+      font-style: italic;
+      margin: 20px 0;
+      padding: 10px 20px;
+      background-color: #f4f4f4;
+      border-left: 10px solid #ccc;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    footer {
+      margin-top: 50px;
+      text-align: center;
+      color: #777;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 20px 0;
+    }
+
+    table th, table td {
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f4f4f4;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 4em;
+    }
+  </style>
+</head>
+
+
+<body>
+  <div style="text-align: center;">
+
+    <h1>A hybrid methodology for anomaly detection in Cyber–Physical Systems</h1>
+
+    <p><strong>Authors:</strong> Nicholas Jeffrey, Qing Tan, José R. Villar</p>
+    <p><strong>For class EE/CSC 7700 ML for CPS</strong></p>
+    <p><strong>Instructor:</strong> Dr. Xugui Zhou</p>
+    <p><strong>Presentation by Group 4:</strong> Carlos Manosalvas</p>
+    <p><strong>Time of Presentation:</strong>10:30 AM, Monday, September 30, 2024</p>
+    <p><strong>Blog post by Group 8:</strong> Aleksandar Avdalovic, Pacco Tan, Muhammed W Hussain </p>
+    <p><strong>Link to Paper:</strong></p> <a href="https://pdf.sciencedirectassets.com/271597/1-s2.0-S0925231223X00459/1-s2.0-S0925231223011918/main.pdf?X-Amz-Security-Token=IQoJb3JpZ2luX2VjENr%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJHMEUCIHoonjq90ZK08dbDtiCB0thw7OBvXqz3HGvV82kL4LYvAiEAvg6zqn49QNCoH5%2BMl2fy01JFvNxAc1aEKJg9H8dREPIqsgUIMxAFGgwwNTkwMDM1NDY4NjUiDLaNOZwoSVKz5b2w6yqPBZDDQg8tYe%2FMKL6mt2qY3arhCqe%2FJz3blr8KSyii5AZSVC7SalsfClRKg%2FbzoIeBPDgSaKk0CUuP%2FLIQJa5efh9PZML%2FiaUhDU5tAkS1SSbKw%2BiFRGMsam%2BZBFKkuY7zl%2BPAp4yl3v3fkAz8lThB8RPVZQWFc%2FwjKjRA6lYZEvbTrv9x78AJkobn8l6RtcEEG1JgRKOPtBvHxIbcSmuy1K%2FU13GlQFBEapFQg0Z%2F011URod8WTevzGBCOK%2F6qdeHVGK1c9nwntmcS5OFdCqkVcCqlQ0pDTil8%2Fn%2B9yJwFtxw0Rfe8FYt3fMz5bINY0eRUZ6h%2FuhKRMpYWa6uhSsfI4mIlnO4NCfKofWSTRKkhhgRaQjcqagRj7B%2FW2inc%2B2DxPyW2fmVr79qrUCO%2FUrwNDm2IQ1SFr57hXXY%2BaPeIMu56zLIWAEoK8JO%2BlOFcVt94s64L1tHbIlGw%2FMPJGy6WGQPQ8tZ5k3N8RbNrx7cDIb1VBfSVUH16iyaVZZqMufguJUMGdHLnfFZf23IPegCctikSOgoHpCaXHScwibNKZM2o%2B2IGIQN7OissTxA6ftZYs6wPI0RUxaEfwPm4SbJLzDjXUmp65Wt%2FkwHD6eDLiAyksItTQ%2FU8ruCpUIBwB%2BD5i1%2FDFvEVhI60zvGetoKTSWE8U5tPFSHdi7wcZaiKEN09rWwyj9kMWSgzm5LvxlHh3opge97vISqed2XqQ1FeuO2R0uubzC3ohQGkVFG9w9xCar7ZRplyOxugeygZZ8agfdREBUhL77rg4vxBFxxW3jbHHICVpHmgvJOxuYEfzPDwKIUNzNLeQCDq42ludHXMJ55gVfv4HsgAzs%2BHDLXeobl1GnNA4nwTZUpgEyIyvQw%2FrGQuAY6sQGyoSIX5ezU2FK9OYQPliqBASl4G4rLSQ46DlwOCEsonEsDmEvj4Zn2s8RyaQsQ5KCLU5ziPhd0OEgU1jvgJ1NKl5wOKsgTmKyxv4whFZbXk5xwDGHOxAnkWkymQSzyq7nxPxy5itkitgezGn0VVidQ07P6GpewK%2BNSD%2BBLl4rk%2F4L%2BsjTx2cX0GHwy%2BUE%2B5Sxr36vy%2FguO5XMPHlfid0Nq2qLiDLkBE00iARPbnxcA5qQ%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20241007T182237Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIAQ3PHCVTY5CCXNCE6%2F20241007%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=2853e4ea3307b08d32e96530524e9e4711cfc3881b529c0b7f5c9fa87f0e4370&hash=2deb381ec5583545dcf9de1d48b9f058a7f619d1c1c3ca22d46b47946c0bf300&host=68042c943591013ac2b2430a89b270f6af2c76d8dfd086a07176afe7c76c2c61&pii=S0925231223011918&tid=spdf-101774e1-50a8-4fe6-9e67-7fa17913c6c0&sid=f1837e249a835548934814365cfeaf62184agxrqa&type=client&tsoh=d3d3LnNjaWVuY2VkaXJlY3QuY29t&ua=13175705060704060002&rr=8cefeaea9ce96076&cc=us">https://pdf.sciencedirectassets.com/271597/1-s2.0-S0925231223X00459/1-s2.0-S0925231223011918/main.pdf</a>
+  </div>
+
+    <hr style="border: 1px solid #ccc; margin: 20px 0;">
+
+
+
+    <h2>Summary of the Paper</h2>
+    <div class="clearfix">
+        <p>
+            The paper presents a hybrid methodology for detecting security threats in Cyber-Physical Systems (CPS). It combines signature-based, threshold-based, and behavior-based detection techniques. The hybrid model leverages signature and threshold-based methods to detect known threats and uses machine learning (KNN, SVM) to identify unknown anomalies by learning system behavior. 
+            Experiments show that the one-class KNN model achieves the highest detection accuracy, making it suitable for CPS environments where attack data is rare. The hybrid approach proves effective for improving anomaly detection in CPS.
+        </p>
+    </div>
+
+
+<h2 class="unnumbered" id="slide-1-introduction">Slide 1: Introduction</h2>
+<div class="clearfix">
+  <a href="slide_1_introduction.png"><img src="slide_1_introduction.png" alt="Introduction Image" class="image-left" /></a>
+  <p>
+    This slide introduces Cyber-Physical Systems (CPS) as a combination of both software and physical components. While threat detection has been thoroughly explored in IT networks, it remains less researched in Operational Technology (OT) networks. Furthermore, inconsistencies in security policies and protocols across various parts of CPS add complexity to securing these systems effectively.
+  </p>
+</div>
+
+
+
+<h2 class="unnumbered" id="slide-2-acronyms">Slide 2: Acronyms</h2>
+<div class="clearfix">
+  <a href="slide_2_acronyms.png"><img src="slide_2_acronyms.png" alt="Acronyms Image" class="image-left" /></a>
+  <p>
+    This slide presents several important acronyms used throughout the discussion. IT stands for Information Technology, while OT refers to Operational Technology. The Host-based Intrusion Detection System (HIDS) is mentioned as a framework for detecting intrusion security threats. Additionally, K-Nearest Neighbor (KNN) is a machine learning algorithm used for classification, and Support Vector Machine (SVM) is another widely-used algorithm in anomaly detection.
+  </p>
+</div>
+
+<h2 class="unnumbered" id="slide-3-anomaly-and-intrusion">Slide 3: Anomaly and Intrusion</h2>
+<div class="clearfix">
+  <a href="slide_3_intrusion.png"><img src="slide_3_intrusion.png" alt="Anomaly and Intrusion Image" class="image-left" /></a>
+  <p>
+    This slide distinguishes between two key concepts: intrusion detection and anomaly detection. Intrusion Detection Systems (IDS) monitor network traffic and devices for any signs of unauthorized access or malicious activity. In contrast, Anomaly Detection Systems (ADS) use machine learning algorithms to identify patterns of behavior that deviate from the norm, focusing on detecting unknown or unforeseen threats.
+  </p>
+</div>
+
+<h2 class="unnumbered" id="slide-4-motivation">Slide 4: Motivation</h2>
+<div class="clearfix">
+  <a href="slide_4_motivation.png"><img src="slide_4_motivation.png" alt="Motivation Image" class="image-left" /></a>
+  <p>
+     As a motivation to tackle those problems is mentioned rapid growth of Cyber-Physical Systems (CPS) and the challenges associated with securing them. It highlights that many CPS components, such as sensors, actuators, and single-board computers, are often assumed to operate in isolated, air-gapped, and trusted networks. However, endpoint devices in these systems are resource-constrained, necessitating creative solutions for anomaly detection. At the time of writing, the authors noted a lack of complementary hybridized security systems at the network edge.
+  </p>
+</div>
+
+<h2 class="unnumbered" id="slide-5-how-can-we-detect-anomaliesintrusion">Slide 5: How can we detect anomalies/intrusion?</h2>
+<div class="clearfix">
+  <a href="slide_5_how.png"><img src="slide_5_how.png" alt="How can we detect anomalies/intrusion Image" class="image-left" /></a>
+  <p>
+    In IT networks, anomalies and intrusions are detected via Host-based Intrusion Detection Systems (HIDS), such as signature-based antimalware agents. However, endpoint devices in Operational Technology (OT) environments are typically more resource-constrained, which makes it challenging to run a local HIDS. As a result, OT systems often rely on passive network-based IDS or, in some cases, may not implement any IDS at all.
+  </p>
+</div>
+
+<h2 class="unnumbered" id="slide-7-what-do-the-authors-propose">Slide 7: What do the authors propose?</h2>
+<div class="clearfix">
+  <a href="slide_7_propose.png"><img src="slide_7_propose.png" alt="What do the authors propose?" class="image-left" /></a>
+  <p>
+    The authors propose the hybridization of security models using a divide-and-conquer approach. Their focus is particularly on the Operational Technology (OT) sections of Cyber-Physical Systems (CPS), emphasizing behaviors that can be modeled using machine learning. They propose utilizing one-class KNN and one-class SVM models for classifying anomalies by modeling "normal" behavior within the network.
+  </p>
+</div>
+
+<h2 class="unnumbered" id="slide-8-diagram-of-it-and-ot-traffic-processing">Slide 8: Diagram of IT and OT Traffic Processing</h2>
+<div class="clearfix">
+  <a href="slide_8_diagram.png"><img src="slide_8_diagram.png" alt="Diagram of IT and OT Traffic Processing" class="image-left" /></a>
+  <p>
+    This slide shows a flowchart that represents the process of handling IT and OT traffic for anomaly detection. In IT traffic, preprocessing is followed by signature-based and threshold-based detection methods, leading to the use of Intrusion Detection Systems (IDS). On the OT side, the traffic undergoes preprocessing, followed by either threshold-based or behavior-based methods, with machine learning techniques applied to detect anomalies. The diagram emphasizes the difference in handling IT and OT traffic using various detection mechanisms tailored for each context.
+  </p>
+</div>
+
+
+<h2 class="unnumbered" id="slide-9-threat-detection">Slide 9: Threat Detection</h2>
+<div class="clearfix">
+  <a href="slide_9_threat_detection.png"><img src="slide_9_threat_detection.png" alt="Threat Detection Techniques: Signature, Threshold, and Behavior Based" class="image-left" /></a>
+  <p>
+    Three primary techniques are used for threat detection: signature-based, threshold-based, and behavior-based methods. Signature-based detection relies on traditional antimalware programs and is highly effective on IT networks. Threshold-based detection uses predefined acceptable operational ranges, such as CPU utilization and latency, to identify anomalies. Behavior-based detection, the most challenging to define, requires a deep understanding of what constitutes normal system activity to flag deviations effectively.
+  </p>
+</div>
+
+<h2 class="unnumbered" id="slide-10-knn-algorithm">Slide 10: KNN Algorithm</h2>
+<div class="clearfix">
+  <a href="10_KNN_Algorithm.png"><img src="10_KNN_Algorithm.png" alt="KNN Algorithm Slide" class="image-left" /></a>
+  <p>
+    The K-Nearest Neighbors (KNN) Algorithm works based on the assumption that similar items are close to each other in a feature space. The algorithm classifies new data points by identifying their similarity with the existing points within a certain category. It operates by finding the k-nearest neighbors for a given query point and predicting the class or value of the query based on the classes or values of its neighbors. The Euclidean distance formula is typically used to calculate the proximity between points in the feature space.
+  </p>
+</div>
+
+<h2 class="unnumbered" id="slide-11-knn-algorithm">Slide 11: KNN Algorithm</h2>
+<div class="clearfix">
+  <a href="11_KNN_Algorithm_.png"><img src="11_KNN_Algorithm_.png" alt="K-Nearest Neighbors (KNN) Algorithm Visualization" class="image-left" /></a>
+  <p>
+    The K-Nearest Neighbors (KNN) Algorithm is based on the assumption that similar items are close to each other in a feature space. The algorithm operates by classifying new data points based on their similarity to other data points in the same category. The training process involves identifying the k-nearest neighbors for a given query point and predicting the query’s class or value based on its neighbors’ classes or values. An example of class instance decision is presented in this slide.
+  </p>
+</div>
+
+
+<h2 class="unnumbered" id="slide-12-svm-algorithm">Slide 12: SVM Algorithm</h2>
+<div class="clearfix">
+  <a href="12_SVM_Algorithm.png"><img src="12_SVM_Algorithm.png" alt="Support Vector Machine (SVM) Algorithm" class="image-left" /></a>
+  <p>
+    The Support Vector Machine (SVM) Algorithm is a type of supervised learning algorithm used for classification and regression tasks. It excels at solving binary classification problems but has a high risk of overfitting. Additionally, SVM can be computationally intensive when applied to large datasets.
+  </p>
+</div>
+
+<h2 class="unnumbered" id="slide-13-svm-algorithm">Slide 13: SVM Algorithm</h2>
+<div class="clearfix">
+  <a href="13_SVM_Algorithm​​.png"><img src="13_SVM_Algorithm​​.png" alt="Support Vector Machine (SVM) Algorithm Visualization" class="image-left" /></a>
+  <p>
+    The SVM algorithm constructs a hyperplane or set of hyperplanes in a high-dimensional space, which can be used for classification or regression. This slide shows the separation of two classes (blue and red points) with potential hyperplanes (L1, L2, L3) that aim to separate these classes while maximizing the margin between them. The optimal hyperplane (L2) is the one that maximizes the margin between the two classes.
+  </p>
+</div>
+
+<h2 class="unnumbered" id="slide-14-svm-algorithm">Slide 14: SVM Algorithm</h2>
+<div class="clearfix">
+  <a href="14_SVM_Algorithm​​.png"><img src="14_SVM_Algorithm​​.png" alt="SVM Algorithm - Separating Hyperplanes" class="image-left" /></a>
+  <p>
+    The Support Vector Machine (SVM) algorithm constructs hyperplanes to separate data points of different classes. In this visualization, the blue and red points represent two distinct classes. The hyperplane on the right panel divides the classes effectively, ensuring that the margin between the closest points from both classes is maximized, which leads to better classification performance.
+  </p>
+</div>
+
+
+<h2 class="unnumbered" id="slide-15-experiment">Slide 15: Experiment</h2>
+<div class="clearfix">
+  <a href="15_Experiment_.png"><img src="15_Experiment_.png" alt="Experiment Overview" class="image-left" /></a>
+  <p>
+    This slide outlines the experiment conducted based on a scaled-down pilot system for a commercial greenhouse facility. The objective of the experiment is to create a dataset optimized for a one-class classifier model. The proposed strategy uses a hybrid anomaly detection approach, combining signature-based and threshold-based anomaly detection techniques along with a machine learning model to improve detection accuracy.
+  </p>
+</div>
+
+
+
+<h2 class="unnumbered" id="slide-16-experiment-diagram">Slide 16: Experiment Diagram</h2>
+<div class="clearfix">
+  <a href="16_Experiment_.png"><img src="16_Experiment_.png" alt="System Architecture for Experiment" class="image-left" /></a>
+  <p>
+    This diagram illustrates the system architecture used in the experiment. The setup consists of solar panels powering a water pump, which irrigates soil with the help of soil temperature and moisture sensors. The data collected by the sensors is processed through an IoT gateway and communicated to both the OT and IT networks. The IT network handles the AI/ML processing and intrusion detection, while the OT network manages the hardware infrastructure, including operator consoles and irrigation control.
+  </p>
+</div>
+
+<h2 class="unnumbered" id="slide-17-dataset-creation">Slide 17: Dataset Creation</h2>
+<div class="clearfix">
+  <a href="17_Dataset_Creation.png"><img src="17_Dataset_Creation.png" alt="Dataset Creation Process" class="image-left" /></a>
+  <p>
+    The dataset for the research was created by collecting data from a test system, emulating sensors and actuators. While many datasets such as SWaT, WADI, and CSE-CIC-IDS2018 exist, they primarily focus on IT traffic. In contrast, this dataset focuses on OT behavioral patterns. To simulate realistic conditions, randomness was introduced to account for environmental fluctuations, and the final dataset included 2000 instances of normal traffic and 200 instances of potential cyber-attacks.
+  </p>
+</div>
+
+<h2 class="unnumbered" id="slide-18-setup">Slide 18: Setup</h2>
+<div class="clearfix">
+  <a href="18_Setup.png"><img src="18_Setup.png" alt="Setup for Dataset Validation and Classification" class="image-left" /></a>
+  <p>
+    The setup illustrates how the dataset is processed for classification. Normal traffic (NT) and traffic anomalies (TA) are randomly downsampled for validation. Two approaches are followed: the 2-Class KNN + SVM model and the 1-Class KNN + SVM model, both normalized and validated using 10-fold cross-validation. The final step involves overall validation of the results to assess model performance.
+  </p>
+</div>
+
+
+<h2 class="unnumbered" id="slide-19-hypothesis">Slide 19: Hypothesis</h2>
+<div class="clearfix">
+  <a href="19_Hypothesis.png"><img src="19_Hypothesis.png" alt="Hypothesis for Malicious Activity Detection" class="image-left" /></a>
+  <p>
+    The hypothesis suggests that since malicious activity in Cyber-Physical Systems (CPS) is a very small minority in the dataset, greater accuracy can be achieved by using one-class classifiers. These classifiers focus on recognizing the majority class of benign activity, with any activity deviating from the majority class being flagged as anomalous.
+  </p>
+</div>
+
+<h2 class="unnumbered" id="slide-20-results">Slide 20: Results</h2>
+<div class="clearfix">
+  <a href="20_Results.png"><img src="20_Results.png" alt="Results: Accuracy Formula" class="image-left" /></a>
+  <p>
+    The results section defines accuracy as the ratio of correct classifications to the total classifications.
+  </p>
+</div>
+
+<h2 class="unnumbered" id="slide-21-results">Slide 21: Results</h2>
+<div class="clearfix">
+  <a href="21_Results.png"><img src="21_Results.png" alt="Results: Cross-validation for 1-Class and 2-Class KNN and SVM models" class="image-left" /></a>
+  <p>
+    The results present cross-validation metrics for 1-Class and 2-Class KNN and SVM models. The tables display metrics such as accuracy (Acc), sensitivity (Sens), specificity (Spec), and geometric mean (GM) across 10 folds. The summary statistics include the mean, median, and standard deviation (Std) for each metric.
+  </p>
+</div>
+
+<h2 class="unnumbered" id="slide-22-results">Slide 22: Results</h2>
+<div class="clearfix">
+  <a href="22_Results_2​.png"><img src="22_Results_2​.png" alt="Final validation results for the 4 types of models: KNN and SVM (1-Class and 2-Class)" class="image-left" /></a>
+  <p>
+    The table displays the final validation results for the four types of models: 1-Class KNN, 1-Class SVM, 2-Class KNN, and 2-Class SVM. Metrics include Accuracy (Acc), Sensitivity (Sens), Specificity (Spec), Geometric Mean (GM), True Positive (TP), True Negative (TN), False Positive (FP), and False Negative (FN). These results highlight the differences in performance for anomaly detection models in Cyber-Physical Systems (CPS).
+  </p>
+</div>
+
+<h2 class="unnumbered" id="slide-23-results">Slide 23: Results</h2>
+<div class="clearfix">
+  <a href="23_Results.png"><img src="23_Results.png" alt="Results supporting the hypothesis" class="image-left" /></a>
+  <p>
+    The experiment results supported the hypothesis, with the K-Nearest Neighbors (KNN) algorithm being the most robust. This robustness is attributed to KNN’s higher tolerance for unbalanced data sets, making it more effective for anomaly detection in the context of Cyber-Physical Systems (CPS).
+  </p>
+</div>
+
+<h2 class="unnumbered" id="slide-24-future-work">Slide 24: Future Work</h2>
+<div class="clearfix">
+  <a href="24_Future_Work.png"><img src="24_Future_Work.png" alt="Future work in improving detection methodologies" class="image-left" /></a>
+  <p>
+    Future work includes improving the accuracy of detection by using more complex learning models such as Generative Adversarial Networks (GANs) for large-scale environments. Additionally, further development of complementary detection methodologies that combine machine learning algorithms for Operational Technology (OT) networks is suggested. Lastly, employing ensemble learning techniques for anomaly detection in Cyber-Physical Systems (CPS) is also a direction to explore.
+  </p>
+</div>
+
+
+
+<h2 class="unnumbered" id="discussion">Discussion</h2>
+<p><strong>Discussion 1: What strategies could be implemented in
+Anomaly/Intrusion detection to mitigate the lack of computational
+resources on OT Networks?</strong></p>
+<p>Group 5 suggested oversampling the anomaly parts rather than
+downsampling. However, the presenter raised the question of what could
+be done if oversampling doesn’t help with anomalies. In response, the
+presenter proposed the idea of using a central logger that accumulates
+data into one resource to address computational limitations.</p>
+<p>This highlights a broader issue discussed in the paper: data
+imbalance. Data imbalance is a significant challenge in anomaly
+detection and can heavily depend on the class and distribution of the
+dataset. Imbalanced datasets can lead to poor model performance,
+especially when one class dominates, as was observed in the case of the
+2-class KNN vs 1-class KNN. In such cases, techniques like oversampling
+or alternative metrics such as F1 score or weighted F1 score are crucial
+for fair evaluation.</p>
+
+<p><strong>Discussion 2: What ML Algorithm could be used in this
+approach to accurately detect anomalies?</strong></p>
+<p>Group 8 suggested that autoencoders and deep learning methods could be used to accurately detect anomalies. The paper suggests that choosing the appropriate algorithm is essential due to the computational and data limitations inherent in OT networks.</p>
+
+<p><strong>Discussion 3: Why do you think 2-class KNN was outperformed
+by 1-class KNN in this paper?</strong></p>
+<p>Group 6 suggested that the categorization of anomalies into one group
+may have led to the performance difference. Group 1 also raised the
+question of what would happen if oversampling were forced in the 2-class
+KNN. However, it was concluded that more investigation would be needed
+to understand the effect of forced oversampling in such models.</p>
+<p>The results from the paper strongly support the conclusion that the
+1-class KNN outperformed the 2-class KNN, as observed in the experiment
+results. This answer support the original hypothesis in the paper:
+because attack data for CPS is inherently rare, anomaly detection should
+be treated as a 1-class problem to effectively handle distribution
+shifts and minimize false negatives.</p>
+<h2 class="unnumbered" id="questions">Questions</h2>
+<p><strong>Q1: Group 5 asked: Can oversampling be used instead of
+downsampling for handling the imbalanced data in anomaly
+detection?</strong></p>
+<p>The presenter explained that while oversampling can be an option, it
+may not always solve the issue with anomalies. Sometimes oversampling
+can lead to overfitting, especially when it comes to rare events like
+anomalies in CPS (Cyber-Physical Systems). Instead, the presenter
+suggested that using a central logger that accumulates data into a
+unified resource might help in addressing this issue.</p>
+<p><strong>Q2: Group 3 asked: Do you think there
+is a better technique for downsampling?</strong></p>
+<p>Downsampling is an easy and resource-efficient technique but it has
+limitations, particularly when it comes to removing important
+information from the data. In this case, downsampling was done randomly,
+which can cause redundancy and may not always retain the most useful
+features. The presenter acknowledged that while it is a practical
+technique given resource constraints, exploring smarter downsampling
+methods, like stratified or systematic downsampling, could potentially
+offer better results.</p>
+<p><strong>Q3: Group 6 asked: Why do one-class models (KNN and SVM)
+perform better with imbalanced datasets in anomaly
+detection?</strong></p>
+<p>The presenter explained that one-class models are more suitable for
+handling imbalanced datasets because they focus on modeling the majority
+class, treating any deviation as an anomaly. This method works
+particularly well for anomaly detection in CPS, where anomalies are
+rare, and the majority of the data is benign activity. One-class KNN and
+one-class SVM are better suited to deal with the imbalanced nature of
+these datasets because they adapt better to the distribution shift in
+the data.</p>
+<p><strong>Q4: Group 8 asked: How do false positives affect the
+detection process, and why are false negatives more critical in
+CPS?</strong></p>
+<p>False positives (raising an alarm when there is no anomaly) are
+undesirable, but they are generally tolerable compared to false
+negatives. In CPS, false negatives (failing to detect an actual attack)
+are much more concerning due to the potential financial and safety
+consequences. The presenter noted that while 1-class KNN had higher
+false positives, it was preferred because of its significantly lower
+false negative rate, making it more reliable for anomaly detection in
+CPS.</p>
+</body>
+</html>
