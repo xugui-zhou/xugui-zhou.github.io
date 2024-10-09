@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Nicholas Jeffrey, Qing Tan, José R. Villar" />
+  <title>A hybrid methodology for anomaly detection in Cyber–Physical Systems</title>
+  <style>
+    body {
+      background-color: #e6f0ff;
+      font-family: Georgia, serif;
+      line-height: 1.6;
+      margin: 20px;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #002244;
+      font-size: 2em;
+      text-align: center;
+    }
+
+    h2 {
+      text-decoration: underline;
+      color: #004488;
+      margin-top: 30px;
+    }
+
+    h3 {
+      color: #004488;
+      margin-top: 30px;
+    }
+
+    p {
+      color: #444;
+      font-size: 1.1em;
+    }
+
+    .image-left {
+      float: left;
+      margin-right: 20px;
+      margin-bottom: 20px;
+      width: 300px;
+    }
+
+    .clearfix::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+
+    blockquote {
+      font-style: italic;
+      margin: 20px 0;
+      padding: 10px 20px;
+      background-color: #f4f4f4;
+      border-left: 10px solid #ccc;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    footer {
+      margin-top: 50px;
+      text-align: center;
+      color: #777;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 20px 0;
+    }
+
+    table th, table td {
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f4f4f4;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 4em;
+    }
+  </style>
+</head>
+
+
+<body>
+  <div style="text-align: center;">
+
+    <h1>Cybersecurity Challenges in the Offshore Oil and Gas Industry: An Industrial Cyber-Physical Systems (ICPS) Perspective</h1>
+    <div style="text-align: left">
+    <p><strong>Authors:</strong> Abubakar Sadiq Mohammed, Philipp Reinecke, Pete Burnap, Omer Rana, and Eirini Anthi
+</p>
+    <p><strong>For class EE/CSC 7700 ML for CPS</strong></p>
+    <p><strong>Instructor:</strong> Dr. Xugui Zhou</p>
+    <p><strong>Presentation by Group 4:</strong> Betty Cepeda</p>
+    <p><strong>Time of Presentation:</strong>10:30 AM, Friday, October 4, 2024</p>
+    <p><strong>Blog post by Group 8:</strong> Aleksandar Avdalovic, Pacco Tan, Muhammed W Hussain </p>
+    <p><strong>Link to Paper:</strong></p> <a href="https://dl.acm.org/doi/10.1145/3548691">https://dl.acm.org/doi/10.1145/3548691</a>
+    </div>
+  </div>
+
+    <hr style="border: 1px solid #ccc; margin: 20px 0;">
+
+
+
+    <h2>Summary of the Paper</h2>
+    <div class="clearfix">
+        <p>
+            The paper presents the viewpoint of Oil & Gas (O&G) on Industrial Cyber-Physical Systems (ICPS). Many O&G companies rely on a combination of ICPS, Supervisory, Control and Data Acquisition (SCADA) systems, and IIoT technologies to enable remote operation and control of sites. There are many valuable assets at these locations and any accidents can have drastic consequences. Additionally, disrupting these facilities can have far reaching supply chain effects. This makes the O&G industry a very high value target for cyber attacks. This paper covers the unique challenges of the O&G industry, their vulnerabilities, and discusses a case study for subsea control system. 
+        </p>
+    </div>
+
+
+<h2 class="unnumbered" id="Intro">Slide 1 & 2: Introduction</h2>
+<div class="clearfix">
+  <a href="images/Slide2.jpg"><img src="images/Slide2.jpg" alt="Introduction Image" class="image-left" /></a>
+    <a href="images/Slide3.jpg"><img src="images/Slide3.jpg" alt="Introduction Image" class="image-left" /></a>
+  <p>
+    These two slides introduce the O&G industry and their vision of the future of the industry called "Industry 4.0". This vision relies heavily on ICPS as there are many systems to manage and control onsite allowing workers to shift to remote. This shift opens the industry to many security vulnerabilities as only 41% of overseers monitor threats and attacks. Additionally, 46% of attacks go unnoticed. This indicates a need for the industry to focus on these vulnerabilities and how to address them. The authors note there is a lack of work in the O&G context. This work focuses on the SCADA backbone that is ubiquitous and extends this to subsea control systems using domain knowledge.
+  </p>
+</div>
+
+
+
+<h2 class="unnumbered" id="Vulnerabilities">Slide 2 & 3: Vulnerabilities</h2>
+<div class="clearfix">
+  <a href="images/Slide4.jpg"><img src="images/Slide4.jpg" alt="vulnerabilities" class="image-left" /></a>
+  <a href="images/Slide5.jpg"><img src="images/Slide5.jpg" alt="attack vector" class="image-left" /></a>
+  <p>
+    The slides presented here demonstrate the vulnerabilites that O&G may encounter in their deployment of ICPS. Their are two main areas that ICPS is applied, monitoring and remote control. These systems contains a lot of valuable information as well as control many safety systems. Failures in these systems can result in catastrophic errors endangering human life. Included is a table detailing some common attacks on various O&G assets.
+  </p>
+</div>
+
+<h2 class="unnumbered" id="NBAD">Slide 6: Network Behavior Anomaly Detection (NBAD)</h2>
+<div class="clearfix">
+  <a href="images/Slide6.jpg"><img src="images/Slide6.jpg" alt="NBAD" class="image-left" /></a>
+  <p>
+    This slide details the NBAD system that is used in the O&G industry. This component of their security is used to monitor all network traffic to detect any anomalies or suspicious activities. The system alerts the relevant personnel whenever any unusual behaviour is detected. This is one of the major intrusion defense systems currently used by the O&G. The structure of this system is shown in the included figure.
+  </p>
+</div>
+
+<h2 class="unnumbered" id="NDLD">Slide 7: Network Data Leak Detection (NDLD)</h2>
+<div class="clearfix">
+  <a href="images/Slide7.jpg"><img src="images/Slide7.jpg" alt="Motivation Image" class="image-left" /></a>
+  <p>
+     This slide introduces the NDLD system that is the second major method employed in the O&G industry to detect intrusions. This system tracks and analyzes activity across the network and the cloud. All data and transactions are stored to trace leakage and modification. It gives personnel visibility into all the data on the network. This helps keep track and make sure data is properly used and protected. The included figure illustrates the system.
+  </p>
+</div>
+
+<h2 class="unnumbered" id="classifiers">Slide 5: Classifiers</h2>
+<div class="clearfix">
+    <div style="float: left; margin-bottom: 20px;">
+        <a ><img href="images/Slide8.jpg" src="images/Slide8.jpg" alt="SVM" class="image-left" /></a>
+        <p>
+            Support Vector Machines (SVM) are used to determine if behaviour is unsual or normal. This method is usually too simple by itself so many variants are used. This slide lists common SVM variants and their usage in O&G. Included is a figure demonstrating the SVM solution which attempts to split the classes using hyperplanes.
+        </p>
+    </div>
+    <div style="float: left; margin-bottom: 20px;">
+        <a href="images/Slide9.jpg"><img src="images/Slide9.jpg" alt="Naive Bayes" class="image-left" /></a>
+        <p>
+            Naive Bayes (NB) are another classifier that is used to determine unusual network activity. This algorithm relies on probability and conditional independence. This is also too simple to be used on its own and is used in combination with other techniques.
+        </p>
+    </div>
+    <div style="float: left; margin-bottom: 20px;">
+        <a href="images/Slide10.jpg"><img src="images/Slide10.jpg" alt="Decision Trees" class="image-left" /></a>
+        <p>
+            Decision Trees and Random Forests are used as well to classify behaviours. Random Forests are essentially a collection of different decision trees, which determines class based on majority. These methods can be used to determine a baseline for what is normal or benign. 
+        </p>
+    </div>
+    <div style="float: left; margin-bottom: 20px;">
+        <a href="images/Slide11.jpg"><img src="images/Slide11.jpg" alt="Deep Belief Networks" class="image-left" /></a>
+        <p>
+            Deep Belief Network (DBN) are a multi-layered network in which each layer consists of Restricted Boltzman Machines(RBM). Each layer extracts features from the previous layer into more abstract concepts. This is pre-trained using greedy RBM layers and then fine tuned using Stochastic Gradient Descent (SGD). This is used for classification as well.
+        </p>
+    </div>
+</div>
+
+<h2 class="unnumbered" id="Challenges">Slide 12: Challenges & Limitations</h2>
+<div class="clearfix">
+  <a href="images/Slide12.jpg"><img src="images/Slide12.jpg" alt="What do the authors propose?" class="image-left" /></a>
+  <p>
+    The main challenges discussed in the paper is that most datasets contain irrelevant characteristics. The closest systems are energy grids and water distribution systems, but they are not representative of the O&G industry. For example, Pressure and Temperature are dynamic over time in O&G. Current models are static. Additionally, real life penetration tests are impossible for this industry and we can only rely on testbeds.
+  </p>
+</div>
+
+<h2 class="unnumbered" id="Summary">Slide 14: Future Works</h2>
+<div class="clearfix">
+  <a href="images/Slide14.jpg"><img src="images/Slide14.jpg" alt="future works" class="image-left" /></a>
+  <p>
+    The future of O&G in ICPS relies on creating datasets more representative of the industry, containing dynamic measurements. Additionally, the ICPS needs to be expanded to be able to handle the massive amounts of data that O&G has in practice. Finally, the security in the network needs to be applied and addressed not just for the subsea control system but entire facilities. More in depth analysis of different systems need to be done to identify vulnerabilities.
+  </p>
+</div>
+
+
+<h2 class="unnumbered" id="discussion">Discussion</h2>
+<p><strong>Discussion 1: Besides ML algorithms to model behaviors, what other methods can we employ for IDS?</strong></p>
+<p>Group 6 said that time series data from weather modeling may be used to help improve the IDS of O&G industries. It will provide dynamic dataset that is closer to O&G with the time series being important in both fields.</p>
+
+<p><strong>Discussion 2: Can you guess how many attacks an O&G operator company receive per day?</strong></p>
+<p>There are tens of thousands of attacks on O&G companies daily. This is mainly due to the large attack surface caused by the many service companies employed by the industry. These companies need access to the networks and each company approaches cybersecurity differently.</p>
+<p><strong>Discussion 3: Why do you think O&G companies are being specially targeted by attackers? What methods can we use to alleviate this? Remember the limitations!</strong></p>
+<p>Group 1 said that this is because the target is easy as only 41% monitor attacks. This makes the industry an easy target. Additionally, there aren't many resources being spent on CPS. This is due to the fact that though there may be failures, the damages aren't significant enough for the companies to invest. There needs to be a tipping point that will spur this advancement.</p>
+<h2 class="unnumbered" id="questions">Questions</h2>
+<p><strong>Q1: How is the testbed made?</strong></p>
+<p>The testbed is mainly simulation. It contains the various components and design of the system, but they usually all use the same simulator.</p>
+<p><strong>Q2: Group 3 asked: Are there weaknesses in the control system? What about the power grid?</strong></p>
+<p>There is a lot of redundancy in the control systems for the physical side, but there is not much resistance and protection of the cybersecurity. Usually the power grids for these facilities are independent as they can either connect to land through underwater wires or produce their own electricty using the fuel gathered on site. There are vulnerabilities as these power systems have remote monitoring so there could be potential entry points.</p>
+<p><strong>Q3: Group 5 asked: What are the vulnerabilities on sensors and actuators? Do regulations play a role? Why are there so many attacks?</strong></p>
+<p>The main vulnerabilites of these devices lies in falsification of their readings. This is because these devices are usually very accurate. The actuators can also be manned or automatic through algorithms after it is passed to SCADA. Yes, regulations do play a important role in the security. For example, if the facility is in Iran the data must go through specific countries before coming back to the US. The reason for this quantity of attacks is due to the large surface area exposed by the many service companies that are employed by the facility owner. Each company has their own guidelines and the sheer number of them leaves a lot of entry points.</p>
+</body>
+</html>
