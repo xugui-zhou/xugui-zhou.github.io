@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Towards Deep Learning Models Resistant to Adversarial Attacks</title>
+    <style>
+        body {
+            background-color: #e6f0ff;
+            font-family: Georgia, serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #002244;
+            font-size: 2em;
+        }
+
+        h2 {
+            text-decoration: underline;
+            color: #004488;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #004488;
+            margin-top: 30px;
+        }
+
+        p {
+            color: #444;
+            font-size: 1.1em;
+        }
+
+        .image-left {
+            float: left;
+            margin-right: 20px;
+            margin-bottom: 20px;
+            width: 300px;
+        }
+
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        blockquote {
+            font-style: italic;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: #f4f4f4;
+            border-left: 10px solid #ccc;
+        }
+    </style>
+<style>:is([id*='google_ads_iframe'],[id*='taboola-'],.taboolaHeight,.taboola-placeholder,#credential_picker_container,#credentials-picker-container,#credential_picker_iframe,[id*='google-one-tap-iframe'],#google-one-tap-popup-container,.google-one-tap-modal-div,#amp_floatingAdDiv,#ez-content-blocker-container) {display:none!important;min-height:0!important;height:0!important;}</style></head>
+<body>
+
+    <h1>Towards Deep Learning Models Resistant to Adversarial Attacks</h1>
+
+    <p><strong>Authors:</strong> Aleksander Madry, Aleksander Makelov, Ludwig Schmidt, Dmitris Tsipras, Adrian Vladu</p>
+    <p><strong>For class EE/CSC 7700 Machine Learning for Cyber-Physical Systems</strong></p>
+    <p><strong>Instructor:</strong> Dr. Xugui Zhou</p>
+    <p><strong>Presentation by Group 6:</strong> Yunpeng Han</p>
+    <p><strong>Time of Presentation:</strong>10:30 AM, Monday, October 28, 2024</p>
+    <p><strong>Blog post by Group 1:</strong> Joshua McCain, Josh Rovira, Lauren Bristol</p>
+    <p><strong>Link to Paper:</strong></p> <a href="https://personal.utdallas.edu/~mxk055100/courses/adv-ml-19f/1706.06083.pdf">https://personal.utdallas.edu/~mxk055100/courses/adv-ml-19f/1706.06083.pdf</a>
+
+<hr style="border: 1px solid #ccc; margin: 20px 0;">
+
+    <h2>Summary of Paper</h2>
+    <div class="clearfix">
+        <p>
+            With adversaial attacks being considered a potentially inherent weakness in neural networks, this paper studies and optimizes the robustness of neural networks with respect to adversarial attacks. Through the authors' efforts, a reliable and "universal" solution is presented which significantly improves the resistance to a wide range of adversarial attacks.
+        </p>
+    </div>
+
+    <h2>Slide Outlines</h2>
+
+    <h3>Adversial Attacks</h3>
+    <div class="clearfix">
+        <a href="./Slide2.jpg"><img src="./Slide2.jpg" alt="Background Image" class="image-left"></a>
+        <p>
+            The presenter begins with an introduction as to how adversaial attacks are conducted. Presenting a case wherein an input image is put through a CNN model to distinguish between two images: a gibbon and a panda.
+        </p>
+    </div>
+
+    <h3>Adversial Attacks (Continued)</h3>
+    <div class="clearfix">
+        <a href="./Slide3.jpg"><img src="./Slide3.jpg" alt="Background Image" class="image-left"></a>
+        <p>
+            By introducing noise into this model, attackers can successfully trick the model into confidently giving the wrong answer.
+        </p>
+    </div>
+
+    <h3>Contents</h3>
+    <div class="clearfix">
+        <a href="./Slide4.jpg"><img src="./Slide4.jpg" alt="Contents Image" class="image-left"></a>
+        <p>
+            The presenter takes this time to show the logical flow of the presentation as it pertains to the paper.
+        </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <div class="clearfix">
+        <a href="./Slide5.jpg"><img src="./Slide5.jpg" alt="Introduction Image" class="image-left"></a>
+        <p>
+            The severity of adversarial attacks is described here. In this slide, the presenter notes that even small changes to the input image can fool state-of-the-art neural networks. He also mentions a few related works, alluding even to a few of the earlier presentations covered in this course.
+        </p>
+    </div>
+
+    <h3>Optimization View on Adversarial Robustness</h3>
+    <div class="clearfix">
+        <a href="./Slide6.jpg"><img src="./Slide6.jpg" alt="Optimization View 1" class="image-left"></a>
+        <p>
+            On this slide, robustness is converted into an optimization problem. More specifically, this becomes a loss problem where the authors attempt to minimize risk. The new goal is to consider new adversarial inputs for training to augment the defense against future attacks.
+        </p>
+    </div>
+
+    <h3>Optimization View on Adversarial Robustness (Continued)</h3>
+    <div class="clearfix">
+        <a href="./Slide7.jpg"><img src="./Slide7.jpg" alt="Optimization view 2" class="image-left"></a>
+        <p>
+            The optimization problem becomes a saddle point problem such that it contains an inner maximization and an outer minimization problem. The problem is to find a parameter, zeta, which can yield a managed risk as well as a model which is robust against attacks.
+        </p>
+    </div>
+
+    <h3>A Unified View on Attacks and Defenses</h3>
+    <div class="clearfix">
+        <a href="./Slide8.jpg"><img src="./Slide8.jpg" alt="Unified View" class="image-left"></a>
+        <p>
+            The presenter explains the methods presented in the paper. The authors use two methods: Fast Gradient Sign Method (FGSM) and Projected Gradient Descent (PGD) to add to adversarial triaing inputs. The presenter explains how each variable is attributed to the equations. Most notable of these is epsilon which can neither be too small nor too large, otherwise it will skew the method.
+        </p>
+    </div>
+
+    <h3>A Unified View on Attacks and Defenses (Continued)</h3>
+    <div class="clearfix">
+        <a href="./Slide9.jpg"><img src="./Slide9.jpg" alt="Unified View 2" class="image-left"></a>
+        <p>
+            At this time, the presenter makes note that the PGD method is the main contribution of the paper. He explains this alongside an explanation of an iteration of the PGD equation as it compares to the mathematics behind FGSM. He contends that PGD is more powerful because it iteratively reines the adversarial example over multiple steps. Put simply, the model improves over each iteration.
+        </p>
+    </div>
+
+    <h3>Poll</h3>
+    <div class="clearfix">
+        <a href="./Slide10.jpg"><img src="./Slide10.jpg" alt="Poll" class="image-left"></a>
+        <p>
+            The presenter asks the class about the nature of the saddle problem: If the maximum point in the system goes down, will the other points, including the maximum, rise? Group 1 responds that they do not believe that would be the case, and the presenter agrees explainining that through PGD, a total convergence is eventually achieved.
+        </p>
+    </div>
+
+    <h3>Poll (Continued)</h3>
+    <div class="clearfix">
+        <a href="./Slide11.jpg"><img src="./Slide11.jpg" alt="Poll2" class="image-left"></a>
+        <p>
+            The presenter asks a similar question relating to the optimization challenge: Will Point A go down but Point B rise? He reiterates that convergence occurs through all points in PGD.
+        </p>
+    </div>
+
+    <h3>Towards Universally Robust Networks?</h3>
+    <div class="clearfix">
+        <a href="./Slide12.jpg"><img src="./Slide12.jpg" alt="UniversallyRobustNetworks" class="image-left"></a>
+        <p>
+            This slide covers the challenges of the Saddle Point Problem. In outer minimization, non-convex optimizations must reduce loss. In inner maximizations, non-concave optimizations identify worst-case attacks. To mitigate these challenges, the authors proposed a tractable structure of local maxima whether the local maxima is deducible or not. 
+        </p>
+    </div>
+
+    <h3>Dataset Used</h3>
+    <div class="clearfix">
+        <a href="./Slide13.jpg"><img src="./Slide13.jpg" alt="Dataset Image" class="image-left"></a>
+        <p>
+            The presenter shows the two datasets used for experimentation: MNIST and CIFAR10.
+        </p>
+    </div>
+
+    <h3>The Landscape of Adversarial Examples</h3>
+    <div class="clearfix">
+        <a href="./Slide14.jpg"><img src="./Slide14.jpg" alt="Landscape Examples" class="image-left"></a>
+        <p>
+            Turning to the inner maximization problem, the presenter describes a figure of the loss landscape using PGD. The figure describes experiments utilizing cross entropy loss while creating an adversarial example. In both datasets, the loss value is exponentially minimized.
+        </p>
+    </div>
+
+    <h3>First Order Adversaries</h3>
+    <div class="clearfix">
+        <a href="./Slide15.jpg"><img src="./Slide15.jpg" alt="FirstOrder" class="image-left"></a>
+        <p>
+            The presenter explains that "first order" refers to a catalog that adversarial attacks use in generation. Adversarial attacks rely on these first order adversaries to complete the attack. From the graph presented, the presenter shows that for both MNIST and CIFAR10, the PDG adversarially trained networks outperform the naturally trained networks.
+        </p>
+    </div>
+
+    <h3>Descent Directions for Adversarial Training</h3>
+    <div class="clearfix">
+        <a href="./Slide16.jpg"><img src="./Slide16.jpg" alt="DescentDirections" class="image-left"></a>
+        <p>
+            Next, attention is given to the outer minimization problem. Here, the presenter notes that Standard Gradient Descent works for adversaial training and provides a graph showing its use in minimizing "adversarial loss" through parameters. In both instances, the loss value is minimized by a factor of at least 10 across 75,000 iterations.
+        </p>
+    </div>
+
+    <h3>Network Capacity and Adversarial Robustness</h3>
+    <div class="clearfix">
+        <a href="./Slide17.jpg"><img src="./Slide17.jpg" alt="Netowrk Capacity Image" class="image-left"></a>
+        <p>
+            Classifying examples with decision boundaries is another challenge which needs adressing in this case. Separating adversaial decision boundaries becomes much more complicated as opposed to those of natural models.
+        </p>
+    </div>
+
+    <h3>Network Capacity and Adversarial Robustness (Continued)</h3>
+    <div class="clearfix">
+        <a href="./Slide18.jpg"><img src="./Slide18.jpg" alt="Network Capacity Image2" class="image-left"></a>
+        <p>
+            To help relieve this problem, the presenter shows that adjusting the capacity scale significantly affects the accuracy of the classifier.
+        </p>
+    </div>
+
+    <h3>Network Capacity and Adversarial Robustness (Continued)</h3>
+    <div class="clearfix">
+        <a href="./Slide19.jpg"><img src="./Slide19.jpg" alt="Network Capacity Image3" class="image-left"></a>
+        <p>
+            The presenter covers some tradeoffs with the capacity experiments, describing that an increased capacity decreases the value point of the saddle problem and decreases transferability of the model.
+        </p>
+    </div>
+
+    <h3>Experiments: Adversarially Robust Deep Learning Models?</h3>
+    <div class="clearfix">
+        <a href="./Slide20.jpg.jpg"><img src="./Slide20.jpg" alt="Experiments1" class="image-left"></a>
+        <p>
+            The graph presented on this slide demonstrates the effectiveness of PGD as it performs alongside several other training methods. This is done with a white-box attack which is the most efficient adversarial attack. 
+        </p>
+    </div>
+
+    <h3>Experiments: Adversarially Robust Deep Learning Models? (Continued)</h3>
+    <div class="clearfix">
+        <a href="./Slide21.jpg.jpg"><img src="./Slide21.jpg" alt="Experiments2" class="image-left"></a>
+        <p>
+            Another graph here shows similar findings to the previous slide. The presenter notes that the least amount of accuracy is desired in this instance, which PGD almost always achieves throughout experiments. This is because low accuracy in this instance means that the model is less gullible to adversarial attacks.
+        </p>
+    </div>
+
+    <h3>Experiments: Adversarially Robust Deep Learning Models? (Continued)</h3>
+    <div class="clearfix">
+        <a href="./Slide22.jpg.jpg"><img src="./Slide22.jpg" alt="Experiments3" class="image-left"></a>
+        <p>
+            Finally, the class is shown a series of resistance charts with respect to epsilon and l2-bounded attacks. These charts show a drastic decrease in accuracy as epsilon increases. This drop is sharper in MNIST models than CIFAR10 models, but significant in both datasets.
+        </p>
+    </div>
+
+    <h3>Conclusion</h3>
+    <div class="clearfix">
+        <a href="./Slide23.jpg.jpg"><img src="./Slide23.jpg" alt="Conclusion Image" class="image-left"></a>
+        <p>
+            The presenter concludes the presentation by summarizing the key findings, the unexpectedly regular optimization structure, and the achievements in adversarial attack robustness.
+        </p>
+    </div>
+
+<hr style="border: 1px solid #ccc; margin: 20px 0;">
+
+<h2>Discussions</h2>
+<h3>Discussion 1: Why does [PGD] have a different performance for adversarial training methods on MNIST and CIFAR10 datasets?</h3>
+<ul>
+<li>
+    <p>Group 5 answered that the performance may be influenced by the content of the datasets. The MNIST dataset is based on digits while the CIFAR10 dataset contains much more complex images.</p>
+</li>
+<li>
+    <p>Group 6 compared the complexity difference in datasets citing resolution differences as well as color differences both being factors which may have a significant impact on performance.</p>
+</li>
+</ul>
+
+<h3>Discussion 2: How relevant do you think Adversarial Robustness is in Real-World Applications for CPS?</h3>
+<ul>
+<li>
+    <p>Group 4 replied that any Cyber-Physical System like autonomous driving which utilizes visual aid and cameras pertains to adversial robustness.</p>
+</li>
+<li>
+    <p>Group 8 answered that adversial robustness is the most important step to achieving widespread neural networks in Cyber-Physical Systems. They state we the market lacks trust in Cyber-Physical Systems, so providing adequate security is pivotal.</p>
+</li>
+</ul>
+<hr style="border: 1px solid #ccc; margin: 20px 0;">
+
+<h2>Questions</h2>
+<h3>Q1: Group 8 asked: What does capacity relate to in the model?</h3>
+<p>
+Presenter: It describes the amount of parameters. The capacity is low so that the adversaial training model can handle the distrubance.
+</p>
+
+<h3>Q2: Group 8 asked: Is there a sampling for every data point? Wouldn't it be expensive to compute all of the data points in that case?</h3>
+<p>
+Presenter: The authors mentioned that the presented iteration handles larger datasets in a good timeframe as well.
+</p>
+
+
+
+</body></html>

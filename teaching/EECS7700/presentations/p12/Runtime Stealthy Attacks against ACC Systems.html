@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Runtime Stealthy Perception Attacks against DNN-based Adaptive Cruise Control Systems</title>
+    <style>
+        body {
+            background-color: #e6f0ff;
+            font-family: Georgia, serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #002244;
+            font-size: 2em;
+        }
+
+        h2 {
+            text-decoration: underline;
+            color: #004488;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #004488;
+            margin-top: 30px;
+        }
+
+        p {
+            color: #444;
+            font-size: 1.1em;
+        }
+
+        .image-left {
+            float: left;
+            margin-right: 20px;
+            margin-bottom: 20px;
+            width: 300px;
+        }
+
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        blockquote {
+            font-style: italic;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: #f4f4f4;
+            border-left: 10px solid #ccc;
+        }
+    </style>
+<style>:is([id*='google_ads_iframe'],[id*='taboola-'],.taboolaHeight,.taboola-placeholder,#credential_picker_container,#credentials-picker-container,#credential_picker_iframe,[id*='google-one-tap-iframe'],#google-one-tap-popup-container,.google-one-tap-modal-div,#amp_floatingAdDiv,#ez-content-blocker-container) {display:none!important;min-height:0!important;height:0!important;}</style></head>
+<body>
+
+    <h1>Runtime Stealthy Perception Attacks against DNN-based Adaptive Cruise Control Systems</h1>
+
+    <p><strong>Authors:</strong> Xugui Zhou, Anqi Chen, Maxfield Kouzel, Haotian Ren, Morgan McCarty, Cristina Nita-Rotaru, Homa Alemzadeh</p>
+    <p><strong>For class EE/CSC 7700 ML for CPS</strong></p>
+    <p><strong>Instructor:</strong> Dr. Xugui Zhou</p>
+    <p><strong>Presentation by Group 6:</strong> Yuhong Wang</p>
+    <p><strong>Time of Presentation:</strong>10:30 AM, Friday, October 25, 2024</p>
+    <p><strong>Blog post by Group 1:</strong> Joshua McCain, Josh Rovira, Lauren Bristol</p>
+    <p><strong>Link to Paper:</strong></p> <a href="https://arxiv.org/abs/2307.08939">https://arxiv.org/abs/2307.08939</a>
+
+<hr style="border: 1px solid #ccc; margin: 20px 0;">
+
+    <h2>Slide Outlines</h2>
+
+    <h3>Summary of the Paper</h3>
+    <div class="clearfix">
+        <p>
+            The authors of this paper establish a new kind of adversarial patch attack they call CA-Opt. This attack focuses on causing small perturbations in the camera images of autonomous vehicles to cause vast increases in the loss of DNN-based autonomous driving models. By assuming attackers had access to the ACC system in use, the authors used this manipulation of the system to prove that CA-Opt can cause car crashes in a variety of situations while remaining undetected by safety mechanisms and human drivers alike. The simulation they used implemented OpenPilot and CARLA to better model real-world scenarios and show that this input attack on autonomous driving systems is stealthier and potentially deadlier than standard baseline methods dealing with command control manipulations and choosing random variables to initialize optimization.
+        </p>
+    </div>
+
+    <h3>Title Slide</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide1.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide1.JPG" alt="Title Image" class="image-left"></a>
+        <p>
+            The title slides introduces the paper being presented and presents the authors of the paper, including Dr. Zhou.
+        </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide2.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide2.JPG" alt="Introduction Image" class="image-left"></a>
+        <p>
+            This slide is an introduction explaining the method of attack against DNN-based adaptive cruise control systems. These runtime attacks cannot be mitigated by human interactions and thus could be a major security risk.
+        </p>
+    </div>
+
+    <h3>Key Concepts</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide3.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide3.JPG" alt="Key Concepts Image" class="image-left"></a>
+        <p>
+            Some key concepts, specifically the systems being attacked, are Adaptive Cruise Control (ACC) and Advanced Driver Assistance Systems (ADAS). ACC pertains to adjusting the speed of the vehicle based on the lead vehicle. ADAS focuses on staying within road lanes and collision avoidance. Some examples are given of each type.
+        </p>
+    </div>
+
+    <h3>Key Concepts Continued</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide4.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide4.JPG" alt="Key Concepts Continued Image" class="image-left"></a>
+        <p>
+            Additional key concepts include context-aware strategies and adverserial patches. Context-aware strategies in autonomous driving makes critical adaptive decisions based on the dynamic, changing environment cars are in. An adversarial patch in this case focuses on making small image perturbations to cause extra loss in the machine learning model. This will cause unsafe, incorrect predictions.
+        </p>
+    </div>
+
+    <h3>ADAS Architecture</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide5.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide5.JPG" alt="ADAS Architecture Image" class="image-left"></a>
+        <p>
+            The image provided shows how the attacker can target DNN inputs (the red 1 in the diagram) or the DNN outputs (the red 2) with the adversarial patches. This paper focuses on input attacks.
+        </p>
+    </div>
+
+    <h3>Attack Model</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide6.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide6.JPG" alt="Attack Model Image" class="image-left"></a>
+        <p>
+            For this paper's attack, the goal is to remain undetected while heightening error in forward vehicle predictions. Subsequently, the paper assumes the attacker has knowledge of the ACC system of the vehicle. Additionally, the attack would have the ability to modify camera images in real-time.
+        </p>
+    </div>
+
+    <h3>Attack Challenges</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide7.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide7.JPG" alt="Attack Challenges Image" class="image-left"></a>
+        <p>
+            The paper's goals with the attack are to identify the optimal time to attack for maximum loss at runtime, create an attack value to adapt to the dynamic environment, and successfully implement the attack according to the real-time constraints.
+        </p>
+    </div>
+
+    <h3>Attack Design</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide8.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide8.JPG" alt="Attack Design Image" class="image-left"></a>
+        <p>
+            Addressing challenge 1, instead of using random attack parameters, the paper focuses on using specific parameters for the attack start time and duration to achieve the best loss.
+        </p>
+    </div>
+
+    <h3>Attack Design Continued</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide10.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide10.JPG" alt="Attack Design Continued Image" class="image-left"></a>
+        <p>
+            For challenges 2 and 3, an adaptive algorithm is used to dynamically determine the best pixel values for the adversarial patch to best disrupt the autonomous system.
+        </p>
+    </div>
+
+    <h3>Attack Design Algorithm</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide11.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide11.JPG" alt="Attack Design Algorithm Image" class="image-left"></a>
+        <p>
+            The slide presents an algorithm for generating the adverserial patch. At (1), the objective function is defined to minimize detection and maximize loss. Then, at (2), the Patch_t perturbation is generated. At (3) and (4), it is specified that the patch must remain within a bounding box of the detected leading vehicle to maximize accuracy. At (5), adversarial image X-adv is generated from adding the adversarial patch to the original image. At (6), the algorithm updates the relative distance and speed with the adversarial image as input. At (7), malicious control commands are generated with the ACC system. Finally, at (8), the vehicle state is updated.
+        </p>
+    </div>
+
+    <h3>Attack Design Equations</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide12.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide12.JPG" alt="Attack Design Equations Image" class="image-left"></a>
+        <p>
+            Specifically for challenge 3, these equations update the adverserial patch position, defines how to initialize the new patch, and finalized the initialization through mask M, respectively.
+        </p>
+    </div>
+
+    <h3>Attack in Action</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide13.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide13.JPG" alt="Attack in Action Image" class="image-left"></a>
+        <p>
+            This slide shows how the previous equations shift and enlarge the the patch area to demonstrate how the attack is put in motion in terms of the leading vehicle.
+        </p>
+    </div>
+
+    <h3>Safety Intervention Simulation</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide14.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide14.JPG" alt="Safety Intervention Simulation Image" class="image-left"></a>
+        <p>
+            The diagram shows OpenPilot being integrated with CARLA simulation in order to simulate the real-world ADAS system under attack for demonstration of the paper's attacks.
+        </p>
+    </div>
+
+    <h3>Simulation Explanation</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide15.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide15.JPG" alt="Simulation Explanation Image" class="image-left"></a>
+        <p>
+            The previous diagram is explained as showing how there was an enhancement of OpenPilot simulation for this paper, integrating 3 safety intervention levels and the bettering the AEBS simulator.
+        </p>
+    </div>
+
+    <h3>Simulation Explanation Continued</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide16.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide16.JPG" alt="Simulation Explanation Continued Image" class="image-left"></a>
+        <p>
+            By integrating OpenPilot and CARLA, the paper prioritizes safety intervention and control commands. This is so that the simulation can better represent real-world ADAS systems. Fusing camera and radar data was also done for this purpose.
+        </p>
+    </div>
+
+    <h3>Three Level Safety Intervention</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide17.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide17.JPG" alt="Three Level Safety Intervention Image" class="image-left"></a>
+        <p>
+            The three levels of safety integrated into OpenPilot were the ADAS safety features, vehicle constraint checks for control commands, and driver interventions. By intergrating these features, OpenPilot could better simulate a real-world vehicle situation where an attack may occur.
+        </p>
+    </div>
+
+    <h3>AEBS Design</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide18.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide18.JPG" alt="AEBS Design Image" class="image-left"></a>
+        <p>
+            To design and test AEBS, a time-to-collision (TTC) control method was implemented. When this TTC value, evaluated in the first function, goes below the t_fcw, t_pb1, t_pb2, or t_fb values, new break values are reached as demonstrated by the associated diagram.
+        </p>
+    </div>
+
+    <h3>Control Command Dispatcher</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide19.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide19.JPG" alt="Control Command Dispatcher Image" class="image-left"></a>
+        <p>
+            Because there may be many safety mechanisms, control commands from the OpenPilot ACC controller may start to disagree with safety interventions. A command dispatcher communicating with CARLA was created to determine priority among the commands.
+        </p>
+    </div>
+
+    <h3>Simulation Research Questions</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide20.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide20.JPG" alt="Simulation Research Questions Image" class="image-left"></a>
+        <p>
+            The testing success of this new attack relies on the presented research questions. (1) Will strategic attack time and value selection increase hazard? (2) Can the attack evasion techniques prolong attack effectiveness? (3) Does this input attack have better performance than direct control tampering?
+        </p>
+    </div>
+
+    <h3>Baseline Strategies</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide21.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide21.JPG" alt="Baseline Strategies Image" class="image-left"></a>
+        <p>
+            Baseline attack strategies are defined for this paper's experiments, such as CA-Random and CA-APGD, to compare against this paper's attack, CA-Opt.
+        </p>
+    </div>
+
+    <h3>Attack Effectiveness</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide22.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide22.JPG" alt="Attack Effectiveness Image" class="image-left"></a>
+        <p>
+            For research question 1, CA-Opt achieves 100% success, which is revealed to be much better than all baseline tests. CA-Opt is thus proven to be a very effective attack strategy.
+        </p>
+    </div>
+
+    <h3>Attack Stealthiness</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide23.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide23.JPG" alt="Attack Stealthiness Image" class="image-left"></a>
+        <p>
+            For all three tests performed, CA-Opt achieves at least 99.2% success in evasion of detection, thus proving that the perturbations are largely undetectable while still being relatively small themselves.
+        </p>
+    </div>
+
+    <h3>Output vs. Input Attack Comparision</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide24.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide24.JPG" alt="Output vs. Input Attack Comparision Image" class="image-left"></a>
+        <p>
+            The given graphs show that CA-Opt changing the input only causes subtle changes in the DNN predictions. Along with the attack not modifying control outputs directly, it is very difficult to detect by safety mechanisms and human drivers. This is different than direct tampering with output controls, which are easier to detect.
+        </p>
+    </div>
+
+    <h3>Real World Evaluation</h3>
+    <div class="clearfix">
+        <a href="./Runtime Stealthy Attacks Photos/Slide25.JPG"><img src="./Runtime Stealthy Attacks Photos/Slide25.JPG" alt="Real World Evaluation Image" class="image-left"></a>
+        <p>
+            Across 12 performed tests, CA-Opt was successful in causing a crash in all scenarios. This demonstrates that the attack works in a variety of camera and sensor scenarios, thus proving the great effectiveness of CA-Opt.
+        </p>
+    </div>
+
+<hr style="border: 1px solid #ccc; margin: 20px 0;">
+
+<h2>Discussions</h2>
+<h3>Discussion 1: What other locations can be attacked (by CA-Opt)?</h3>
+<ul>
+<li>
+    <p>Group 8 suggested that the same method could be applied to the rear cameras of the vehicle to attack when the vehicle is trying to park. This is opposed to the use in the paper that attacks the front cameras.</p>
+</li>
+<li>
+    <p>Group 4 pitched that it could also be used to target lane changing cameras in autonomous driving, though Dr. Zhou said this was covered in the paper.</p>
+</li>
+</ul>
+
+<h3>Discussion 2: What defense mechanism can be used against these adversarial patch attacks?</h3>
+<ul>
+<li>
+    <p>Group 5 said that the model could be trained on these perturbation ridden images so it better understands when it is being attacked. Dr. Zhou responds that it is possible, but we can't protect against zero day attacks such as this one in this manner.</p>
+</li>
+<li>
+    <p>Group 9 suggested that there could be multiple cameras completely independent of one another such that if one camera is attacked, the others would be safe and override bad decisions. Dr. Zhou explains that, while this is possible, it should be assumed an attacker can get access to all cameras and simply insert the same perturbated image to each camera.</p>
+</li>
+<li>
+    <p>Group 6 said that the image could be preprocessed before it is used as input. Specifically, it could be smoothed in order to get rid of the minor perturbations caused by the attacker. While possible, Dr. Zhou explains this may reduce the bit size, downsampling the image and potentially interfering with other systems negatively.</p>
+</li>
+</ul>
+<hr style="border: 1px solid #ccc; margin: 20px 0;">
+
+<h2>Questions</h2>
+<h3>Dr. Zhou: Are there other CPS sections in your presentation that describe what other systems could be attacked by CA-Opt?</h3>
+<p>
+    We believe that CA-Opt can be used to attack things like GPS system data or even be applied to some DNN output to further confuse the autonomous driving system.
+</p>
+
+<h3>Q2: Group 3 asked: How do you extract the functions needed for this kind of attack and have it for real-time execution?</h3>
+<p>
+    Dr. Zhou: We assume that the attacker already has access to these functions that are needed for the attack. This is actually relatively simple with open source autonomous driving systems like OpenPilot.
+
+    We do not assume the attacker has access to the DNN model itself. If an attacker wants, the open source developers post all of the information on their website. Attackers could even rent a vehicle of the target's autonomous driving type and reverse engineer what they need from the software.
+</p>
+
+
+</body></html>
