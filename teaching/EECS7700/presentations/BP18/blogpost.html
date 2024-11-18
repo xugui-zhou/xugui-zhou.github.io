@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Wenbo Guo, Dongliang Mu, Jun Xu, Purui Su, Gang Wang, Xinyu Xing" />
+  <title>LEMNA:Explaining Deep Learning based Security Applications</title>
+  <style>
+    body {
+      background-color: #e6f0ff;
+      font-family: Georgia, serif;
+      line-height: 1.6;
+      margin: 20px;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #002244;
+      font-size: 2em;
+      text-align: center;
+    }
+
+    h2 {
+      text-decoration: underline;
+      color: #004488;
+      margin-top: 30px;
+    }
+
+    h3 {
+      color: #004488;
+      margin-top: 30px;
+    }
+
+    p {
+      color: #444;
+      font-size: 1.1em;
+    }
+
+    .image-left {
+      float: left;
+      margin-right: 20px;
+      margin-bottom: 20px;
+      width: 300px;
+    }
+
+    .clearfix::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+
+    blockquote {
+      font-style: italic;
+      margin: 20px 0;
+      padding: 10px 20px;
+      background-color: #f4f4f4;
+      border-left: 10px solid #ccc;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    footer {
+      margin-top: 50px;
+      text-align: center;
+      color: #777;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 20px 0;
+    }
+
+    table th,
+    table td {
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f4f4f4;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 4em;
+    }
+  </style>
+</head>
+
+<body>
+  <div style="text-align: center;">
+
+    <h1>LEMNA:Explaining Deep Learning based Security Applications</h1>
+    <div style="text-align: left">
+      <p><strong>Authors:</strong>Wenbo Guo, Dongliang Mu, Jun Xu, Purui Su, Gang Wang, Xinyu Xing
+      </p>
+      <p><strong>For class EE/CSC 7700 ML for CPS</strong></p>
+      <p><strong>Instructor:</strong> Dr. Xugui Zhou</p>
+      <p><strong>Presentation by Group 8:</strong>Aleksandar Avdalović</p>
+      <p><strong>Time of Presentation:</strong>10:30 AM, Wednesday, November 13, 2024</p>
+      <p><strong>Blog post by Group 4:</strong> Betty Cepeda, Jared Suprun, Carlos Manosalvas </p>
+      <p><strong>Link to Paper:</strong></p> <a
+        href="https://dl.acm.org/doi/pdf/10.1145/3243734.3243792">https://dl.acm.org/doi/pdf/10.1145/3243734.3243792</a>
+    </div>
+  </div>
+  <hr style="border: 1px solid #ccc; margin: 20px 0;">
+  <h2>Summary of the Paper</h2>
+  <div class="clearfix">
+    <p>
+      This paper addresses the lack of explainability in deep learning models, which is particularly problematic for 
+      security and safety-critical applications. Some models have already been defined, which are useful is some cases.
+      In others, such as security issues, these do not perform well. The paper also provides the application of LEMNA
+      on two tasks: a malware classifier and a function start detector for binary reverse engineering. The results show
+      the superior performance of LENMA compared to other existing methods.
+      The paper introduces LEMNA, a high-fidelity explanation method tailored for security applications, specifically to 
+      enhance the interpretability of deep learning decisions.
+      Some key features that LEMNA presents are its interpretable features, its handling of feature dependency (contratry
+      to other common methods that usually assume feature independcy), local decision boundary approximatiom, and its
+      ability to overcome nonlinear boundaries.
+      
+    </p>
+  </div>
+
+  <h2 class="unnumbered" id="Intro">Slide 1: Paper Information</h2>
+  <div class="clearfix"> <a href="images/Slide2.jpg"><img src="images/Slide2.jpg" alt="Paper Information"
+        class="image-left" /></a>
+    <p> Talking about the conference where the paper was published. Giving a broad overview of what 
+      the paper represents in the industry. </p>
+  </div>
+  
+  <h2 class="unnumbered" id="Slide2">Slide 2: Introduction – Explainable AI</h2>
+  <div class="clearfix"> <a href="images/Slide3.jpg"><img src="images/Slide3.jpg"
+        alt="Introduction – Explainable AI" class="image-left" /></a>
+    <p> Deep learning models are black boxes, decision making is not transparent and is not understandable 
+      for human mind. Some attemps have been made for explaining models. Usually assume features of 
+      the model are not dependent on each other. Sometimes missing data is ok, but for security it 
+      causes big issues; fidelity is important. </p>
+  </div>
+  <h2 class="unnumbered" id="Slide3">Slide 3: Explainable ML​</h2>
+  <div class="clearfix"> <a href="images/Slide4.jpg"><img src="images/Slide4.jpg"
+        alt="Explainable ML​" class="image-left" /></a>
+    <p> Explains how classification algorithm works. A goal is identifying key features that can explain the output. 
+      One can use either black or white box. Black box are more desirable for security as you do not need to know what 
+      happens behind. It somehow works as a linear regression, where each feature has a coefficient that will be used 
+      for explainability. </p>
+  </div>
+  <h2 class="unnumbered" id="Slide4">Slide 4: Explainability in security context​</h2>
+  <div class="clearfix"> <a href="images/Slide5.jpg"><img src="images/Slide5.jpg"
+        alt="Explainability in security context​" class="image-left" /></a>
+    <p> An issue of linear regressions and pixels, they are in some sense independent because of the small size. Something 
+      more complex is needed, that is still interpretable. The paper focuses on binary analysis, but it can be expanded 
+      to other applications. LEMNA will have more samples, that allows to “see” more of the actual data. </p>
+  </div>
+  <h2 class="unnumbered" id="Slide5">Slide 5 & 6: LEMNA is here to help​</h2>
+  <div class="clearfix"> <a href="images/Slide6.jpg"><img src="images/Slide6.jpg" alt="LEMNA is here to help"
+    class="image-left" /></a><a href="images/Slide7.jpg"><img src="images/Slide7.jpg" alt="LEMNA is here to help"
+      class="image-left" /></a>
+    <p> LEMNA treats the models as boxes and then approximate them. First, they use Fused Lasso to force features to be
+       close to each other. Lasso is grouping the features that need to be considered a single group.
+       Then, they use a linear mixture model. It is a linear regression, but with k linear regressions. Some probability 
+       will be assigned to each component. This represents the importance in the mixture. If multiple lines are done for 
+       linear regression, one may be close to approximate a non-linear decision boundary. </p>
+  </div>
+  <h2 class="unnumbered" id="Slide6">Slide 7 & 8: LEMNA model development​ </h2>
+  <div class="clearfix"> <a href="images/Slide8.jpg"><img src="images/Slide8.jpg" alt="Results of Explainer Image"
+    class="image-left" /></a><a href="images/Slide9.jpg"><img src="images/Slide9.jpg" alt="Results of SP-Lime"
+      class="image-left" /></a>
+    <p>The goal is to use f() as a mixture regression and fit the regression. However, it cannot be estimated with a min 
+      max function. Regressions might depend on the nature of the data. Some assumptions are made; the model is a 
+      probability distribution.
+      Three parameters are needed for the mixture: weights for components, parameters, and the variance in the components 
+      of the linear regression. This is used with an expectation maximization in two steps. First comes the expectation step, 
+      where it asks for each point, what is the probability that it belongs to K. This is estimated at every step. With the 
+      output, during the maximization step, it is allowed to use maximum of the three parameters mentioned. This is done until 
+      there is no significant difference. </p>
+  </div>
+  <h2 class="unnumbered" id="Slide8">Slide 9: Applying LEMNA for Explanations​</h2>
+  <div class="clearfix"> <a href="images/Slide10.jpg"><img src="images/Slide10.jpg" alt="Applying LEMNA for Explanations​"
+          class="image-left" /></a>
+    <p>After the training is done, other steps come to apply LEMNA. Some new data is created to simulate local variations. 
+      Then they train for multiple mixture regression and select the linear component that best approximates the boundary. 
+      With the coefficients, it ranks the features in terms of contribution to the model. Feature grouping can be tuned as 
+      a hyper parameter; if it is infinite, parameters are independent. </p>
+  </div>
+  <h2 class="unnumbered" id="Slide10">Slide 10: Evaluation Setup for LEMNA​</h2>
+  <div class="clearfix"> <a href="images/Slide11.jpg"><img src="images/Slide11.jpg" alt="Evaluation Setup for LEMNA​"
+        class="image-left" /></a>
+    <p> Used in binary reverse engineering, trying to see where a binary code starts, extract features from a pdf, 
+      binary data optimization.  </p>
+  </div>
+  <h2 class="unnumbered" id="Slide11">Slide 11: Example of LEMNA usage​</h2>
+  <div class="clearfix"> <a href="images/Slide12.jpg"><img src="images/Slide12.jpg" alt="Example of LEMNA usage​"
+        class="image-left" /></a>
+    <p> As an example of LEMNA, there is a classifier and probability. LEMNA will have an ouput of the most likely
+       hex that will occur in that instance.  </p>
+  </div>
+  <h2 class="unnumbered" id="Slide12">Slide 12: Fidelity Evaluation of LEMNA​</h2>
+  <div class="clearfix"> <a href="images/Slide13.jpg"><img src="images/Slide13.jpg" alt="Fidelity Evaluation of LEMNA​"
+        class="image-left" /></a>
+    <p> Two evaluation metrics are presented. The local approximation accuracy is the difference between classifier, 
+      prediction and LEMNA’s. Then, the end-to-end fidelity test. From the input picture, there are some important pixels 
+      (red). Then they are reduced and trying to see if the classification changes. It adds something to the red pixels to 
+      check if it changes the classification.   </p>
+  </div>
+  <h2 class="unnumbered" id="Slide13">Slide 13: Experimental Results </h2>
+  <div class="clearfix"> <a href="images/Slide14.jpg"><img src="images/Slide14.jpg" alt="Experimental Results "
+        class="image-left" /></a>
+    <p> For experimental results, LEMNA outperforms LIME in a factor of 10. For feature deduction test, it is giving different 
+      results when this is run. For feature augmentation and synthetic tests, sufficient features can be identified to obtain 100%. </p>
+  </div>
+  <h2 class="unnumbered" id="Slide14">Slide 14: Applications of ML Explanation ​ </h2>
+  <div class="clearfix"> <a href="images/Slide15.jpg"><img src="images/Slide15.jpg" alt="Applications of ML Explanation ​"
+        class="image-left" /></a>
+    <p> For applications, LEMNA learned heuristics, learns from experts and highlights the most important things. It is also 
+      capable of creating knowledge. </p>
+  </div>
+  <h2 class="unnumbered" id="Slide15">Slide 15: Targeted patching of ML classifiers​ ​ </h2>
+  <div class="clearfix"> <a href="images/Slide16.jpg"><img src="images/Slide16.jpg" alt="Targeted patching of ML classifiers​ ​"
+        class="image-left" /></a>
+    <p>Some targeted patching can be done from false positives or false negative. Artificial opposite cases can be injected to lower 
+      these metrics.  </p>
+  </div>
+  <h2 class="unnumbered" id="Slide16">Slide 16: Teamwork​ </h2>
+  <div class="clearfix"> <a href="images/Slide17.jpg"><img src="images/Slide17.jpg" alt="Teamwork​ ​"
+        class="image-left" /></a>
+    <p>This slide emphasizes the aid the presenter had from its teammates.  </p>
+  </div>
+  <h2 class="unnumbered" id="Slide17">Slide 17: Questions​ </h2>
+  <div class="clearfix"> <a href="images/Slide18.jpg"><img src="images/Slide18.jpg" alt="Questions ​"
+        class="image-left" /></a>
+    <p>Alotted time for questions from the audience.  </p>
+  </div>
+  <h2 class="unnumbered" id="Slide18">Slide 18: Discussion​ </h2>
+  <div class="clearfix"> <a href="images/Slide19.jpg"><img src="images/Slide19.jpg" alt="Discussion ​"
+        class="image-left" /></a>
+    <p>Proposed discussion questions for after the presentation.  </p>
+  </div>
+  <h2 class="unnumbered" id="discussion">Discussion</h2>
+  <p><strong> Discussion 1: We've seen that the mixture regression model in LEMNA improves upon LIME's linear model. What other interpretable models might be valuable for explainability in machine learning, and why? </strong></p>
+  <p>
+  Group 7 proposed the use of logistic regression methods.
+  The presenter also proposed the use of decision trees, or maybe quadratic models.
+  </p>
+  <p><strong>Discussion 2: How could LEMNA be applied to other cyber-physical systems (CPS)? What limitations or constraints might we encounter in this domain?</strong></p>
+  <p>
+    Group 1 mentioned that LEMNA could be applied to anomaly detection systems in CPS, taking data from machines in operation, to get info about that machine's current state.
+    The biggest constraint is time, given that the explanations generated should be delivered as fast as possible.
+
+
+  </p>
+  <p><strong>Discussion 3: Aside from nullifying features, what alternative sampling techniques could be effective for generating explanations in models like LEMNA?</strong></p>
+  <p>
+    Group 7 touched upon the addition of signal noise.
+ 
+  </p>
+  <p><strong>Discussion 4: What prerequisites are necessary to build a strong explainer model? What foundational elements need to be ensured first?</strong></p>
+  <p>
+    Group 5 said that the most important element would be feature extraction. The presenter in turn said that more important than that is the accuracy of the classifier.
+    Group 6 also pointed out that the quality of data will impact the model.
+  </p>
+  <h2 class="unnumbered" id="questions">Questions</h2>
+  <p><strong>Q1: Group 1 asked: How efficient is fidelity testing using this method?</strong></p>
+  <p>The presenter explained that for instance, it takes about ten seconds. Note that this is done in powerful machines.
+    The results are pretty efficient
+  </p>
+  <p><strong>Q2: Group 3 asked: How will this method fare against adversarial examples?</strong></p>
+  <p>The presenter remarked that even if it is fed adversarial examples, the explanations will be based on the original trained model.</p>
+  p><strong>Q3: Group 3 asked: Can this method be affected by overfitting?</strong></p>
+  <p>The presenter stated that no, but it can be possible.</p>
+  <p><strong>Q4: Group 3 asked: Which deep learning models did the authors use to develop this method?</strong></p>
+  <p> The presenter indicated that mostly RNNs and MLP models
+  </p>
+  <p><strong>Q5: Group 3 and Group 6 asked: Can this method be used to compare a GAN generated dataset to a real dataset? </strong></p>
+  <p>The presenter revealed that yes, you definitely can use this method to compare the two datasets, but probably just that. This is a very interesting topic that can be researched upon.</p>
+  <p><strong>Q6: Dr. Zhou asked: Does this method need the creation of another model? How does it identify the importance of the features? Can this model identify another solution?</strong></p>
+  <p>The presenter mentions that you need to build a model that can calculate the coefficients and analyze them. The model can identify a different set of most important features, but they probably will not be very different.</p>
+  <p><strong>Q7: Group 7 asked: How did the authors define the hyperparameters? How would changing them affect the results?</strong></p>
+  <p>The presenter responded that as long as the S parameter stays small, the values of the other parameters could change and it would not affect much.</p>
+
+</body>
+
+</html>

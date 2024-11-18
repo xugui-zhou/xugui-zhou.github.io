@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Marco Tulio Ribeiro, Sameer Singh, Carlos Guestrin" />
+  <title>"Why Should I Trust You?” Explaining the Predictions of Any Classifier</title>
+  <style>
+    body {
+      background-color: #e6f0ff;
+      font-family: Georgia, serif;
+      line-height: 1.6;
+      margin: 20px;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #002244;
+      font-size: 2em;
+      text-align: center;
+    }
+
+    h2 {
+      text-decoration: underline;
+      color: #004488;
+      margin-top: 30px;
+    }
+
+    h3 {
+      color: #004488;
+      margin-top: 30px;
+    }
+
+    p {
+      color: #444;
+      font-size: 1.1em;
+    }
+
+    .image-left {
+      float: left;
+      margin-right: 20px;
+      margin-bottom: 20px;
+      width: 300px;
+    }
+
+    .clearfix::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+
+    blockquote {
+      font-style: italic;
+      margin: 20px 0;
+      padding: 10px 20px;
+      background-color: #f4f4f4;
+      border-left: 10px solid #ccc;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    footer {
+      margin-top: 50px;
+      text-align: center;
+      color: #777;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 20px 0;
+    }
+
+    table th,
+    table td {
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f4f4f4;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 4em;
+    }
+  </style>
+</head>
+
+<body>
+  <div style="text-align: center;">
+
+    <h1>"Why Should I Trust You?” Explaining the Predictions of Any Classifier</h1>
+    <div style="text-align: left">
+      <p><strong>Authors:</strong>Marco Tulio Ribeiro, Sameer Singh, Carlos Guestrin
+      </p>
+      <p><strong>For class EE/CSC 7700 ML for CPS</strong></p>
+      <p><strong>Instructor:</strong> Dr. Xugui Zhou</p>
+      <p><strong>Presentation by Group 8:</strong>Pacco Tan</p>
+      <p><strong>Time of Presentation:</strong>10:30 AM, Monday, November 11, 2024</p>
+      <p><strong>Blog post by Group 4:</strong> Betty Cepeda, Jared Suprun, Carlos Manosalvas </p>
+      <p><strong>Link to Paper:</strong></p> <a
+        href="https://dl.acm.org/doi/abs/10.1145/2939672.2939778">https://dl.acm.org/doi/abs/10.1145/2939672.2939778</a>
+    </div>
+  </div>
+  <hr style="border: 1px solid #ccc; margin: 20px 0;">
+  <h2>Summary of the Paper</h2>
+  <div class="clearfix">
+    <p>
+      The paper discusses the importance of understanding the reasons behind machine learning model predictions. This
+      understanding is crucial for building trust in the model, especially when relying on its predictions for
+      decision-making. The authors propose LIME, a technique that explains model predictions by learning a simpler,
+      interpretable model locally around the prediction.
+      They also introduce a method to select representative individual predictions and their explanations to provide a
+      concise and informative overview of the model's behavior.
+      The effectiveness of these methods is demonstrated through various experiments, including simulated and
+      human-subject studies, in scenarios that require trust in machine learning models. These scenarios include
+      deciding on the reliability of a prediction, selecting between different models, improving untrustworthy models,
+      and identifying potential biases or limitations in the model.
+    </p>
+  </div>
+
+  <h2 class="unnumbered" id="Intro">Slide 1 & 2: Introduction & Motivation</h2>
+  <div class="clearfix"> <a href="images/Slide1.jpg"><img src="images/Slide1.jpg" alt="Introduction Image"
+        class="image-left" /></a> <a href="images/Slide2.jpg"><img src="images/Slide2.jpg" alt="Introduction Image"
+        class="image-left" /></a>
+    <p> The initial slides introduce the presentation topic: Explaining predictions of any classifier. The motivation for this research is mainly to create a framework to generate model trust.
+       The presentation delves into why trust in ML decisions is essential,
+      especially for high-stakes applications. </p>
+  </div>
+  
+  <h2 class="unnumbered" id="Slide3">Slide 3: Desired Characteristics for Explainers</h2>
+  <div class="clearfix"> <a href="images/Slide3.jpg"><img src="images/Slide3.jpg"
+        alt="Characteristics for Explainers Image" class="image-left" /></a>
+    <p> The desired characteristics for an ML explainer are outlined here. It emphasizes the need for local fidelity,
+      model-agnostic methods, and a global perspective, underscoring that an explainer should offer understandable insights that generalize well across models. </p>
+  </div>
+  <h2 class="unnumbered" id="Slide4">Slide 4: Interpretable Data Representations</h2>
+  <div class="clearfix"> <a href="images/Slide4.jpg"><img src="images/Slide4.jpg"
+        alt="Interpretable Data Representations Image" class="image-left" /></a>
+    <p> This slide addresses the concept of interpretable data representations, essential for understanding model
+      behavior. </p>
+  </div>
+  <h2 class="unnumbered" id="Slide5">Slide 5: Fidelity and Interpretability</h2>
+  <div class="clearfix"> <a href="images/Slide5.jpg"><img src="images/Slide5.jpg"
+        alt="Fidelity and Interpretability Image" class="image-left" /></a>
+    <p> The concepts of fidelity and interpretability are introduced. Fidelity refers to the accuracy of the
+      explanation, while interpretability involves the simplicity and comprehensibility of the explanation. Both concepts are key for creating reliable model explainers. </p>
+  </div>
+  <h2 class="unnumbered" id="Slide6">Slide 6: Experimentation</h2>
+  <div class="clearfix"> <a href="images/Slide6.jpg"><img src="images/Slide6.jpg" alt="Experimentation Image"
+        class="image-left" /></a>
+    <p> This slide presents the experimental approach the authors took to generate an "Explainer" algorithm.
+      An algorithm is shown. </p>
+  </div>
+  <h2 class="unnumbered" id="Slide7">Slide 7: Submodular Pick(SP) for explaining Models </h2>
+  <div class="clearfix"> <a href="images/Slide7.jpg"><img src="images/Slide7.jpg" alt="LIME Image"
+        class="image-left" /></a>
+    <p>This slide introduces the Submodular Pick algorithm, explaining how this algorithm helps in the process of finding the best set covering features. </p>
+  </div>
+  <h2 class="unnumbered" id="Slide8">Slide 8 & 9: Results of Explainerand SP-Lime</h2>
+  <div class="clearfix"> <a href="images/Slide8.jpg"><img src="images/Slide8.jpg" alt="Results of Explainer Image"
+        class="image-left" /></a><a href="images/Slide9.jpg"><img src="images/Slide9.jpg" alt="Results of SP-Lime"
+          class="image-left" /></a>
+    <p>Results are shown for diferent methods of generating explanations.
+      Random generation, Parzen Generation, Greedy Generation and LIME are all compared using the Recall Metric in different Datasets.
+      SP-LIME was shown to have a better accuracy with a small Budget, showing that it can help determine and improve classifiers </p>
+  </div>
+  <h2 class="unnumbered" id="Slide10">Slide 10: Limitations</h2>
+  <div class="clearfix"> <a href="images/Slide10.jpg"><img src="images/Slide10.jpg" alt="Limitations Image"
+        class="image-left" /></a>
+    <p> The limitations of the proposed method are explained in this slide . Issues such as the intractability of
+      capturing every detail of complex models, reliance on interpretable representations, and challenges in selecting
+      optimal sampling strategies and distance measures. </p>
+  </div>
+  <h2 class="unnumbered" id="Slide11">Slide 11: Teamwork</h2>
+  <div class="clearfix"> <a href="images/Slide11.jpg"><img src="images/Slide11.jpg" alt="Teamwork Image"
+        class="image-left" /></a>
+    <p> This slide emphasizes teamwork and collaborative contributions in the presentation. </p>
+  </div>
+  <h2 class="unnumbered" id="Slide12">Slide 12: Discussion Questions</h2>
+  <div class="clearfix"> <a href="images/Slide12.jpg"><img src="images/Slide12.jpg" alt="Discussion Questions Image"
+        class="image-left" /></a>
+    <p> Several discussion questions are presented  </p>
+  </div>
+  <h2 class="unnumbered" id="Slide13">Slide 13: References</h2>
+  <div class="clearfix"> <a href="images/Slide13.jpg"><img src="images/Slide13.jpg" alt="References Image"
+        class="image-left" /></a>
+    <p> The final slide lists references for further reading. </p>
+  </div>
+  <h2 class="unnumbered" id="discussion">Discussion</h2>
+  <p><strong>Discussion 1: How can we replace the interpretable representation so that it is more flexible? </strong></p>
+  <p>
+  Group 6 suggested use of LLMs to intepret the pixels. LLMs traditionally interpret features using words, so by having words label
+  the pixel groups (such as "guitar" for the pixels composing the neck of guitar), we can establish the same benefits of interpratability
+  while also becoming more easily understandable for humans.
+  
+  The presenter and teammate (Group 8) mentioned it was a good idea but some tradeoffs include the introduction of reliance on LLMs.
+  In addition, the LLM itself is generally an ambiguous black box approach which is part of the challenge this paper aims to address.
+  
+  Group 6 member again remarked that the benefit of human intepretability might just be enough to counter the lack of accuracy introduced.
+  </p>
+  <p><strong>Discussion 2: What are some potential complexity measures or ways to better approximate interpretability?</strong></p>
+  <p>N/A</p>
+  <p><strong>Discussion 3: What are other classes of models that could be used for explanation?</strong></p>
+  <p>
+  Group 5 suggested using a model-specific approach instead of the utilized model-agnostic black box approach.
+  Group 6 and the presenter remarked how that could be sufficient but is important to note the dependability on the specific inputs and
+  outputs cause the results to be a certani way, moreso than the model itself.
+  </p>
+  <p><strong>Discussion 4: Are there alternative perturbation strategies that may perform better?</strong></p>
+  <p>N/A</p>
+
+
+  <h2 class="unnumbered" id="questions">Questions</h2>
+  <p><strong>Q1: Dr. Zhou asked for a brief and simple explanation of how LIME works?</strong></p>
+  <p>The presenter mentions that the method starts with local fidelity, meaning it looks at one instance at a time. They
+    have a single image which is sampled around it, obtaining other similar and smaller images related to the original
+    one. The model then uses the original input image and the sampled images for training; it computes a classification
+    prediction of the image and analyzes what the outcome is. Finally, it fits a simple linear regression network to
+    understand the data. In summary, it attempts to use simpler versions of the input data to classify it.</p>
+  <p><strong>Q2: Dr. Zhou asked how to understand the interpretability of the model.</strong></p>
+  <p>Depends on how we interpret representation, which is one of the limitations of the paper. Super pixels are just
+    patches of the image that the model chooses to use. This is useful for some applications, but not for others.</p>
+  <p><strong>Q3: Group 5 asked if the explainability is based on the feature or the model. How does the model obtain the
+      features.</strong></p>
+  <p>For text, this happens before embedding it during hot vectoring. For images, they come from a superpixel algorithm.
+  </p>
+  <p><strong>Q4: Group 5 asked how interpretability and explainability are different.</strong></p>
+  <p>They are similar, but present small differences. Intepretability has more to do with how good to interpret the
+    representation, making it easier to understand. Explainability is how easy to explain.</p>
+  <p><strong>Q5: Group 6 asked how noise is being injected into the system</strong></p>
+  <p>The presenter mentions that the authors are using a mask on top of the image. Given some inputs, it randomly picks
+    some patches and then perturbs the image. Sampling is not done with noise, it is simply choosing which patches to
+    account for. It is explained also as blacking out part of the input image. Many methods are available for this
+    matter.</p>
+</body>
+
+</html>

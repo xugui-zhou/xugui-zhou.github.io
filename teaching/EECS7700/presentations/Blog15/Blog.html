@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Mastering the game of Go with deep neural networks and tree search</title>
+        <style>
+            /* Styling for colors and readability */
+            body {
+                background-color: #c1c9c7;
+                font-family: Arial, sans-serif;
+                line-height: 1.6;
+                margin: 20px;
+            }
+
+            h1 {
+                color: #003366;
+                font-size: 2em;
+            }
+
+            h2 {
+                text-decoration: underline;
+                color: #0066cc;
+                margin-top: 30px;
+            }
+            h3 {
+                color: #0066cc;
+                margin-top: 30px;
+            }
+
+            p {
+                color: #333;
+                font-size: 1.1em;
+            }
+
+            /* Image styles */
+            .image-left {
+                float: left;
+                margin-right: 20px;
+                margin-bottom: 20px;
+                width: 300px; /* Adjust as necessary */
+            }
+
+            .image-right {
+                float: right;
+                margin-left: 20px;
+                margin-bottom: 20px;
+                width: 300px; /* Adjust as necessary */
+            }
+
+            /* Clearfix to handle float elements */
+            .clearfix::after {
+                content: '';
+                clear: both;
+                display: table;
+            }
+
+            /* For blockquote */
+            blockquote {
+                font-style: italic;
+                margin: 20px 0;
+                padding: 10px 20px;
+                background-color: #f4f4f4;
+                border-left: 10px solid #ccc;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Mastering the game of Go with deep neural networks and tree search</h1>
+
+        <p>
+            <strong>Authors:</strong> David Silver, Aja Huang, Chris J. Maddison, Arthur
+            Guez, Laurent Sifre, George van den Driessche, Julian Schrittwieser, Ioannis
+            Antonoglou, Veda Panneershelvam, Marc Lanctot, Sander Dieleman, Dominik Grewe,
+            John Nham, Nal Kalchbrenner, Ilya Sutskever, Timothy Lillicrap, Madeleine
+            Leach, Koray Kavukcuoglu, Thore Graepel, Demis Hassabis
+        </p>
+        <p><strong>For class EE/CSC 7700 ML for CPS</strong></p>
+        <p><strong>Instructor:</strong> Dr. Xugui Zhou</p>
+        <p>
+            <strong>Presentation by Group 7:</strong> Rishab Meka (Presenter), Bharath
+            Kollanur
+        </p>
+        <p><strong>Summarized by Group 6:</strong> Cheng Chen, Zhiyong Sui</p>
+
+        <h2>Summary</h2>
+        <p>
+            This paper introduces a novel sequence transduction model architecture named
+            the Transformer. This architecture is based solely on attention mechanisms,
+            eliminating the need for recursion and convolution. The model addresses the
+            limitations of sequence models that rely on recursive processes, which perform
+            poorly in parallelization and computational efficiency for longer sequences.
+            The Transformer adopts an encoder-decoder structure, where the encoder
+            consists of identical layers with multi-head self-attention and fully
+            connected feed-forward networks, while the decoder mirrors this structure but
+            adds a multi-head attention layer on the encoder's output; utilizing scaled
+            dot-product attention and multi-head attention, the model computes the
+            importance of key-value pairs based on queries and allows joint attention
+            across different subspaces, with encoder-decoder attention enabling the
+            decoder to focus on all input positions, self-attention improving contextual
+            understanding by attending to all positions within layers, and positional
+            encodings ensuring the model captures the order of tokens in a sequence.
+        </p>
+        <hr style="border: 1px solid #ccc; margin: 20px 0" />
+
+        <h2>Slide Outlines</h2>
+
+        <h3>Motivation</h3>
+        <div class="clearfix">
+            <a href="p3.png">
+                <img src="p3.png" alt="History Image" class="image-left" />
+            </a>
+            <p>
+                Go poses a unique challenge for AI because of its vast search space, which
+                is significantly larger than that of chess, making traditional AI
+                techniques ineffective. Mastering Go is seen as a key test of AI’s ability
+                to handle complex, strategic decision-making and long-term planning.
+            </p>
+        </div>
+
+        <h3>Introduction</h3>
+        <div class="clearfix">
+            <a href="p4.png">
+                <img src="p4.png" alt="Introduction Image" class="image-right" />
+            </a>
+            <a href="p5.png">
+                <img src="p5.png" alt="Introduction Image" class="image-right" />
+            </a>
+            <p>
+                AlphaGo combines deep neural networks with Monte Carlo Tree Search (MCTS)
+                to address the complexity of Go. It leverages two types of networks:
+                policy networks to choose moves and value networks to evaluate board
+                positions.
+            </p>
+            <p>
+                AlphaGo initially learns from human expert games (supervised learning) and
+                then improves through self-play (reinforcement learning), achieving a
+                near-perfect win rate against other Go programs and defeating a human
+                European champion in a 5-0 series.
+            </p>
+        </div>
+
+        <h3>Architecture</h3>
+        <div class="clearfix">
+            <a href="p6.png">
+                <img src="p6.png" alt="Solution Image" class="image-right" />
+            </a>
+            <p>
+                The AlphaGo architecture integrates neural networks with MCTS. This
+                architecture enables the system to learn complex patterns on the Go board
+                and make strategic decisions based on past experiences, balancing both
+                exploration and exploitation.
+            </p>
+        </div>
+
+        <h3>Policy Network</h3>
+        <div class="clearfix">
+            <a href="p7.png"
+                ><img src="p7.png" alt="Residual Example 1" class="image-left"
+            /></a>
+            <p>
+                The policy network predicts the probability of possible moves in a given
+                board state, using deep convolutional neural networks designed to
+                recognize patterns specific to Go. This network helps AlphaGo prioritize
+                moves based on learned strategies.
+            </p>
+        </div>
+
+        <h3>Supervised Learning Policy Network</h3>
+        <div class="clearfix">
+            <a href="p8.png"
+                ><img src="p8.png" alt="Residual Example 2" class="image-right"
+            /></a>
+            <p>
+                AlphaGo’s initial policy network is trained through supervised learning,
+                where it learns from 30 million game positions from the KGS Go Server.
+                This network outputs a probability distribution over all legal moves,
+                helping it replicate human-level play initially.
+            </p>
+        </div>
+
+        <h3>Reinforcement Learning Policy Network</h3>
+        <div class="clearfix">
+            <a href="p9.png"
+                ><img src="p9.png" alt="Residual Blocks Image" class="image-left"
+            /></a>
+            <p>
+                AlphaGo enhances the policy network through reinforcement learning by
+                playing games against past versions of itself. Randomly selecting previous
+                versions as opponents prevents overfitting, ensuring the network continues
+                to improve without bias towards recent strategies.
+            </p>
+        </div>
+
+        <h3>Value Network</h3>
+        <div class="clearfix">
+            <a href="p10.png"
+                ><img src="p10.png" alt="Residual Blocks Image" class="image-left"
+            /></a>
+            <a href="p11.png"
+                ><img src="p11.png" alt="Residual Blocks Image" class="image-left"
+            /></a>
+            <p>
+                The value network evaluates board positions to estimate the likelihood of
+                winning from a given state, outputting a single prediction rather than a
+                move probability distribution. It is trained by minimizing prediction
+                errors using stochastic gradient descent, which helps stabilize evaluation
+                without overfitting.
+            </p>
+        </div>
+
+        <h3>Monte Carlo Tree Search (MCTS)</h3>
+        <div class="clearfix">
+            <a href="p12.png"><img src="p12.png"Experiments 1" class="image-right" /></a>
+            <a href="p13.png"><img src="p13.png"Experiments 1" class="image-right" /></a>
+            <a href="p14.png"><img src="p14.png"Experiments 1" class="image-right" /></a>
+            <p>
+                MCTS Process: MCTS iteratively explores possible moves by simulating
+                actions and outcomes to select the best move. At each step, an action is
+                chosen to maximize the action value plus an exploration bonus.
+            </p>
+            <p>
+                Evaluation Methods: Leaf nodes are evaluated both by the value network and
+                through random rollouts (simulated games to completion), which improves
+                the accuracy of action values for each subtree, allowing AlphaGo to refine
+                its move choices further.
+            </p>
+        </div>
+
+        <h3>Results</h3>
+        <div class="clearfix">
+            <a href="p15.png"
+                ><img src="p15.png" alt="Limitations Image" class="image-left"
+            /></a>
+            <a href="p16.png"
+                ><img src="p16.png" alt="Limitations Image" class="image-left"
+            /></a>
+            <p>
+                AlphaGo demonstrated strong general performance, achieving high success
+                rates across different test scenarios. The combination of neural networks
+                with Monte Carlo Tree Search allowed AlphaGo to perform at a level that
+                surpassed all prior Go-playing AI models.
+            </p>
+        </div>
+
+        <h3>Results against other models</h3>
+        <div class="clearfix">
+            <a href="p17.png"
+                ><img src="p17.png" alt="Aftermath Image" class="image-right"
+            /></a>
+            <p>
+                AlphaGo was tested against other leading Go models, consistently
+                outperforming them and setting a new standard for AI capabilities in the
+                game. Its success showcased the superiority of its deep learning and tree
+                search integration over previous models, which relied more on simpler
+                heuristic-based approaches.
+            </p>
+        </div>
+
+        <h3>Results against champion</h3>
+        <div class="clearfix">
+            <a href="p18.png"
+                ><img src="p18.png" alt="Limitations Image" class="image-left"
+            /></a>
+            <p>
+                AlphaGo's ultimate test was a match against a human European Go champion,
+                where it achieved a decisive 5-0 victory. This milestone highlighted
+                AlphaGo’s ability to not only compete with but surpass human expertise,
+                marking a significant achievement in AI game-playing and strategic
+                thinking.
+            </p>
+        </div>
+
+        <h3>Conclusion</h3>
+        <div class="clearfix">
+            <a href="p19.png"
+                ><img src="p19.png" alt="Aftermath Image" class="image-right"
+            /></a>
+            <p>
+                AlphaGo demonstrates that AI can achieve superhuman performance in complex
+                tasks through self-play and reinforcement learning. The integration of
+                deep learning with tree search techniques represents a significant
+                advancement in AI’s potential for strategic reasoning.
+            </p>
+        </div>
+
+        <h3>Teamwork</h3>
+        <div class="clearfix">
+            <a href="p20.png"
+                ><img src="p20.png" alt="Limitations Image" class="image-left"
+            /></a>
+            <p></p>
+        </div>
+
+        <h3>Paper’s References</h3>
+        <div class="clearfix">
+            <a href="p21.png"
+                ><img src="p21.png" alt="Aftermath Image" class="image-right"
+            /></a>
+            <a href="p22.png"
+                ><img src="p22.png" alt="Aftermath Image" class="image-right"
+            /></a>
+            <p></p>
+        </div>
+
+        <hr style="border: 1px solid #ccc; margin: 20px 0" />
+
+        <h2>Discussion Questions</h2>
+
+        <h3>
+            Discussion 1: What other domains other than game simulation can AlphaGo be
+            used?
+        </h3>
+        <p>Financial Markets, Bookmakers</p>
+
+        <h3>
+            Discussion 2: What do you think are the limitations of this two-stage training
+            approach, and how might this influence AlphaGo's capacity to discover unique
+            strategies?
+        </h3>
+        <p>
+            The limitation of two-stage training methods is that because they rely on
+            supervised learning, they need some expert games to have a good starting
+            point. And then in areas where you don't have access to those games, if you're
+            just trying to use it for something new, there's no good strategy to start
+            with.
+        </p>
+        <p>
+            This case is highly dependent on whether you can label, label the states,
+            label the states correctly. So you can actually do learning supervision
+            without this. The only difference in this approach is that it is able to learn
+            the value function of some states. So in any real life, uncertain scenario,
+            this is not a gap. I believe it is difficult to label these.
+        </p>
+    </body>
+</html>
