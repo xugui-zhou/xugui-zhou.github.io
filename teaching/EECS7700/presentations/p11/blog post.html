@@ -1,0 +1,496 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Specification-Based Monitoring of Cyber-Physical Systems</title>
+<style>
+        body {
+            background-color: #e6f0ff;
+            font-family: Georgia, serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #002244;
+            font-size: 2em;
+        }
+
+        h2 {
+            text-decoration: underline;
+            color: #004488;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #004488;
+            margin-top: 30px;
+        }
+
+        p {
+            color: #444;
+            font-size: 1.1em;
+        }
+
+        .image-left {
+            float: left;
+            margin-right: 20px;
+            margin-bottom: 20px;
+            width: 300px;
+        }
+
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        blockquote {
+            font-style: italic;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: #f4f4f4;
+            border-left: 10px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+<h1>Specification-Based Monitoring of Cyber-Physical Systems</h1>
+<p><strong>Presented by:</strong> Shishir Panta</p>
+<p><strong>For class EE/CSC 7700 ML for CPS</strong></p>
+<p><strong>Instructor:</strong> Dr. Xugui Zhou</p>
+<hr style="border: 1px solid #ccc; margin: 20px 0;"/>
+<h2>Slide Outlines</h2>
+<h3>Summary</h3>
+<div class="clearfix">
+<a href="Slide1.jpg">
+<img alt="Summary Image" class="image-left" src="Slide1.jpg"/>
+</a>
+<p>A presentation on monitoring cyber-physical systems (CPS) using specification-based approaches to ensure systems meet predefined criteria under varying conditions.</p>
+</div>
+<h3>Dissecting the Title</h3>
+<div class="clearfix">
+<a href="Slide2.jpg">
+<img alt="Slide 2 Image" class="image-left" src="Slide2.jpg"/>
+</a>
+<p>Explains CPS as a combination of computational and physical processes, and specification-based monitoring as a formal, rule-driven approach contrasting with anomaly-based methods.</p>
+</div>
+<h3>Introduction</h3>
+<div class="clearfix">
+<a href="Slide3.jpg">
+<img alt="Slide 3 Image" class="image-left" src="Slide3.jpg"/>
+</a>
+<p>Monitoring evaluates temporal behaviors in CPS to detect anomalies or failures by comparing system outputs to predefined criteria.</p>
+</div>
+<h3>Introduction</h3>
+<div class="clearfix">
+<a href="Slide4.jpg">
+<img alt="Slide 4 Image" class="image-left" src="Slide4.jpg"/>
+</a>
+<p>Highlights real-time monitoring during execution and the use of model-based design to simulate and validate system behaviors.</p>
+</div>
+<h3>Introduction</h3>
+<div class="clearfix">
+<a href="Slide5.jpg">
+<img alt="Slide 5 Image" class="image-left" src="Slide5.jpg"/>
+</a>
+<p>Emphasizes the need for rigorous specification formalisms using temporal logic for verifying CPS behaviors over time.</p>
+</div>
+<h3>Introduction</h3>
+<div class="clearfix">
+<a href="Slide6.jpg">
+<img alt="Slide 6 Image" class="image-left" src="Slide6.jpg"/>
+</a>
+<p>Introduces Linear-Time Temporal Logic (LTL) for expressing temporal system behaviors with operators like "always" and "eventually."</p>
+</div>
+
+<h3>Introduction</h3>
+<div class="clearfix">
+<a href="Slide7.jpg">
+<img alt="Slide 7 Image" class="image-left" src="Slide7.jpg"/>
+</a>
+<p>Details LTL's syntax, including atomic propositions, logical operators, and temporal operators for discrete-event systems.</p>
+</div>
+<h3>Introduction</h3>
+<div class="clearfix">
+<a href="Slide8.jpg">
+<img alt="Slide 8 Image" class="image-left" src="Slide8.jpg"/>
+</a>
+<p>Compares LTL with regular expressions, noting LTL's focus on temporal relationships and its translation to regular expressions for simpler representations.</p>
+</div>
+<h3>Introduction</h3>
+<div class="clearfix">
+<a href="Slide9.jpg">
+<img alt="Slide 9 Image" class="image-left" src="Slide9.jpg"/>
+</a>
+<p>Explains CPS monitoring's dual challenges of handling discrete and continuous behaviors, leading to the introduction of Signal Temporal Logic (STL).</p>
+</div>
+<h3>Theory</h3>
+<div class="clearfix">
+<a href="Slide10.jpg">
+<img alt="Slide 10 Image" class="image-left" src="Slide10.jpg"/>
+</a>
+<p>STL extends LTL for real-time monitoring of continuous signals, with applications in diverse fields like robotics and biomedical systems.</p>
+</div>
+<h3>Theory</h3>
+<div class="clearfix">
+<a href="Slide11.jpg">
+<img alt="Slide 11 Image" class="image-left" src="Slide11.jpg"/>
+</a>
+<p>STL specifies properties of continuous signals using time-bounded operators and numeric predicates for real-time systems.</p>
+</div>
+<h3>Theory</h3>
+<div class="clearfix">
+<a href="Slide12.jpg">
+<img alt="Slide 12 Image" class="image-left" src="Slide12.jpg"/>
+</a>
+<p>Illustrates STL's application to real-world systems like autonomous vehicles and temperature control using numerical predicates and temporal operators.</p>
+</div>
+<h3>STL vs. LTL</h3>
+<div class="clearfix">
+<a href="Slide13.jpg">
+<img alt="Slide 13 Image" class="image-left" src="Slide13.jpg"/>
+</a>
+<p>STL handles continuous signals with numeric predicates and quantitative semantics, while LTL focuses on discrete computational systems.</p>
+</div>
+<h3>Finitary Interpretation</h3>
+<div class="clearfix">
+<a href="Slide14.jpg">
+<img alt="Slide 14 Image" class="image-left" src="Slide14.jpg"/>
+</a>
+<p>Adapts STL to finite signals by redefining temporal operators like "always" and "eventually" for practical monitoring.</p>
+</div>
+<h3>Solution</h3>
+<div class="clearfix">
+<a href="Slide15.jpg">
+<img alt="Slide 15 Image" class="image-left" src="Slide15.jpg"/>
+</a>
+<p>Proposes modifications to STL temporal operators for finite signals, addressing challenges with real-world monitoring.</p>
+</div>
+<h3>Temporal Operators</h3>
+<div class="clearfix">
+<a href="Slide16.jpg">
+<img alt="Slide 16 Image" class="image-left" src="Slide16.jpg"/>
+</a>
+<p>Explains strict interpretations of operators in continuous-time systems to enhance expressiveness in STL.</p>
+</div>
+<h3>Quantitative Semantics</h3>
+<div class="clearfix">
+<a href="Slide17.jpg">
+<img alt="Slide 17 Image" class="image-left" src="Slide17.jpg"/>
+</a>
+<p>Introduces robustness metrics to measure how well a signal satisfies or violates an STL specification.</p>
+</div>
+<h3>Quantitative Semantics</h3>
+<div class="clearfix">
+<a href="Slide18.jpg">
+<img alt="Slide 18 Image" class="image-left" src="Slide18.jpg"/>
+</a>
+<p>Describes robustness degree as a quantitative measure of signal compliance with specifications, useful for hybrid systems.</p>
+</div>
+
+<h3>Introduction</h3>
+<div class="clearfix">
+<a href="Slide7.jpg">
+<img alt="Slide 7 Image" class="image-left" src="Slide7.jpg"/>
+</a>
+<p>Details LTL's syntax, including atomic propositions, logical operators, and temporal operators for discrete-event systems.</p>
+</div>
+<h3>Introduction</h3>
+<div class="clearfix">
+<a href="Slide8.jpg">
+<img alt="Slide 8 Image" class="image-left" src="Slide8.jpg"/>
+</a>
+<p>Compares LTL with regular expressions, noting LTL's focus on temporal relationships and its translation to regular expressions for simpler representations.</p>
+</div>
+<h3>Introduction</h3>
+<div class="clearfix">
+<a href="Slide9.jpg">
+<img alt="Slide 9 Image" class="image-left" src="Slide9.jpg"/>
+</a>
+<p>Explains CPS monitoring's dual challenges of handling discrete and continuous behaviors, leading to the introduction of Signal Temporal Logic (STL).</p>
+</div>
+<h3>Theory</h3>
+<div class="clearfix">
+<a href="Slide10.jpg">
+<img alt="Slide 10 Image" class="image-left" src="Slide10.jpg"/>
+</a>
+<p>STL extends LTL for real-time monitoring of continuous signals, with applications in diverse fields like robotics and biomedical systems.</p>
+</div>
+<h3>Theory</h3>
+<div class="clearfix">
+<a href="Slide11.jpg">
+<img alt="Slide 11 Image" class="image-left" src="Slide11.jpg"/>
+</a>
+<p>STL specifies properties of continuous signals using time-bounded operators and numeric predicates for real-time systems.</p>
+</div>
+<h3>Theory</h3>
+<div class="clearfix">
+<a href="Slide12.jpg">
+<img alt="Slide 12 Image" class="image-left" src="Slide12.jpg"/>
+</a>
+<p>Illustrates STL's application to real-world systems like autonomous vehicles and temperature control using numerical predicates and temporal operators.</p>
+</div>
+<h3>STL vs. LTL</h3>
+<div class="clearfix">
+<a href="Slide13.jpg">
+<img alt="Slide 13 Image" class="image-left" src="Slide13.jpg"/>
+</a>
+<p>STL handles continuous signals with numeric predicates and quantitative semantics, while LTL focuses on discrete computational systems.</p>
+</div>
+<h3>Finitary Interpretation</h3>
+<div class="clearfix">
+<a href="Slide14.jpg">
+<img alt="Slide 14 Image" class="image-left" src="Slide14.jpg"/>
+</a>
+<p>Adapts STL to finite signals by redefining temporal operators like "always" and "eventually" for practical monitoring.</p>
+</div>
+<h3>Solution</h3>
+<div class="clearfix">
+<a href="Slide15.jpg">
+<img alt="Slide 15 Image" class="image-left" src="Slide15.jpg"/>
+</a>
+<p>Proposes modifications to STL temporal operators for finite signals, addressing challenges with real-world monitoring.</p>
+</div>
+<h3>Temporal Operators</h3>
+<div class="clearfix">
+<a href="Slide16.jpg">
+<img alt="Slide 16 Image" class="image-left" src="Slide16.jpg"/>
+</a>
+<p>Explains strict interpretations of operators in continuous-time systems to enhance expressiveness in STL.</p>
+</div>
+<h3>Quantitative Semantics</h3>
+<div class="clearfix">
+<a href="Slide17.jpg">
+<img alt="Slide 17 Image" class="image-left" src="Slide17.jpg"/>
+</a>
+<p>Introduces robustness metrics to measure how well a signal satisfies or violates an STL specification.</p>
+</div>
+<h3>Quantitative Semantics</h3>
+<div class="clearfix">
+<a href="Slide18.jpg">
+<img alt="Slide 18 Image" class="image-left" src="Slide18.jpg"/>
+</a>
+<p>Describes robustness degree as a quantitative measure of signal compliance with specifications, useful for hybrid systems.</p>
+</div>
+<h3>Example</h3>
+<div class="clearfix">
+<a href="Slide19.jpg">
+<img alt="Slide 19 Image" class="image-left" src="Slide19.jpg"/>
+</a>
+<p>Demonstrates STL's robustness degree in practical scenarios, providing quantitative insights into system behavior.</p>
+</div>
+<h3>Mathematical Definition</h3>
+<div class="clearfix">
+<a href="Slide20.jpg">
+<img alt="Slide 20 Image" class="image-left" src="Slide20.jpg"/>
+</a>
+<p>Defines robustness degree mathematically and outlines its application to STL's logical and temporal operators.</p>
+</div>
+<h3>Properties</h3>
+<div class="clearfix">
+<a href="Slide21.jpg">
+<img alt="Slide 21 Image" class="image-left" src="Slide21.jpg"/>
+</a>
+<p>Highlights robustness properties, including tolerance to small deviations and its implications for CPS monitoring.</p>
+</div>
+<h3>Monitoring Algorithms</h3>
+<div class="clearfix">
+<a href="Slide22.jpg">
+<img alt="Slide 22 Image" class="image-left" src="Slide22.jpg"/>
+</a>
+<p>Describes STL monitoring algorithms to verify signal compliance with specifications, focusing on efficiency.</p>
+</div>
+<h3>Offline Monitoring</h3>
+<div class="clearfix">
+<a href="Slide23.jpg">
+<img alt="Slide 23 Image" class="image-left" src="Slide23.jpg"/>
+</a>
+<p>Discusses analyzing entire signal traces post-execution using STL, with linear-time complexity algorithms.</p>
+</div>
+
+<h3>Example</h3>
+<div class="clearfix">
+<a href="Slide19.jpg">
+<img alt="Slide 19 Image" class="image-left" src="Slide19.jpg"/>
+</a>
+<p>Demonstrates STL's robustness degree in practical scenarios, providing quantitative insights into system behavior.</p>
+</div>
+<h3>Mathematical Definition</h3>
+<div class="clearfix">
+<a href="Slide20.jpg">
+<img alt="Slide 20 Image" class="image-left" src="Slide20.jpg"/>
+</a>
+<p>Defines robustness degree mathematically and outlines its application to STL's logical and temporal operators.</p>
+</div>
+<h3>Properties</h3>
+<div class="clearfix">
+<a href="Slide21.jpg">
+<img alt="Slide 21 Image" class="image-left" src="Slide21.jpg"/>
+</a>
+<p>Highlights robustness properties, including tolerance to small deviations and its implications for CPS monitoring.</p>
+</div>
+<h3>Monitoring Algorithms</h3>
+<div class="clearfix">
+<a href="Slide22.jpg">
+<img alt="Slide 22 Image" class="image-left" src="Slide22.jpg"/>
+</a>
+<p>Describes STL monitoring algorithms to verify signal compliance with specifications, focusing on efficiency.</p>
+</div>
+<h3>Offline Monitoring</h3>
+<div class="clearfix">
+<a href="Slide23.jpg">
+<img alt="Slide 23 Image" class="image-left" src="Slide23.jpg"/>
+</a>
+<p>Discusses analyzing entire signal traces post-execution using STL, with linear-time complexity algorithms.</p>
+</div>
+<h3>Offline Monitoring</h3>
+<div class="clearfix">
+<a href="Slide24.jpg">
+<img alt="Slide 24 Image" class="image-left" src="Slide24.jpg"/>
+</a>
+<p>Explains recursive algorithms for offline STL monitoring, evaluating signals against complex temporal formulas.</p>
+</div>
+<h3>Offline Monitoring</h3>
+<div class="clearfix">
+<a href="Slide25.jpg">
+<img alt="Slide 25 Image" class="image-left" src="Slide25.jpg"/>
+</a>
+<p>Details how satisfaction of STL formulas is computed for various operators and predicates during offline monitoring.</p>
+</div>
+<h3>Offline Monitoring</h3>
+<div class="clearfix">
+<a href="Slide26.jpg">
+<img alt="Slide 26 Image" class="image-left" src="Slide26.jpg"/>
+</a>
+<p>Introduces ComputeSatisfaction functions to evaluate STL formula satisfaction or violation qualitatively and quantitatively.</p>
+</div>
+<h3>Online Monitoring</h3>
+<div class="clearfix">
+<a href="Slide27.jpg">
+<img alt="Slide 27 Image" class="image-left" src="Slide27.jpg"/>
+</a>
+<p>Online monitoring evaluates partial signals in real-time to determine STL formula satisfaction incrementally.</p>
+</div>
+<h3>Online Monitoring</h3>
+<div class="clearfix">
+<a href="Slide28.jpg">
+<img alt="Slide 28 Image" class="image-left" src="Slide28.jpg"/>
+</a>
+<p>Proposes three-valued and four-valued semantics for online monitoring to address uncertainty in partial signals.</p>
+</div>
+<h3>Online Monitoring</h3>
+<div class="clearfix">
+<a href="Slide29.jpg">
+<img alt="Slide 29 Image" class="image-left" src="Slide29.jpg"/>
+</a>
+<p>Quantitative online monitoring algorithms measure signal compliance or violations in real-time using robustness degrees.</p>
+</div>
+<h3>Online Monitoring</h3>
+<div class="clearfix">
+<a href="Slide30.jpg">
+<img alt="Slide 30 Image" class="image-left" src="Slide30.jpg"/>
+</a>
+<p>Discusses robustness intervals and forecast handling in quantitative online monitoring algorithms.</p>
+</div>
+<h3>Quantitative Monitoring</h3>
+<div class="clearfix">
+<a href="Slide31.jpg">
+<img alt="Slide 31 Image" class="image-left" src="Slide31.jpg"/>
+</a>
+<p>Introduces horizon and history concepts to manage STL formulas with past and future operators in real-time.</p>
+</div>
+
+<h3>Extensions</h3>
+<div class="clearfix">
+<a href="Slide32.jpg">
+<img alt="Slide 32 Image" class="image-left" src="Slide32.jpg"/>
+</a>
+<p>STL-* adds freezing operators to capture dynamic oscillatory behaviors in CPS, improving expressiveness but increasing complexity.</p>
+</div>
+<h3>Oscillatory Properties</h3>
+<div class="clearfix">
+<a href="Slide33.jpg">
+<img alt="Slide 33 Image" class="image-left" src="Slide33.jpg"/>
+</a>
+<p>Time-frequency analysis tools like TFL complement STL to monitor complex oscillatory patterns in CPS.</p>
+</div>
+<h3>Spatio-Temporal Behaviors</h3>
+<div class="clearfix">
+<a href="Slide34.jpg">
+<img alt="Slide 34 Image" class="image-left" src="Slide34.jpg"/>
+</a>
+<p>Extensions like SSTL and STREL enable STL to monitor spatial and temporal behaviors in distributed systems like smart grids.</p>
+</div>
+<h3>Temporal Patterns over CPS Behaviors</h3>
+<div class="clearfix">
+<a href="Slide35.jpg">
+<img alt="Slide 35 Image" class="image-left" src="Slide35.jpg"/>
+</a>
+<p>Combines STL with regular expressions to monitor global and local temporal patterns in CPS.</p>
+</div>
+<h3>Applications to CPS</h3>
+<div class="clearfix">
+<a href="Slide36.jpg">
+<img alt="Slide 36 Image" class="image-left" src="Slide36.jpg"/>
+</a>
+<p>Outlines practical challenges in CPS monitoring, including noisy data, resource limits, and bridging physical-digital systems.</p>
+</div>
+<h3>Real-time Monitoring of CPS</h3>
+<div class="clearfix">
+<a href="Slide37.jpg">
+<img alt="Slide 37 Image" class="image-left" src="Slide37.jpg"/>
+</a>
+<p>Discusses efficient STL implementation in real-time CPS using discrete-time signals and FPGA-based monitors.</p>
+</div>
+<h3>Falsification Problem</h3>
+<div class="clearfix">
+<a href="Slide38.jpg">
+<img alt="Slide 38 Image" class="image-left" src="Slide38.jpg"/>
+</a>
+<p>Introduces falsification and parameter synthesis as complementary techniques to test and validate CPS designs.</p>
+</div>
+<h3>Automotive Systems</h3>
+<div class="clearfix">
+<a href="Slide39.jpg">
+<img alt="Slide 39 Image" class="image-left" src="Slide39.jpg"/>
+</a>
+<p>STL-based tools detect unexpected behaviors in automotive systems like powertrains and autonomous vehicle components.</p>
+</div>
+<h3>Artificial Pancreas Control Systems</h3>
+<div class="clearfix">
+<a href="Slide40.jpg">
+<img alt="Slide 40 Image" class="image-left" src="Slide40.jpg"/>
+</a>
+<p>STL monitors critical properties of artificial pancreas devices, ensuring safety under variable conditions.</p>
+</div>
+<h3>Applications to CPS</h3>
+<div class="clearfix">
+<a href="Slide41.jpg">
+<img alt="Slide 41 Image" class="image-left" src="Slide41.jpg"/>
+</a>
+<p>Highlights STL's role in medical device monitoring to ensure real-time correctness and reliability.</p>
+</div>
+<h3>Medical Devices</h3>
+<div class="clearfix">
+<a href="Slide42.jpg">
+<img alt="Slide 42 Image" class="image-left" src="Slide42.jpg"/>
+</a>
+<p>Discusses STL's applications in real-time health devices like pacemakers and ventilators, emphasizing error minimization.</p>
+</div>
+<h3>Conclusion</h3>
+<div class="clearfix">
+<a href="Slide43.jpg">
+<img alt="Slide 43 Image" class="image-left" src="Slide43.jpg"/>
+</a>
+<p>Summarizes STL's role in CPS monitoring, highlighting advancements in algorithms, semantics, and applications across industries.</p>
+</div>
+<h3>Discussion</h3>
+<div class="clearfix">
+<a href="Slide44.jpg">
+<img alt="Slide 44 Image" class="image-left" src="Slide44.jpg"/>
+</a>
+<p>Questions STL's coexistence with machine learning in CPS monitoring, emphasizing risks and challenges in defining specifications for complex systems.</p>
+</div>
+</body>
+</html>
