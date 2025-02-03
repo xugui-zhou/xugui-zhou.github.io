@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Shaoqing Ren, Kaiming He, Ross Girshick, Jian Sun">
+  <title>Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks</title>
+  <style>
+    body {
+      background-color: #e6f0ff;
+      font-family: Georgia, serif;
+      line-height: 1.6;
+      margin: 20px;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #002244;
+      font-size: 2em;
+      text-align: center;
+    }
+
+    h2 {
+      text-decoration: underline;
+      color: #004488;
+      margin-top: 30px;
+    }
+
+    h3 {
+      color: #004488;
+      margin-top: 30px;
+    }
+
+    p {
+      color: #444;
+      font-size: 1.1em;
+    }
+
+    .image-left {
+      float: left;
+      margin-right: 20px;
+      margin-bottom: 20px;
+      width: 300px;
+    }
+
+    .clearfix::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+
+    blockquote {
+      font-style: italic;
+      margin: 20px 0;
+      padding: 10px 20px;
+      background-color: #f4f4f4;
+      border-left: 10px solid #ccc;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    footer {
+      margin-top: 50px;
+      text-align: center;
+      color: #777;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 20px 0;
+    }
+
+    table th, table td {
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f4f4f4;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 4em;
+    }
+  </style>
+</head>
+
+<body>
+  <div style="text-align: center;">
+    <h1>Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks</h1>
+    <p><strong>Authors:</strong> Shaoqing Ren, Kaiming He, Ross Girshick, Jian Sun</p>
+    <p><strong>Presentation by:</strong> Bassel Succar</p>
+    <p><strong>Time of Presentation:</strong> 30th of January 2025</p>
+    <p><strong>Blog post by:</strong> Aleksandar Avdalovic</p>
+    <p><strong>Link to Paper:</strong></p> 
+    <a href="https://arxiv.org/abs/1506.01497">https://arxiv.org/abs/1506.01497</a>
+  </div>
+  <hr style="border: 1px solid #ccc; margin: 20px 0;">
+
+
+
+  <h2>Summary of the Paper</h2>
+  <div class="clearfix">
+      <p>
+          The paper introduces Faster R-CNN, a deep learning-based object detection framework that improves upon previous region-based detection models by integrating a Region Proposal Network (RPN). Unlike earlier methods that relied on computationally expensive region proposal algorithms, Faster R-CNN shares convolutional features between region proposal and object detection networks, making the process nearly cost-free. 
+          The RPN generates region proposals efficiently, which are then refined by the Fast R-CNN detector. The experimental results demonstrate that Faster R-CNN significantly improves detection accuracy while achieving real-time processing speeds, making it a powerful tool for object detection tasks.
+      </p>
+  </div>
+
+
+  <h2 class="unnumbered" id="slide-3-problem">Slide 3: Problem</h2>
+  <div class="clearfix">
+      <a href="Slide3.png"><img src="Slide3.png" alt="Problem Statement Image" class="image-left"></a>
+      <p>
+          State-of-the-art object detection networks at the time depended on region proposal algorithms to hypothesize object locations before classification. These region proposal algorithms, however, were computationally expensive, creating a significant bottleneck. 
+          
+          Selective Search, for instance, could take up to 2 seconds per image on a CPU, making it significantly slower than detection networks. Even more optimized methods like EdgeBoxes still consumed substantial runtime, limiting efficiency. 
+          
+          As a result, the region proposal stage became the primary computational bottleneck during test-time execution for state-of-the-art object detection systems.
+      </p>
+  </div>
+
+
+
+  <h2 class="unnumbered" id="slide-4-solution">Slide 4: Solution</h2>
+  <div class="clearfix">
+      <a href="Slide4.png"><img src="Slide4.png" alt="Solution Image" class="image-left"></a>
+      <p>
+          The key innovation in Faster R-CNN is the introduction of the Region Proposal Network (RPN), which shares full-image convolutional features with the detection network. This design significantly reduces the computational cost of generating region proposals. 
+          
+          By integrating the RPN with Fast R-CNN, Faster R-CNN forms a unified, end-to-end network capable of object detection in real time. The RPN serves as an "attention" mechanism, directing the detection network toward relevant regions in an image.
+      </p>
+  </div>
+
+  <h2 class="unnumbered" id="slide-5-rpn">Slide 5: How Do RPNs Work?</h2>
+  <div class="clearfix">
+      <a href="Slide5.png"><img src="Slide5.png" alt="RPN Mechanism Image" class="image-left"></a>
+      <p>
+          The Region Proposal Network (RPN) operates by convolving a sliding window over the feature map to generate region proposals. 
+          
+          At each window, the RPN places multiple anchor boxes of different sizes and aspect ratios. These anchor boxes help the model detect objects of varying scales efficiently. 
+          
+          The RPN predicts the likelihood of an anchor box containing an object and refines its position by estimating four bounding box coordinates, ensuring a more accurate fit to detected objects.
+      </p>
+  </div>
+
+
+
+  <h2 class="unnumbered" id="slide-6-rpn-training">Slide 6: How are RPN and Fast R-CNN Combined?</h2>
+  <div class="clearfix">
+      <a href="Slide6.png"><img src="Slide6.png" alt="RPN Training Image" class="image-left"></a>
+      <p>
+          The first step in combining the Region Proposal Network (RPN) with Fast R-CNN is training the RPN. 
+          
+          In this stage, an ImageNet-pretrained model is fine-tuned for the region proposal task. The RPN learns to generate high-quality proposals by predicting object locations based on shared convolutional features. 
+          
+          This step ensures that the proposals generated by the RPN are optimized before integrating them into the full Faster R-CNN pipeline.
+      </p>
+  </div>
+
+
+
+  <h2 class="unnumbered" id="slide-7-fast-rcnn-training">Slide 7: Train the Fast R-CNN</h2>
+  <div class="clearfix">
+      <a href="Slide7.png"><img src="Slide7.png" alt="Fast R-CNN Training Image" class="image-left"></a>
+      <p>
+          In the second step of integrating RPN with Fast R-CNN, we train a separate detection network using the proposals generated by the RPN.
+          
+          Fast R-CNN processes the proposed regions and refines the object detection results by classifying the regions and adjusting their bounding boxes. This step significantly enhances object detection accuracy and performance by leveraging the region proposals obtained in step one.
+      </p>
+  </div>
+
+  <h2 class="unnumbered" id="slide-8-rpn-retraining">Slide 8: Train a New RPN</h2>
+  <div class="clearfix">
+      <a href="Slide8.png"><img src="Slide8.png" alt="RPN Retraining Image" class="image-left"></a>
+      <p>
+          In the final step, a new Region Proposal Network (RPN) is trained using the detector network as initialization. 
+          
+          The shared convolutional layers are fixed, and only the layers unique to RPN are fine-tuned. This ensures that the feature extraction process is optimized while keeping the learned object detection capabilities intact. 
+          
+          By sharing feature extraction layers between RPN and Fast R-CNN, the overall framework achieves higher efficiency and improved detection performance.
+      </p>
+  </div>
+
+
+
+  <h2 class="unnumbered" id="slide-9-fine-tuning">Slide 9: Fine-Tune the Unique Layers</h2>
+  <div class="clearfix">
+      <a href="Slide9.png"><img src="Slide9.png" alt="Fine-Tuning Image" class="image-left"></a>
+      <p>
+          The final step in the Faster R-CNN training process is to fine-tune the unique layers of the detector.
+          
+          At this stage, the shared convolutional layers remain fixed while the detector-specific layers are adjusted for improved classification and object localization performance. 
+          
+          This fine-tuning step ensures that the network optimally learns object-specific features, leading to enhanced accuracy in object detection tasks.
+      </p>
+  </div>
+
+
+  <h2 class="unnumbered" id="slide-10-implementation-details">Slide 10: Implementation Details</h2>
+  <div class="clearfix">
+      <a href="Slide10.png"><img src="Slide10.png" alt="Implementation Details Image" class="image-left"></a>
+      <p>
+          Before diving into the experiments, this slide introduces key implementation details. 
+          
+  </div>
+
+
+  <h2 class="unnumbered" id="slide-11-nms">Slide 11: Non-Maximum Suppression (NMS)</h2>
+  <div class="clearfix">
+      <a href="Slide11.png"><img src="Slide11.png" alt="Non-Maximum Suppression Image" class="image-left"></a>
+      <p>
+          Non-Maximum Suppression (NMS) is a post-processing technique used in object detection to remove redundant bounding boxes and keep only the most confident predictions. 
+          
+          The process involves sorting the bounding boxes by their confidence scores, selecting the highest-scoring box, and removing overlapping boxes based on an Intersection over Union (IoU) threshold. This step is repeated until only the most relevant boxes remain. 
+          
+          Typically, an IoU threshold (e.g., 0.5) is used to control the level of overlap allowed before a box is discarded, ensuring that only the best detections are retained.
+      </p>
+  </div>
+
+
+
+  <h2 class="unnumbered" id="slide-12-map">Slide 12: Mean Average Precision (mAP)</h2>
+  <div class="clearfix">
+      <a href="Slide12.png"><img src="Slide12.png" alt="Mean Average Precision Image" class="image-left"></a>
+      <p>
+          Mean Average Precision (mAP) is a key metric used to evaluate object detection models. 
+          
+          Predictions are ranked based on confidence scores, and precision-recall calculations are performed for various thresholds. The precision-recall curve illustrates the tradeoff between precision and recall at different confidence levels. 
+          
+          The Average Precision (AP) is calculated as the area under the precision-recall curve, and mAP is computed as the mean of AP values across all object classes. A higher mAP score indicates a more accurate object detection model.
+      </p>
+  </div>
+
+
+  <h2 class="unnumbered" id="slide-13-experimentation">Slide 13: Experimentation</h2>
+  <div class="clearfix">
+      <a href="Slide13.png"><img src="Slide13.png" alt="Experimentation Results Image" class="image-left"></a>
+      <p>
+          The authors benchmarked their proposed model on the PASCAL VOC 2007 dataset to evaluate performance. 
+          
+          Using the "fast" version of the ZF network, which consists of five convolutional layers and three fully connected layers, the model achieved a competitive mean Average Precision (mAP) of 59.9% with only 300 proposals. This surpassed Selective Search (SS) and EdgeBoxes (EB), both of which used 2000 proposals.
+          
+          Ablation studies further highlighted the significance of shared features, which contributed to an mAP of 58.7%.
+      </p>
+  </div>
+
+
+  <h2 class="unnumbered" id="slide-14-experimentation-vgg">Slide 14: Experimentation with VGG</h2>
+  <div class="clearfix">
+      <a href="Slide14.png"><img src="Slide14.png" alt="Experimentation with VGG Image" class="image-left"></a>
+      <p>
+          The authors extended their experiments by using the VGG-16 model, which contains 13 convolutional layers and 3 fully connected layers.
+          
+          Results demonstrated that using a more robust network like VGG-16 significantly improved detection performance. Faster R-CNN with VGG-16 achieved a mean Average Precision (mAP) of 78.8% when trained with COCO+VOC datasets, showing the model's improved generalizability and effectiveness.
+      </p>
+  </div>
+
+
+
+  <h2 class="unnumbered" id="slide-15-real-time-performance">Slide 15: Real-Time Performance</h2>
+  <div class="clearfix">
+      <a href="Slide15.png"><img src="Slide15.png" alt="Real-Time Performance Image" class="image-left"></a>
+      <p>
+          The Region Proposal Network (RPN) is highly efficient, requiring only about 10ms on the GPU for processing. 
+          
+          The Faster R-CNN system achieves real-time object detection speeds, with frame rates of 5 fps when using VGG-16 and up to 17 fps when using ZF. These results demonstrate the model's ability to balance accuracy with computational efficiency, making it a practical choice for real-time applications.
+      </p>
+  </div>
+
+
+
+  <h2 class="unnumbered" id="slide-16-ms-coco-evaluation">Slide 16: MS COCO Evaluation</h2>
+  <div class="clearfix">
+      <a href="Slide16.png"><img src="Slide16.png" alt="MS COCO Evaluation Image" class="image-left"></a>
+      <p>
+          The model was further evaluated on the MS COCO dataset, which contains significantly more training images and object categories compared to PASCAL VOC 2007. 
+          
+          Faster R-CNN demonstrated superior performance in object detection, achieving higher mean Average Precision (mAP) values, particularly at higher Intersection over Union (IoU) thresholds. This indicates the model's improved accuracy in object localization and classification when trained on larger, more diverse datasets.
+      </p>
+  </div>
+
+
+
+
+  <h2 class="unnumbered" id="slide-17-recall-vs-iou">Slide 17: Recall vs. IoU</h2>
+  <div class="clearfix">
+      <a href="Slide17.png"><img src="Slide17.png" alt="Recall vs. IoU Image" class="image-left"></a>
+      <p>
+          The authors analyzed recall in relation to Intersection over Union (IoU) for different proposal counts. 
+          
+          The results show that even with only 300 proposals, recall remains strong for RPN ZF and RPN VGG models. The comparison across 300, 1000, and 2000 proposals illustrates the trade-off between proposal count and recall performance.
+      </p>
+  </div>
+
+
+  <h2 class="unnumbered" id="slide-18-hyperparameter-sensitivity">Slide 18: Sensitivity to Hyperparameters</h2>
+  <div class="clearfix">
+      <a href="Slide18.png"><img src="Slide18.png" alt="Hyperparameter Sensitivity Image" class="image-left"></a>
+      <p>
+          The impact of different anchor box settings on Faster R-CNN performance was analyzed using the PASCAL VOC 2007 dataset. 
+          
+          Results indicate that using multiple scales and aspect ratios for anchor boxes leads to improved detection performance compared to single-scale and single-ratio settings. The best-performing configuration, with three scales and three aspect ratios, achieved a mean Average Precision (mAP) of 69.9%.
+      </p>
+  </div>
+
+
+  <h2 class="unnumbered" id="slide-19-impact-of-large-datasets">Slide 19: Impact of Large Datasets</h2>
+  <div class="clearfix">
+      <a href="Slide19.png"><img src="Slide19.png" alt="Impact of Large Datasets Image" class="image-left"></a>
+      <p>
+          The authors analyzed the effect of large datasets on model performance. 
+          
+          A model trained solely on MS COCO data achieved a remarkable 76.1% mean Average Precision (mAP) on the PASCAL VOC 2007 dataset without any fine-tuning. 
+          
+          Further fine-tuning the COCO-trained model on PASCAL VOC data improved the mAP to 78.8%, demonstrating the benefits of transfer learning and training on larger datasets.
+      </p>
+  </div>
+
+
+  <h2 class="unnumbered" id="slide-20-conclusions">Slide 20: Conclusions</h2>
+  <div class="clearfix">
+      <a href="Slide20.png"><img src="Slide20.png" alt="Conclusions Image" class="image-left"></a>
+      <p>The conclusions summarize the key takeaways of the Faster R-CNN approach:</p>
+      <ul>
+          <li><strong>Efficient & Accurate Proposals</strong>: The Region Proposal Network (RPN) generates high-quality region proposals for object detection.</li>
+          <li><strong>Feature Sharing</strong>: Convolutional features are shared between the region proposal and detection networks, making the computation of region proposals nearly cost-free.</li>
+          <li><strong>Real-Time Performance</strong>: The unified deep-learning approach improves object detection speed while maintaining high accuracy.</li>
+      </ul>
+  </div>
+
+  <h2 class="unnumbered" id="slide-21-advancements">Slide 21: Advancements After Faster R-CNN</h2>
+  <div class="clearfix">
+      <a href="Slide21.png"><img src="Slide21.png" alt="Advancements After Faster R-CNN Image" class="image-left"></a>
+      <p>Following the development of Faster R-CNN, several improved object detection architectures emerged:</p>
+      <ul>
+          <li><strong>R-FCN (2016)</strong>: A fully convolutional model with no fully connected layers, making it faster than Faster R-CNN. It applies convolutions over the entire feature map instead of processing each region separately.</li>
+          <li><strong>SSD (2016)</strong>: A single-shot detection model that uses multi-scale feature maps, making it faster but slightly less accurate than Faster R-CNN.</li>
+          <li><strong>YOLO (2016+)</strong>: A grid-based detection approach optimized for real-time applications, predicting bounding boxes and class probabilities in a single pass.</li>
+      </ul>
+  </div>
+
+  <h2 class="unnumbered" id="slide-22-advancements">Slide 22: Advancements After Faster R-CNN (Continued)</h2>
+  <div class="clearfix">
+      <a href="Slide22.png"><img src="Slide22.png" alt="Further Advancements After Faster R-CNN Image" class="image-left"></a>
+      <p>Additional advancements in object detection built upon Faster R-CNN:</p>
+      <ul>
+          <li><strong>Mask R-CNN (2017)</strong>: Extends Faster R-CNN by incorporating segmentation, enabling it to detect and segment objects simultaneously using a Region Proposal Network (RPN) and a fully convolutional mask prediction.</li>
+          <li><strong>EfficientDet (2020)</strong>: Uses EfficientNet as the backbone for improved accuracy and efficiency. Introduces BiFPN (Bidirectional Feature Pyramid Network) for enhanced multi-scale feature extraction.</li>
+          <li><strong>DETR (2020)</strong>: A transformer-based model that removes the need for Non-Maximum Suppression (NMS), processing the entire image at once and directly predicting objects.</li>
+      </ul>
+  </div>
+
+  <h2 class="unnumbered" id="slide-23-my-review">Slide 23: My Review</h2>
+  <div class="clearfix">
+      <a href="Slide23.png"><img src="Slide23.png" alt="My Review Image" class="image-left"></a>
+
+          <li><strong>Speed & Efficiency</strong>: Faster than Selective Search and EdgeBoxes, achieving real-time performance at 5 fps (VGG-16) and 17 fps (ZF).</li>
+          <li><strong>High Accuracy</strong>: Achieves 59.9% mAP on PASCAL VOC 2007, outperforming traditional methods.</li>
+          <li><strong>Unified End-to-End Training</strong>: Shares convolutional layers between RPN and the detection network.</li>
+          <li><strong>Handles Multi-Scale & Aspect Ratios</strong>: Uses anchor boxes instead of multi-scale pyramids.</li>
+          <li><strong>Robust to Hyperparameters</strong>: Minimal performance loss across different settings.</li>
+          <li><strong>Generalization</strong>: Successfully applied to 3D detection, segmentation, and image captioning.</li>
+          <li><strong>High Recall with Fewer Proposals</strong>: Maintains strong recall even with only 300 proposals.</li>
+      
+  </div>
+
+  <h2 class="unnumbered" id="slide-24-my-review-weaknesses">Slide 24: My Review - Weaknesses</h2>
+  <div class="clearfix">
+      <a href="Slide24.png"><img src="Slide24.png" alt="My Review Weaknesses Image" class="image-left"></a>
+      <p>While Faster R-CNN offers strong performance, it also has certain weaknesses:</p>
+      <ul>
+          <li><strong>Complex Architecture</strong>: The model requires multiple components (RPN + Fast R-CNN), making training more challenging.</li>
+          <li><strong>Hyperparameter Sensitivity</strong>: Performance is highly dependent on tuning anchor box sizes, learning rates, and batch sizes.</li>
+          <li><strong>Single-Scale Testing</strong>: The model does not leverage multi-scale testing, which could improve accuracy.</li>
+      </ul>
+  </div>
+
+  <h2 class="unnumbered" id="slide-25-lessons-learned">Slide 25: Lessons Learned</h2>
+  <div class="clearfix">
+      <a href="Slide25.png"><img src="Slide25.png" alt="Lessons Learned Image" class="image-left"></a>
+      <p>Key lessons learned from the Faster R-CNN study:</p>
+      <ul>
+          <li><strong>Shared Computation Boosts Efficiency</strong>: The sharing of convolutional layers between RPN and the detection network significantly improves speed.</li>
+          <li><strong>Large Datasets Improve Performance</strong>: Training on MS COCO enhances performance across different datasets, demonstrating the value of large-scale training data.</li>
+          <li><strong>Balancing Complexity & Accuracy is Key</strong>: Faster R-CNN effectively finds a trade-off between speed and accuracy, making it a powerful yet computationally efficient detection model.</li>
+      </ul>
+  </div>
+
+
+  <h2 class="unnumbered" id="slide-26-discussion">Slide 26: Discussion</h2>
+  <div class="clearfix">
+      <a href="Slide27.png"><img src="Slide27.png" alt="Discussion Image" class="image-left"></a>
+      <p>
+          The discussion section raises key questions about the trade-offs in object detection models:
+          
+          <li>If you were designing an object detection system for self-driving cars, would you prioritize Faster R-CNN's accuracy or YOLO’s speed?</li>
+          <li>Can object detection models be adapted to recognize unexpected obstacles, or will self-driving cars always struggle with new objects?</li>
+          
+          These questions points out the balance between accuracy and real-time performance in safety-critical applications like autonomous driving.
+      </p>
+  </div>
+
+
+  <h2 class="unnumbered" id="discussion">Discussion</h2>
+
+  <h3>Discussion</h3>
+  
+  <p><strong>Question 1: If you were designing an object detection system for self-driving cars, would you prioritize Faster R-CNN's accuracy or YOLO’s speed?</strong></p>
+  <p>Aleksandar responded that the choice depends on the availability of data. He explained that <strong>Faster R-CNN is preferable when there is less data</strong>, as its region-based approach provides better accuracy. However, when dealing with <strong>larger datasets</strong>, YOLO becomes a better option due to its significantly faster processing speed, which is crucial for real-time applications like self-driving cars.</p>
+  <p>George acknowledged the complexity of the problem, highlighting that <strong>sensor technology could play a role in the decision-making process</strong>. He pointed out that different types of sensors (e.g., LiDAR, radar, and cameras) might influence which model performs better under specific conditions.</p>
+  
+  <p><strong>Question 2: Can object detection models be adapted to recognize unexpected obstacles, or will self-driving cars always struggle with new objects?</strong></p>
+  <p>Aleksandar suggested that one way to <strong>mitigate the challenge of unseen objects</strong> is by leveraging an additional model to label data dynamically. In this approach, the model could <strong>"pre-label" unknown objects</strong>, allowing the primary detection system to incorporate them into its knowledge base over time. While this could improve adaptability, he acknowledged that <strong>some level of struggle with truly unseen objects is inevitable</strong>.</p>
+  
+  <h3>Audience Questions</h3>
+  
+  <p><strong>Q1: What is the difference between this approach and traditional CNNs?</strong></p>
+  <p>The presenter explained that Faster R-CNN combines both region proposals and convolutional neural networks, leading to higher accuracy than traditional CNN-based object detectors.</p>
+  
+  <p><strong>Q2: What does "R" represent in R-CNN?</strong></p>
+  <p>It stands for <strong>Region</strong>, referring to the region proposal mechanism in the architecture.</p>
+  
+  <p><strong>Q3: Why is Faster R-CNN considered faster?</strong></p>
+  <p>The presenter clarified that it is due to the introduction of the Region Proposal Network (RPN), which eliminates the need for a separate region proposal algorithm, thereby improving computational efficiency.</p>
+  
+  <p><strong>Q4: Can RPN serve as an additional algorithm?</strong></p>
+  <p>The presenter responded that RPN is not a standalone algorithm but rather an integral part of the Faster R-CNN framework, designed to encode information for region proposals.</p>
+  
+  <p><strong>Q5: How is the number of proposals controlled?</strong></p>
+  <p>The system allows for control by selecting the top <em>k</em> proposals based on confidence scores.</p>
+  
+  
+  <p><strong>Q6: Ruslan: Is the COCO dataset larger than Pascal?</strong></p>
+  <p>Yes, COCO contains significantly more images and object categories compared to Pascal VOC.</p>
+  
+  <p><strong>Q7: Ruslan: What does the Pascal dataset consist of?</strong></p>
+  <p>Ruslan explained that it includes labeled images with bounding boxes and ground truth annotations.</p>
+  
+  <p><strong>Q9: George: What applications can this approach be useful for?</strong></p>
+  <p> Presenter suggested <strong>image captioning</strong> as a potential application.</p>
+  
+  <p><strong>Q10: George: Can Faster R-CNN be used in surveillance systems?</strong></p>
+  <p>The presenter stated that it depends on training data. If the model is trained on surveillance footage, it could perform well in such applications.</p>
+  
+  <p><strong>Q11: How many proposals are generated for a single image with a single face?</strong></p>
+  <p>The presenter explained that it depends on the complexity of the network and the number of layers used. Increasing the number of layers generally leads to better performance.</p>
+  
+  <p><strong>Q12: Ruslan: Are R-CNNs almost cost-free compared to CNNs?</strong></p>
+  <p>Presenter mentioned that Faster R-CNN <strong>shares convolutional features</strong> between the RPN and Fast R-CNN components, making it computationally efficient compared to traditional CNNs.</p>
+  
+  <p><strong>Q13: Obiora: Can DETR be used in construction sites where occlusion is a major issue?</strong></p>
+  <p>Presenter responded that it is <strong>possible</strong> but admitted that he had not prepared for this specific scenario and referred to the research paper for further details.</p>
+  
+  
