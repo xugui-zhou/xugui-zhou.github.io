@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Home - Simple Blog Template</title>
+
+    <style>
+      .image-left {
+        float: left;
+        margin-right: 20px;
+        margin-bottom: 20px;
+        width: 300px;
+      }
+      .clearfix::after {
+        content: "";
+        clear: both;
+        display: table;
+      }
+    </style>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/simple-blog-template.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+  </head>
+
+  <body>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <div class="row">
+
+        <!-- Blog Entries Column -->
+        <div class="col-md-12">
+          <h2 class="post-title" style="font-size:30px; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            <a>You Only Look Once: Unified, Real-Time Object Detection</a>
+          </h2>
+          <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            Paper written by Joseph Redmon, Santosh Divvala, Ross Girshick, and Ali Farhadi
+          </p>
+          <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            Presented by Sujan Gyawali
+          </p>
+          <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            Blog post by George Hendrick
+          </p>
+          <p style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif"><span class="glyphicon glyphicon-time"></span> Presented on February 6, 2025</p>
+          <a class="btn btn-default" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif" href="https://www.academis.eu/machine_learning/_downloads/51a67e9194f116abefff5192f683e3d8/yolo.pdf">Paper Link</a>
+
+          <br><br><hr>
+
+          <!-- Brief Summary Section -->
+          <p class="lead" style="font-size:24px; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            Brief Summary:
+          </p>
+          <p style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            Sujan Gyawali presents the paper You Only Look Once: Unified, Real-Time Object Detection. This paper 
+            presents YOLO, a real-time object detection method that achieves better accuracy with object detection 
+            than comparable real-time object detection methods. The authors found that when YOLO is used in conjunction 
+            with Faster CNN, it achieves better accuracy than without its implementation.
+          </p>
+
+          <!-- Slides Section -->
+          <p class="lead" style="font-size:24px; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            Slides:
+          </p>
+          <!-- Slide 1 -->
+          <div class="clearfix">
+            <a href="https://xugui-zhou.github.io/teaching/CSC7700/presentations/Blog%20Post%203/1.png">
+              <img src="You%20Only%20Look%20Once%20Unified,%20Real-Time%20Object%20Detection/1.png" class="image-left"></a>
+            <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+              Overview of the slides to come.
+            </p>
+          </div>
+          <!-- Slide 2 -->
+          <div class="clearfix">
+            <a href="https://xugui-zhou.github.io/teaching/CSC7700/presentations/Blog%20Post%203/2.png">
+              <img src="You%20Only%20Look%20Once%20Unified,%20Real-Time%20Object%20Detection/2.png" class="image-left"></a>
+            <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+              Object detection involves identifying and localizing objects within an image. This is an extremely 
+              important part of autonomous vehicles, as well as any machine that requires the interpretation 
+              of visual information. YOLO is specifically made to enable real-time processing at high speeds.
+            </p>
+          </div>
+          <!-- Slide 3 -->
+          <div class="clearfix">
+            <a href="https://xugui-zhou.github.io/teaching/CSC7700/presentations/Blog%20Post%203/3.png">
+              <img src="You%20Only%20Look%20Once%20Unified,%20Real-Time%20Object%20Detection/3.png" class="image-left"></a>
+            <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+              YOLO uses a single neural network, allowing a much faster processing speed. This approach eliminates the need for sliding 
+              windows or region proposals. YOLO achieves 45 fps on standard models.
+            </p>
+          </div>
+          <!-- Slide 4 -->
+          <div class="clearfix">
+            <a href="https://xugui-zhou.github.io/teaching/CSC7700/presentations/Blog%20Post%203/4.png">
+              <img src="You%20Only%20Look%20Once%20Unified,%20Real-Time%20Object%20Detection/4.png" class="image-left"></a>
+            <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+               Early approaches of object detection methods include sliding windows and SVM. Later, R-CNN was developed alongside 
+               two variants: Fast and Faster R-CNN. There are also single shot decoders, such as SSD and now YOLO.
+            </p>
+          </div>
+          <!-- Slide 5 -->
+          <div class="clearfix">
+            <a href="https://xugui-zhou.github.io/teaching/CSC7700/presentations/Blog%20Post%203/5.png">
+              <img src="You%20Only%20Look%20Once%20Unified,%20Real-Time%20Object%20Detection/5.png" class="image-left"></a>
+            <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+              Object detection is an extremely important issue. It is used in computer vision applications, autonomous driving, medical 
+              imaging, security, robotics, helps machines identify objects and spacial locations, enables automation in various industries, 
+              and plays a key role in AI practical applications.
+            </p>
+          </div>
+          <!-- Slide 6 -->
+          <div class="clearfix">
+            <a href="https://xugui-zhou.github.io/teaching/CSC7700/presentations/Blog%20Post%203/6.png">
+              <img src="You%20Only%20Look%20Once%20Unified,%20Real-Time%20Object%20Detection/6.png" class="image-left"></a>
+            <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+              YOLO, instead of using region proposals, treats detection as a single problem by predicting all bounding boxes at once.
+            </p>
+          </div>
+          <!-- Slide 7 -->
+          <div class="clearfix">
+            <a href="https://xugui-zhou.github.io/teaching/CSC7700/presentations/Blog%20Post%203/7.png">
+              <img src="You%20Only%20Look%20Once%20Unified,%20Real-Time%20Object%20Detection/7.png" class="image-left"></a>
+            <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+              The YOLO architecture involves 24 convolutional layers within the neural network, with two fully connected layers involved in 
+              final predictions. Feature space complexity is reduced by alternating convolutional layers. YOLO is pretrained on ImageNet at 
+              lower resolution, which is later doubled for detection. YOLO uses max-pooling layers to down-sample and extract any important 
+              features.
+            </p>
+          </div>
+          <!-- Slide 8 -->
+          <div class="clearfix">
+            <a href="https://xugui-zhou.github.io/teaching/CSC7700/presentations/Blog%20Post%203/8.png">
+              <img src="You%20Only%20Look%20Once%20Unified,%20Real-Time%20Object%20Detection/8.png" class="image-left"></a>
+            <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+              The training process of YOLO involves pretraining on the ImageNet dataset for feature extraction, fine-tuning on the PASCAL 
+              VOC and COCO datasets, and adds 4 more convolutional layers and 2 fully connected layers, increases the input size from 224*224 
+              to 448*448. The final layer predicts the bounding boxes and class probabilities. YOLO uses a batch size of 64, a momentum of 0.9, 
+              and a dropout of 0.5 to prevent co-adaption.
+            </p>
+          </div>
+          <!-- Slide 9 -->
+          <div class="clearfix">
+            <a href="https://xugui-zhou.github.io/teaching/CSC7700/presentations/Blog%20Post%203/9.png">
+              <img src="You%20Only%20Look%20Once%20Unified,%20Real-Time%20Object%20Detection/9.png" class="image-left"></a>
+            <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+              YOLO has some limitations, such as each grid cell only predicting two bounding boxes and one class. This limits YOLO's ability to 
+              detect multiple small objects that are close together. YOLO also struggles to identify objects with unusual aspect ratios or 
+              configurations harder to detect. This can also be caused by down-sampling layers, which reduces feature details. YOLO may also 
+              struggle with new or unseen object shapes due to errors in small bounding boxes. The main source of error in YOLO is incorrect 
+              object localization and small errors in small boxes can significantly reduce accuracy.
+            </p>
+          </div>
+          <!-- Slide 10 -->
+          <div class="clearfix">
+            <a href="https://xugui-zhou.github.io/teaching/CSC7700/presentations/Blog%20Post%203/10.png">
+              <img src="You%20Only%20Look%20Once%20Unified,%20Real-Time%20Object%20Detection/10.png" class="image-left"></a>
+            <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+              DPMs (Deformable Parts Models) use a sliding window approach for object detection and rely on handcrafted features, making them 
+              computationally expensive. YOLO has no need to use sliding windows, allowing it to be much faster. R-CNN, Fast R-CNN, and Faster 
+              R-CNN use region proposal methods to generate bounding boxes, which allows for high accuracy but is slow due to multiple processing 
+              steps. YOLO predicts bounding boxes in the single forward pass. SSD (Single Shot Detectors) are a one-stage detector like YOLO and 
+              are faster than R-CNN, however are less accurate. YOLO outperforms SSD in small object detection and maintaining real-time speeds.
+            </p>
+          </div>
+          <!-- Slide 11 -->
+          <div class="clearfix">
+            <a href="https://xugui-zhou.github.io/teaching/CSC7700/presentations/Blog%20Post%203/11.png">
+              <img src="You%20Only%20Look%20Once%20Unified,%20Real-Time%20Object%20Detection/11.png" class="image-left"></a>
+            <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+              More comparisons: Deep Multibox and Overfeat use a convolutional network to predict regions of interest. They require additional 
+              post-processing for final detections, while YOLO integrates all steps into a unified model. MultiGrasp is designed for grasp detection 
+              in robotics. This is a simpler task than object detection, and YOLO extends beyond object categories with the ability to detect 
+              multiple objects across various classes.
+            </p>
+          </div>
+          <!-- Slide 12 -->
+          <div class="clearfix">
+            <a href="https://xugui-zhou.github.io/teaching/CSC7700/presentations/Blog%20Post%203/12.png">
+              <img src="You%20Only%20Look%20Once%20Unified,%20Real-Time%20Object%20Detection/12.png" class="image-left"></a>
+            <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+              Important metrics include: mAP (Mean Average Precision), which measures detection accuracy, IoU (Intersection over Union), which 
+              evaluates bounding box quality, and FPS (Frames Per Second), which measures real-time capability. YOLO achieves 45 FPS, many more 
+              frames faster than Faster R-CNN at 18 FPS. YOLO has higher localization errors, but fewer false positives. YOLO also outperforms 
+              traditional methods in generalization tasks.
+            </p>
+          </div>
+          <!-- Slide 13 -->
+          <div class="clearfix">
+            <a href="https://xugui-zhou.github.io/teaching/CSC7700/presentations/Blog%20Post%203/13.png">
+              <img src="You%20Only%20Look%20Once%20Unified,%20Real-Time%20Object%20Detection/13.png" class="image-left"></a>
+            <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+              YOLO's effectiveness was evaluated on the PASCAL VOC 2007 and 2012 datasets, and was compared with R-CNN, Fast R-CNN, Faster R-CNN, 
+              and SSD. mAP and FPS were examined. As stated before, YOLO achieves 45 FPS, much faster than Faster R-CNN's maximum FPS at 18 FPS. 
+              YOLO has a faster variant: Fast YOLO, achieving the fastest speed of 155 FPS. YOLO scores 63.4% mAP while Faster R-CNN achieves 
+              73.2% mAP.
+            </p>
+          </div>
+          <!-- Slide 14 -->
+          <div class="clearfix">
+            <a href="https://xugui-zhou.github.io/teaching/CSC7700/presentations/Blog%20Post%203/14.png">
+              <img src="You%20Only%20Look%20Once%20Unified,%20Real-Time%20Object%20Detection/14.png" class="image-left"></a>
+            <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+              They found that YOLO made more localization errors than R-CNN, however YOLO had fewer false positives (background errors) than Fast 
+              R-CNN. This helps in rescoring Fast R-CNN detections by reducing false positives. YOLO was tested on artwork datasets such as the 
+              Picasso and People-Art datasets, and YOLO outperforms R-CNN and SSD in unseen domains, proving better adaptability.
+            </p>
+          </div>
+          <!-- Slide 15 -->
+          <div class="clearfix">
+            <a href="https://xugui-zhou.github.io/teaching/CSC7700/presentations/Blog%20Post%203/15.png">
+              <img src="You%20Only%20Look%20Once%20Unified,%20Real-Time%20Object%20Detection/15.png" class="image-left"></a>
+            <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+              Combining YOLO and Fast R-CNN achieves a higher mAP, due partially to the reduction of false positives.
+            </p>
+          </div>
+          <!-- Slide 16 -->
+          <div class="clearfix">
+            <a href="https://xugui-zhou.github.io/teaching/CSC7700/presentations/Blog%20Post%203/16.png">
+              <img src="You%20Only%20Look%20Once%20Unified,%20Real-Time%20Object%20Detection/16.png" class="image-left"></a>
+            <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+              YOLO scores 57.9% mAP, which is lower than Faster R-CNN, however is still competitve. YOLO does struggle with small objects 
+              on the VOC 2012 dataset, scoring 8-10% lower than R-CNN.
+            </p>
+          </div>
+          <!-- Slide 17 -->
+          <div class="clearfix">
+            <a href="https://xugui-zhou.github.io/teaching/CSC7700/presentations/Blog%20Post%203/17.png">
+              <img src="You%20Only%20Look%20Once%20Unified,%20Real-Time%20Object%20Detection/17.png" class="image-left"></a>
+            <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+              YOLO was tested on datasets beyond its training distribution to measure its generalizability. Real-world applications require 
+              handling unpredictable scenarios and diverse inputs, so generalizabiliy is an important aspect to measure. YOLO, when testing 
+              on the Picasso and People-Art datasets, outperforms R-CNN and DPM in generalization tests. R-CNN performs well on VOC 2007, 
+              but drops significantly on artwork due to overhitting. DPM starts from a lower baseline but maintains AP. YOLO retains high 
+              performance due to its ability to model object size, shape, and context.
+            </p>
+          </div>
+          <!-- Slide 18 -->
+          <div class="clearfix">
+            <a href="https://xugui-zhou.github.io/teaching/CSC7700/presentations/Blog%20Post%203/18.png">
+              <img src="You%20Only%20Look%20Once%20Unified,%20Real-Time%20Object%20Detection/18.png" class="image-left"></a>
+            <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+              Further work on YOLO include more modern versions developed over the years. Each version came with more optimizations and 
+              additions that refined the method. The current version of YOLO is version 8.
+            </p>
+          </div>
+          <!-- Slide 19 -->
+          <div class="clearfix">
+            <a href="https://xugui-zhou.github.io/teaching/CSC7700/presentations/Blog%20Post%203/19.png">
+              <img src="You%20Only%20Look%20Once%20Unified,%20Real-Time%20Object%20Detection/19.png" class="image-left"></a>
+            <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+              Strengths of the paper: Introuced a game-changing single-shot detection approach. It is faster than Faster R-CNN while being 
+              easy to implement and deploy. Weaknesses of papers: YOLO struggles with small objects and overlapping objects. Localization 
+              errors are introduced due to grid-based predictions. It also has lower accuracy compared to Faster R-CNN on certain datasets.
+              Overall, YOLO is a breakthrough in the automated object detection domain and, while not perfect, laid the foundation for 
+              real-time AI object detection applications.
+            </p>
+          </div>
+          <!-- Slide 20 -->
+          <div class="clearfix">
+            <a href="https://xugui-zhou.github.io/teaching/CSC7700/presentations/Blog%20Post%203/20.png">
+              <img src="You%20Only%20Look%20Once%20Unified,%20Real-Time%20Object%20Detection/20.png" class="image-left"></a>
+            <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+              YOLO has potential for future applications in 3D object detection, healthcare for early disease detection, and Edge AI - 
+              deploying lightweight YOLO models on mobile and IOT devices. Overall, there is a tradeoff involving speed and accuracy, 
+              generalization is important, and improvement in this domain is continuous.
+            </p>
+          </div>
+          <!-- Slide 21 -->
+          <div class="clearfix">
+            <a href="https://xugui-zhou.github.io/teaching/CSC7700/presentations/Blog%20Post%203/21.png">
+              <img src="You%20Only%20Look%20Once%20Unified,%20Real-Time%20Object%20Detection/21.png" class="image-left"></a>
+            <p class="lead" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+              This paper introduced YOLO, a unified model for object detection. It has simple construction and is trained directly on full 
+              images. Fast-YOLO, a variant of YOLO, is the fastest general purpose object detector. YOLO is best used on real time object 
+              detection. YOLO is ideal for applications which require fast and robust object detection.
+            </p>
+          </div>
+          
+          <!-- Q&A Section -->
+          <p class="lead" style="font-size:24px; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            Q&A:
+          </p>
+          <p style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            Question: Obiora asked what exactly the difference is between R-CNN and YOLO when it comes to classification.
+          </p>
+          <p style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            Answer: The presenter responded that YOLO performs object localization and classification simultaneously 
+            within the same neural network, while R-CNN is a two-stage detector which first generates region 
+            proposals, then performs feature extraction and classification.
+          </p>
+          <p style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            Question: I asked why they only trained DPM on the 2007 Pascal data set while YOLO and Fast YOLO 
+            was trained on the 2007 and 2012 Pascal data sets?
+          </p>
+          <p style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            Answer: The presenter responded by saying the datasets have different data, and likely the data within the 2012 
+            dataset was not usable with the DPM approaches due to the dataset being too complex or not having 
+            the fields that the DPM approach requires.
+          </p>
+          <p style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            Question: Aleksandar asked if all data in the dataset needs to be classified before training?
+          </p>
+          <p style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            Answer: The presenter responded by mentioning the datasets always have the ground truth included within,
+            so a given model can train effectively.
+          </p>
+          <p style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            Question: The professor asked if the grid that YOLO uses can be freely set by the user.
+          </p>
+          <p style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            Answer: The presenter responded by mentioning 7x7 is the standard, but Bassel mentioned the fact that 
+            the paper labels the grid size as SxS, so likely S is a configurable parameter.
+          </p>
+
+          <!-- Discussion Section -->
+          <p class="lead" style="font-size:24px; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            Discussion:
+          </p>
+          <p style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            Students divided into two discussion groups: Aleksandar & Bassel, and Obiora & myself.
+          </p>
+
+          <p style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            Question 1: Would you rather have a security camera powered by YOLO, which is super fast 
+            but sometimes inaccurate, or a slow but highly precise system? Where do you draw the line 
+            between speed and accuracy in real-world applications?
+          </p>
+          <p style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            Obiora: We discussed that for security reasons it is better to combine the two approaches. Using YOLO to detect 
+            if something is suspicious, we can then apply slower models such as R-CNN after the fact to gain better understanding 
+            from further analysis.
+          </p>
+          <p style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            Aleksandar: Agreed that a combination of the two approaches is for the best in this scenario.
+          </p>
+
+          <p style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            Question 2: Extreme conditions like fog, rain, and poor lighting often hinder YOLO's accuracy. Should we accept these 
+            limitations, or should we integrate additional sensors like LiDAR and thermal cameras at the cost of increased system 
+            complexity? What trade-offs should be considered when enhancing YOLO for difficult environments?
+          </p>
+          <p style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            Me: Cutting costs is more likely to be the limiting factor as to why a large variety of sensors aren't supplied 
+            in vehicles, instead of the increase in system complexity being the limiting factor.
+          </p>
+          <p style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+            Aleksandar: Having a variety of sensors is important to ensure that the system is more robust.
+          </p>
+
+          <hr>
+
+          <br><br><br>
+
+        </div>
+
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+  </body>
+
+</html>
