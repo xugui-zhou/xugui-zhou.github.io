@@ -1,0 +1,371 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="De Jong Yeong, Gustavo Velasco-Hernandez, John Barry, Joseph Walsh">
+  <title>Sensor and Sensor Fusion Technology in Autonomous Vehicles: A Review</title>
+  <style>
+    body {
+      background-color: #e6f0ff;
+      font-family: Georgia, serif;
+      line-height: 1.6;
+      margin: 20px;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #002244;
+      font-size: 2em;
+      text-align: center;
+    }
+
+    h2 {
+      text-decoration: underline;
+      color: #004488;
+      margin-top: 30px;
+    }
+
+    h3 {
+      color: #004488;
+      margin-top: 30px;
+    }
+
+    p {
+      color: #444;
+      font-size: 1.1em;
+    }
+
+    .image-left {
+      float: left;
+      margin-right: 20px;
+      margin-bottom: 20px;
+      width: 300px;
+    }
+
+    .clearfix::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+
+    blockquote {
+      font-style: italic;
+      margin: 20px 0;
+      padding: 10px 20px;
+      background-color: #f4f4f4;
+      border-left: 10px solid #ccc;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    footer {
+      margin-top: 50px;
+      text-align: center;
+      color: #777;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 20px 0;
+    }
+
+    table th, table td {
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f4f4f4;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 4em;
+    }
+  </style>
+</head>
+
+<body>
+  <div style="text-align: center;">
+    <h1>Sensor and Sensor Fusion Technology in Autonomous Vehicles: A Review</h1>
+    <p><strong>Authors:</strong> De Jong Yeong, Gustavo Velasco-Hernandez, John Barry, Joseph Walsh</p>
+    <p><strong>Presentation by:</strong> Aleksandar Avdalovic</p>
+    <p><strong>Time of Presentation:</strong> 4th of February 2025</p>
+    <p><strong>Blog post by:</strong> Bassel Succar</p>
+    <p><strong>Link to Paper:</strong></p> 
+    <a href="https://www.mdpi.com/1424-8220/21/6/2140">https://www.mdpi.com/1424-8220/21/6/2140</a>
+  </div>
+  <hr style="border: 1px solid #ccc; margin: 20px 0;">
+
+
+
+  <h2>Summary of the Paper</h2>
+  <div class="clearfix">
+      <p>
+        The paper "Sensor and Sensor Fusion Technology in Autonomous Vehicles: A Review" provides a comprehensive overview of the role of sensors in autonomous vehicles (AVs), emphasizing their importance in perception, localization, and decision-making. It examines key sensor technologies such as cameras, LiDAR, and radar, discussing their strengths, limitations, and performance under various environmental conditions. The paper highlights the necessity of sensor calibration as a prerequisite for accurate data fusion and object detection, reviewing available open-source calibration tools. Additionally, it categorizes sensor fusion approaches into high-level, mid-level, and low-level fusion, evaluating state-of-the-art algorithms that enhance object detection and overall driving safety. The review concludes by addressing challenges in sensor fusion, such as data synchronization and environmental adaptability, while proposing future research directions for improving autonomous vehicle technology.
+      </p>
+  </div>
+
+
+  <h2 class="unnumbered" id="slide-3">Slide 3: Introduction to Autonomous Vehicles</h2>
+  <div class="clearfix">
+      <a href="Slide3.png"><img src="Slide3.png" alt="Introduction to Autonomous Vehicles Image" class="image-left"></a>
+      <p>
+        The slide titled "Introduction to Autonomous Vehicles" provides an overview of key aspects of autonomous driving systems. It highlights concerns related to road safety, the need for automation, and market growth. Examples of current autonomous vehicle implementations include Waymo's SAE Level 4 taxi service in Arizona and Tesla & Audi's SAE Level 2 systems. The slide explains the SAE J3016 automation levels, ranging from Level 0 (No Automation) to Level 5 (Full Automation). Finally, it emphasizes that autonomous vehicles must be capable of handling unpredictable environments, harsh weather conditions, and complex traffic interactions.
+      </p>
+  </div>
+
+
+
+  <h2 class="unnumbered" id="slide-4">Slide 4: AV System Architecture</h2>
+  <div class="clearfix">
+      <a href="Slide4.png"><img src="Slide4.png" alt="AV System Architecture Image" class="image-left"></a>
+      <p>
+        The slide "AV System Architecture" explains the structure of autonomous vehicle systems from both technical and functional perspectives. The technical perspective consists of a hardware layer that includes sensors, processing units, communication modules, and actuators, while the software layer integrates machine learning, artificial intelligence, data collection, real-time control, and user interface/user experience. The functional perspective covers key processes such as perception, which involves sensing and interpreting the environment, planning and decision-making based on sensor data, motion and vehicle control for movement and navigation, and supervision to ensure safe and efficient operation. The diagram on the right visually represents the interaction between hardware, software, and functional components in autonomous vehicle systems.
+      </p>
+  </div>
+
+  <h2 class="unnumbered" id="slide-5">Slide 5: Sensor Technology and Fusion in AV</h2>
+  <div class="clearfix">
+      <a href="Slide5.png"><img src="Slide5.png" alt="Sensor Technology and Fusion in AV Image" class="image-left"></a>
+      <p>
+        The slide "Sensor Technology and Fusion in AV" emphasizes the role of sensors in enabling autonomous vehicle (AV) perception, safety, and efficiency. It differentiates between smart sensors (e.g., cameras, LiDAR, and radar) that process data onboard, and non-smart sensors that generate raw data requiring external processing. Multi-sensor fusion is highlighted as a key technique to compensate for the limitations of individual sensors, supporting applications like localization, mapping, and object detection. The slide also mentions advanced fusion methods using deep learning-based sensor fusion techniques. An intuitive example illustrates how a self-driving car uses data from a camera, radar, and LiDAR to identify a pedestrian in the rain and slow down accordingly.
+      </p>
+  </div>
+
+
+
+  <h2 class="unnumbered" id="slide-6">Slide 6: Sensor Technology in AV</h2>
+  <div class="clearfix">
+      <a href="Slide6.png"><img src="Slide6.png" alt="Sensor Technology in AV Image" class="image-left"></a>
+      <p>
+        The slide "Sensor Technology in AV" explains how sensors detect environmental changes and convert them into measurable data. It differentiates between passive sensors, which use energy from the environment (such as cameras capturing light), and active sensors, which emit energy and measure responses (such as LiDAR and radar). The slide also categorizes sensors based on their function, distinguishing proprioceptive sensors, which measure the vehicle’s internal state like force and angular velocity, from exteroceptive sensors, which gather data about the vehicle’s external environment. The accompanying diagram illustrates the various sensor types and their applications in autonomous vehicles.
+      </p>
+  </div>
+
+
+
+  <h2 class="unnumbered" id="slide-7">Slide 7: Cameras in AVs</h2>
+  <div class="clearfix">
+      <a href="Slide7.png"><img src="Slide7.png" alt="Cameras in AVs Image" class="image-left"></a>
+      <p>
+        The slide "Cameras in AVs" discusses the advantages, types, and challenges of using cameras in autonomous vehicles. Cameras are relatively low-cost compared to other sensors, provide high-resolution images, and can detect both static and moving obstacles, including road signs and traffic lights. The three main types of cameras used are monocular cameras, which lack depth perception, binocular (stereo) cameras, which use two cameras for depth perception, and fisheye cameras, which provide a wide-angle view for 360-degree coverage, making them useful for parking and traffic assistance. However, cameras face challenges such as optical distortion, sensitivity to weather conditions, and high computational load for processing image data.
+      </p>
+  </div>
+
+  <h2 class="unnumbered" id="slide-8">Slide 8: LiDAR in AVs</h2>
+  <div class="clearfix">
+      <a href="Slide8.png"><img src="Slide8.png" alt="LiDAR in Autonomous Vehicles Image" class="image-left"></a>
+      <p>
+        The slide "LiDAR in Autonomous Vehicles" explains LiDAR as a remote sensing technology that emits laser pulses and measures reflection time to estimate distance. It creates a 3D point cloud of the surroundings, enabling precise perception for autonomous vehicles. The slide categorizes LiDAR into three types: 1D LiDAR, which measures only distance (x-coordinates), 2D LiDAR, which adds angular measurement (y-coordinates), and 3D LiDAR, which captures full spatial depth including x, y, and z coordinates. It also differentiates between mechanical LiDAR, which uses rotary lenses for 360-degree scanning and is widely used in AV research, and solid-state LiDAR, which employs micro-structured waveguides for improved robustness and lower cost but typically has a limited field of view (FoV) of less than 120 degrees.
+      </p>
+  </div>
+
+
+
+  <h2 class="unnumbered" id="slide-9">Slide 9: Radar in AVs</h2>
+  <div class="clearfix">
+      <a href="Slide9.png"><img src="Slide9.png" alt="Radar in Autonomous Vehicles Image" class="image-left"></a>
+      <p>
+        The slide "Radar in AVs" explains that radar, or Radio Detection and Ranging, uses electromagnetic waves to detect objects. It measures distance, speed, and relative motion using the Doppler effect and operates at 24 GHz, 60 GHz, 77 GHz, and 79 GHz frequencies. The Doppler shift is used to determine motion by measuring changes in wave frequency. When an object moves toward the radar, the frequency increases (resulting in shorter waves), while moving away causes the frequency to decrease (resulting in longer waves). A formula is provided to calculate the Doppler frequency shift based on factors such as the relative speed of the target, signal frequency, speed of light, and wavelength of emitted energy.
+      </p>
+  </div>
+
+
+  <h2 class="unnumbered" id="slide-10">Slide 10: Radar in AVs</h2>
+  <div class="clearfix">
+      <a href="Slide10.png"><img src="Slide10.png" alt="Radar in Autonomous Vehicles Image" class="image-left"></a>
+      <p>
+        The slide discusses the capabilities and limitations of radar technology in autonomous vehicles. Radar can effectively detect metal objects such as road signs and guardrails but struggles with identifying object shapes and differentiating between obstacles and the road. The slide also highlights different types of radar systems used in AVs. Short-Range Radar (SRR) is used for parking assistance and collision warning, Mid-Range Radar (MRR) is utilized for side and rear collision detection and blind-spot monitoring, while Long-Range Radar (LRR) supports adaptive cruise control and highway obstacle detection. An image visualization on the right demonstrates false-positive detections in radar-based object recognition.
+      </p>
+  </div>
+
+
+  <h2 class="unnumbered" id="slide-11">Slide 11: Sensor Calibration & Fusion</h2>
+  <div class="clearfix">
+      <a href="Slide11.png"><img src="Slide11.png" alt="Sensor Calibration & Fusion Image" class="image-left"></a>
+      <p>
+        The slide "Sensor Calibration & Fusion" highlights the importance of sensor calibration and fusion in autonomous vehicles. Sensor calibration ensures accurate positioning and orientation by addressing intrinsic distortions, aligning multiple sensors in a shared frame (extrinsic calibration), and synchronizing sensor timing (temporal calibration). Sensor fusion combines data from multiple sensors to improve object detection reliability. The Multi-Sensor Data Fusion (MSDF) framework is used to align sensor data using rotation and translation matrices while integrating object detection outputs from different sensors. The accompanying diagram illustrates the sensor alignment process and how data fusion supports tracking and decision-making in AVs.
+      </p>
+  </div>
+
+
+
+  <h2 class="unnumbered" id="slide-12">Slide 12: Intrinsic Camera Calibration in AVs</h2>
+  <div class="clearfix">
+      <a href="Slide12.png"><img src="Slide12.png" alt="Intrinsic Camera Calibration in AVs Image" class="image-left"></a>
+      <p>
+        The slide "Intrinsic Camera Calibration in AVs" explains the process of intrinsic calibration, which corrects lens distortions and estimates camera-specific parameters. The pinhole camera model is commonly used for projecting 3D points onto a 2D image plane. Key intrinsic parameters include focal length (fx, fy), which determines image scaling, principal point (cx, cy), which defines the optical center, and skew (s), which accounts for non-orthogonal axes. The diagram illustrates how light rays pass through a pinhole camera to form an image.
+      </p>
+  </div>
+
+
+  <h2 class="unnumbered" id="slide-13">Slide 13: Camera Projection Matrix</h2>
+  <div class="clearfix">
+      <a href="Slide13.png"><img src="Slide13.png" alt="Camera Projection Matrix Image" class="image-left"></a>
+      <p>
+        The slide "Camera Projection Matrix" explains the mathematical model used to convert 3D world coordinates (Xw, Yw, Zw) into 2D image coordinates (x, y). The camera projection matrix (P) is a 4×3 matrix composed of the intrinsic matrix (K), which defines camera-specific parameters, and the extrinsic matrix [R|t], which represents rotation and translation transformations. The extrinsic transformation maps 3D world points to camera coordinates, while the intrinsic matrix projects them onto the image plane. The slide also mentions Zhang’s calibration method, a widely used checkerboard-based approach for camera calibration.
+      </p>
+  </div>
+
+
+  <h2 class="unnumbered" id="slide-14">Slide 14: Extrinsic Calibration Overview</h2>
+  <div class="clearfix">
+      <a href="Slide14.png"><img src="Slide14.png" alt="Extrinsic Calibration Overview Image" class="image-left"></a>
+      <p>
+        The slide "Extrinsic Calibration Overview" explains how multiple sensors are aligned in a shared 3D coordinate system by estimating position and orientation (6 Degrees of Freedom - DoF) relative to an external reference frame. This process outputs a 3×4 transformation matrix that includes rotation (R) and translation (t). Challenges in extrinsic calibration include matching different sensor data, such as aligning camera images with LiDAR point clouds, and ensuring precise alignment of multi-sensor measurements. Calibration methods include target-based approaches, which use checkerboards, circular markers, or reflectors for accurate alignment, and targetless methods, which estimate motion from sensor data but are sensitive to environmental conditions.
+      </p>
+  </div>
+
+
+
+  <h2 class="unnumbered" id="slide-15">Slide 15: Joint Extrinsic Calibration</h2>
+  <div class="clearfix">
+      <a href="Slide15.png"><img src="Slide15.png" alt="Joint Extrinsic Calibration Image" class="image-left"></a>
+      <p>
+        The slide "Joint Extrinsic Calibration" explains the process of aligning radar, LiDAR, and cameras into a common reference frame. The calibration target consists of four circular holes for camera and LiDAR detection, along with a metallic trihedral corner reflector to enhance radar detection. Various calibration methods are discussed, including Pose & Structure Estimation (PSE), which estimates board locations, Minimally Connected Pose Estimation (MCPE), which uses a reference sensor, and Fully Connected Pose Estimation (FCPE), which optimizes transformations between all sensors. The accompanying image illustrates the proposed calibration target design used for multi-sensor alignment.
+      </p>
+  </div>
+
+
+
+  <h2 class="unnumbered" id="slide-16">Slide 16: Temporal Calibration</h2>
+  <div class="clearfix">
+      <a href="Slide16.png"><img src="Slide16.png" alt="Temporal Calibration Image" class="image-left"></a>
+      <p>
+        The slide "Temporal Calibration" discusses the importance of time synchronization between multi-sensor data streams operating at different frequencies. Sensors have different latencies, such as cameras capturing at 30 FPS while LiDAR operates at 5 Hz, and communication and processing delays can introduce time misalignment. Calibration approaches include external synchronization, which relies on GPS or hardware clocks, and internal synchronization, which uses timestamps within sensor data. Two methods are highlighted: Approximate Time Synchronizer (ROS), which matches messages based on timestamps, and Spatial-Temporal Calibration, which estimates both sensor positions and time delays using Gaussian Processes (GPs).
+      </p>
+  </div>
+
+
+
+
+  <h2 class="unnumbered" id="slide-17">Slide 17: Sensor Fusion</h2>
+  <div class="clearfix">
+      <a href="Slide17.png"><img src="Slide17.png" alt="Sensor Fusion Techniques & Algorithms Image" class="image-left"></a>
+      <p>
+        The slide "Sensor Fusion" highlights different fusion techniques combining cameras, LiDAR, and radar to enhance autonomous vehicle perception. Camera-Radar (CR) fusion provides high-resolution images along with obstacle velocity detection and is used by Tesla. Camera-LiDAR (CL) fusion enhances depth perception and object recognition. Camera-LiDAR-Radar (CLR) fusion combines the strengths of all three sensors, offering precise object detection and distance measurement, and is used by companies like Waymo and Navya. The accompanying table compares the capabilities of individual sensors versus fusion, showing that sensor fusion significantly improves performance across factors such as distance accuracy, object detection, and weather adaptability.
+      </p>
+  </div>
+
+
+  <h2 class="unnumbered" id="slide-18">Slide 18: Sensor Fusion </h2>
+  <div class="clearfix">
+      <a href="Slide18.png"><img src="Slide18.png" alt="Sensor Fusion Techniques & Algorithms Image" class="image-left"></a>
+      <p>
+        The slide categorizes fusion methods into High-Level Fusion (HLF), Low-Level Fusion (LLF), and Mid-Level Fusion (MLF). HLF processes each sensor’s data independently and then fuses the outputs using methods like non-linear Kalman filtering, making it simple to implement but potentially discarding low-confidence detections. LLF fuses raw sensor data before detection, retaining all sensor information for higher accuracy, but requires precise extrinsic and temporal calibration. MLF combines extracted features, such as color from images and depth from LiDAR, offering a balance between raw data and decision-making, though it may lose contextual information necessary for Level 4/5 autonomy.
+      </p>
+  </div>
+
+
+  <h2 class="unnumbered" id="slide-19">Slide 19: Sensor Fusion Techniques & Algorithms</h2>
+  <div class="clearfix">
+      <a href="Slide19.png"><img src="Slide19.png" alt="Sensor Fusion Techniques & Algorithms Image" class="image-left"></a>
+      <p>
+        The slide "Sensor Fusion Techniques & Algorithms" compares classical and deep learning-based approaches for sensor fusion in autonomous vehicles. Classical algorithms use knowledge-based, statistical, and probabilistic methods to handle data uncertainty and noise. Deep learning approaches, including CNNs, RNNs, YOLO, SSD, ResNet, and CenterNet, process raw sensor data and extract features automatically. Frameworks like VoxelFusion and PointFusion combine image and point cloud data. While deep learning methods provide superior object detection and high detection speeds (e.g., YOLO at 45–65 FPS), they require large, high-quality datasets and are computationally intensive. The choice between classical and deep learning methods depends on real-time performance and accuracy requirements for the application.
+      </p>
+  </div>
+
+
+  <h2 class="unnumbered" id="slide-20">Slide 20: Challenges in Sensor Fusion</h2>
+  <div class="clearfix">
+      <a href="Slide20.png"><img src="Slide20.png" alt="Challenges in Sensor Fusion Image" class="image-left"></a>
+      <p>The slide "Challenges in Sensor Fusion" highlights key issues in autonomous vehicle sensor integration. Data volume and computation pose challenges as AVs generate vast amounts of data, requiring significant processing power for real-time fusion. Calibration and synchronization are critical, necessitating precise extrinsic (spatial) and temporal calibration. Data quality and model robustness are concerns since poor sensor data leads to inaccurate perception, and deep learning models are susceptible to adversarial attacks and biases. Environmental factors, such as fog, rain, and snow, can degrade sensor performance, necessitating robust fallback strategies and human intervention options to maintain system reliability.</p>
+     
+  </div>
+
+  <h2 class="unnumbered" id="slide-21-conclusions">Slide 21: Conclusions</h2>
+  <div class="clearfix">
+      <a href="Slide21.png"><img src="Slide21.png" alt="Conclusions Image" class="image-left"></a>
+      <p>Key takeaways from the study on sensor fusion in autonomous vehicles:</p>
+      <ul>
+          <li><strong>Comprehensive Review:</strong> Provides an overview of perception in autonomous driving systems, focusing on cameras, LiDAR, and radar.</li>
+          <li><strong>Sensor Calibration:</strong> Highlights the importance of intrinsic, extrinsic, and temporal calibration for accurate perception.</li>
+          <li><strong>Sensor Fusion:</strong> Discusses high-level, mid-level, and low-level fusion techniques that improve detection reliability.</li>
+          <li><strong>Challenges & Limitations:</strong> Identifies environmental conditions, dataset quality, adversarial robustness, and high computational costs as major challenges.</li>
+      </ul>
+      
+      <p>Future directions for improving sensor fusion:</p>
+      <ul>
+          <li><strong>Automated Calibration:</strong> Enhancing the accuracy and efficiency of sensor calibration processes.</li>
+          <li><strong>Advanced Obstacle Detection using RL:</strong> Implementing reinforcement learning to improve object detection and decision-making.</li>
+          <li><strong>Better Sensors in Harsh Conditions:</strong> Developing more robust sensors capable of handling extreme weather conditions.</li>
+      </ul>
+      
+  </div>
+
+ 
+
+ 
+
+ 
+
+  
+
+
+  <h2 class="unnumbered" id="slide-22-discussion">Slide 22: Discussion</h2>
+  <div class="clearfix">
+      <a href="Slide22.png"><img src="Slide22.png" alt="Discussion Image" class="image-left"></a>
+      <p>
+          The discussion section raises important questions about the challenges and security concerns in autonomous vehicle sensor fusion:
+      </p>
+      <ul>
+          <li>
+              If an attacker wanted to trick an autonomous vehicle using sensor spoofing (e.g., fake LiDAR reflections or adversarial images), what kind of multi-sensor fusion techniques could help prevent these attacks?
+          </li>
+          <li>
+              Given the privacy concerns and vulnerabilities of camera-based systems (e.g., adversarial attacks on road signs, face recognition bans), could AVs operate efficiently without cameras, relying only on LiDAR and radar for perception?
+          </li>
+          <li>
+              Are current sensor technologies enough for AVs, or do we need entirely new types of sensors for safer and smarter autonomy?
+          </li>
+      </ul>
+      <p>
+          These questions highlight the trade-offs in autonomous vehicle perception, balancing security, privacy, and sensor capabilities.
+      </p>
+  </div>
+
+  <h2 class="unnumbered" id="discussion">Discussion</h2>
+
+  <h3>Discussion</h3>
+  
+  <p><strong>Question 1: Are smart sensors better than non-smart sensors?</strong></p>
+  <p>Obiora and George discussed that smart sensors help distribute computing load, making them useful for efficient real-time processing. However, their effectiveness depends on the available resources. The professor added that the decision ultimately depends on the budget and system goals. While smart sensors offer advanced capabilities, they also introduce security risks and additional safety costs, as Aleksandar pointed out.</p>
+  
+  <p><strong>Question 2: What is the final output of radar?</strong></p>
+  <p>The group agreed that radar measures <strong>speed, distance, and relative motion</strong> of objects. The professor further explained that radar data can be used to calculate round-trip time and the Doppler shift, which helps determine whether an object is moving toward or away from the vehicle.</p>
+  
+  <h3>Audience Questions</h3>
+  
+  <p><strong>Q1: Is each sensor calibrated twice?</strong></p>
+  <p>Yes, each sensor is first calibrated <strong>extrinsically</strong> (relative to a global reference frame), and then all sensors are jointly calibrated together to ensure alignment.</p>
+  
+  <p><strong>Q2: Can you explain sensor fusion simply?</strong></p>
+  <p>The professor provided an example of a car driving in the snow. If one sensor is obstructed by snowfall, others like radar or LiDAR can compensate, allowing for more accurate perception and decision-making.</p>
+  
+  <p><strong>Q3: Does combining multiple sensors improve predictions?</strong></p>
+  <p>The professor emphasized that multiple sensors enhance prediction accuracy. By fusing data from different sources, discrepancies caused by individual sensor failures can be minimized.</p>
+  
+  <h3>Security Considerations</h3>
+  
+  <p><strong>Q4: How difficult is it to attack multiple sensors simultaneously?</strong></p>
+  <p>Obiora and George noted that executing a multi-sensor attack is challenging. If one sensor is compromised, discrepancies with the remaining sensors would raise suspicion, making a full-system failure unlikely. The conclusion was that attacking all sensors at once is difficult.</p>
+  
+  <h3>Privacy & Alternative Sensor Usage</h3>
+  
+  <p><strong>Q5: Can autonomous vehicles function without cameras?</strong></p>
+  <p>Bassel and Ruslan pointed out that certain functionalities could operate effectively without cameras, relying on LiDAR and radar for perception.</p>
+  
+  <h3>Optimization Strategies</h3>
+  
+  <p><strong>Q6: Should we develop new sensors or optimize existing ones?</strong></p>
+  <p>Obiora and George suggested that rather than creating entirely new sensors, optimizing the performance of current sensors through advanced fusion techniques could lead to more reliable and cost-effective solutions.</p>
+  
+  
+  
