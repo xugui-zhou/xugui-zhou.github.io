@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DeepDriving Presentation Blog</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      color: #fff;
+    }
+    /* Sticky Navigation Bar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      background: #fff;
+      color: #1e3c72;
+      padding: 10px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar ul li {
+      margin: 5px 10px;
+    }
+    .navbar ul li a {
+      text-decoration: none;
+      color: #1e3c72;
+      font-weight: 700;
+    }
+    /* Main Container */
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 40px auto;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      color: #333;
+    }
+    /* Paper Overview Section */
+    .paper-overview {
+      margin-bottom: 20px;
+    }
+    /* Paper Details */
+    .paper-details {
+      text-align: center;
+      background: #f5f9ff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    .paper-details h1 {
+      margin-top: 0;
+      color: #1e3c72;
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+    .paper-details p {
+      margin: 5px 0;
+      font-size: 0.95rem;
+      color: #333;
+    }
+    .paper-details a {
+      color: #1e3c72;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    /* Paper Summary - changed background color */
+    .paper-summary {
+      background: #e8f5e9;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    .paper-summary h2 {
+      margin-top: 0;
+      color: #1e3c72;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .paper-summary p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #333;
+    }
+    /* Scroll Margin for anchor targets */
+    #slides,
+    #discussion,
+    #audience,
+    #references {
+      scroll-margin-top: 100px;
+    }
+    /* Slide Sections */
+    .slide-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease-in-out, opacity 1s ease;
+      animation: fadeIn 1s ease-out;
+    }
+    .slide-section:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(0,0,0,0.15);
+    }
+    .slide-section img {
+      width: 45%;
+      border-radius: 5px;
+      transition: transform 0.3s ease-in-out;
+      cursor: pointer;
+    }
+    .slide-section:hover img {
+      transform: scale(1.08);
+    }
+    .explanation {
+      width: 50%;
+      padding-left: 20px;
+      text-align: left;
+    }
+    /* Slide Titles */
+    .explanation h2 {
+      margin-top: 0;
+      color: #2a5298;
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+    }
+    /* Fade In Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    /* Discussion and Audience Questions */
+    .discussion, .audience-questions {
+      margin-top: 40px;
+      background: rgba(245, 245, 245, 1);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .discussion h2, .audience-questions h2 {
+      color: #1e3c72;
+      text-align: center;
+      border-bottom: 2px solid #2a5298;
+      padding-bottom: 5px;
+    }
+    .qa-section {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    .qa-section p {
+      margin: 5px 0;
+    }
+    .question {
+      font-weight: bold;
+      color: #007acc;
+    }
+    .answer {
+      color: #333;
+    }
+    /* Modal for Full Screen Image */
+    #modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      align-items: center;
+      justify-content: center;
+    }
+    #modal img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 5px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.5);
+    }
+    /* Back to Top Button */
+    #backToTop {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #1e3c72;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      display: none;
+      z-index: 1001;
+    }
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .slide-section {
+        flex-direction: column;
+      }
+      .slide-section img {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+      .explanation {
+        width: 100%;
+        padding-left: 0;
+      }
+      .navbar ul {
+        flex-direction: column;
+      }
+      .navbar ul li {
+        margin: 10px 0;
+      }
+    }
+    
+    /* Justify all paragraph text in the container */
+    .container p {
+        text-align: justify;
+    }
+  
+  /* Override justification for the "above part" (Paper Details) */
+    .paper-details p {
+        text-align: inherit; /* or left, depending on your preference */
+    }
+  
+    /* Ensure the Summary of the Paper remains justified */
+    .paper-summary p {
+        text-align: justify;
+     }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <ul>
+      <li><a href="#top">Home</a></li>
+      <li><a href="#slides">Slides</a></li>
+      <li><a href="#discussion">Discussion</a></li>
+      <li><a href="#audience">Audience Questions</a></li>
+      <li><a href="#references">References</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="container" id="top">
+    <!-- Paper Overview Section -->
+    <div class="paper-overview">
+      <div class="paper-details">
+        <h1>DeepDriving: Learning Affordance for Direct Perception in Autonomous Driving</h1>
+        <p><strong>Authors:</strong> Chenyi Chen, Ari Seff, Alain Kornhauser, Jianxiong Xiao</p>
+        <p><strong>Presentation by:</strong> Ruslan Akbarzade</p>
+        <p><strong>Time of Presentation:</strong> February 11, 2025</p>
+        <p><strong>Blog post by:</strong> Sujan Gyawali</p>
+        <p>
+          <strong>Link to Paper:</strong>
+          <a href="https://openaccess.thecvf.com/content_iccv_2015/papers/Chen_DeepDriving_Learning_Affordance_ICCV_2015_paper.pdf" target="_blank">
+            Read the Paper
+          </a>
+        </p>
+      </div>
+      <div class="paper-summary">
+        <h2>Summary of the Paper</h2>
+        <p>
+            The paper "DeepDriving: Learning Affordance for Direct Perception in Autonomous Driving" introduces a novel approach to autonomous driving by predicting key driving affordances rather than processing the entire scene or mapping images directly to commands. Traditional Mediated Perception methods require complex scene reconstruction, while Behavior Reflex methods lack interpretability. The proposed Direct Perception model extracts 13 key affordances such as lane distances, heading angles, and vehicle distances using a Convolutional Neural Network (CNN). This study highlights how Direct Perception improves efficiency, interpretability, and generalization to real-world driving scenarios by balancing perception-based and reflex-based approaches.
+        </p>
+      </div>
+    </div>
+
+    <h2>Presentation Breakdown</h2>
+    
+    <!-- Slides Section (All Slides) -->
+    <div id="slides">
+      <!-- Slide 1 -->
+      <div class="slide-section">
+        <img src="slide3.png" alt="Introduction">
+        <div class="explanation">
+          <h2>Introduction</h2>
+          <p>
+            The slide introduces the two main vision-based approaches to autonomous driving: Mediated Perception and Behavior Reflex. Mediated Perception uses significant computational resources and sophisticated object detection to examine the whole scene before deciding what to do. Conversely, Behavior Reflex techniques directly translate raw pictures to driving commands, therefore bypassing organized decision-making and speeding but less interpretable and prone to mistakes. The main difficulty is that neither approach is very computationally efficient or practically flexible. The study introduces Direct Perception, a hybrid method that simply extracts the most pertinent driving affordances instead of processing the whole scene, therefore enabling more efficient and interpretable autonomous decision-making to solve these challenges.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="slide-section">
+        <img src="slide4.png" alt="Suggested Approach">
+        <div class="explanation">
+          <h2>Suggested Approach</h2>
+          <p>
+            The slide presents Direct Perception as a middle-ground approach between Mediated Perception and Behavior Reflex. Using a Convolutional Neural Network (CNN), Direct Perception forecasts important driving-related indications (affordances), like lane distances and vehicle closeness, instead of analyzing every object in a scene or directly mapping images to actions. This guarantees disciplined decision-making, lowers computational complexity, and enhances interpretability. Combining the advantages of both conventional approaches, Direct Perception presents a more dependable and effective alternative for autonomous driving.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="slide-section">
+        <img src="slide5.png" alt="Key Concepts &amp; Terminology">
+        <div class="explanation">
+          <h2>Key Concepts &amp; Terminology</h2>
+          <p>
+            This slide introduces key concepts in Direct Perception for autonomous driving. Indicators like lane distance and car closeness, driven by affordances, guide decisions without considering the whole scenario. Like the design of a door determines its use, figure 4 shows how affordances shape interactions. For organized decision-making, CNNs layer images and identify edges, lane marks, and road features. Whereas the KITTI dataset guarantees real-world model validation, the TORCS simulator offers a controlled training environment. These components taken together offer an interpretable and more efficient driving model.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 4 -->
+      <div class="slide-section">
+        <img src="slide6.png" alt="Literature Background">
+        <div class="explanation">
+          <h2>Literature Background</h2>
+          <p>
+            This slide presents an overview of previous research in autonomous driving, focusing on three main approaches. Based on lane detection research (Aly, 2008) and studies like Kitti Dataset (Geiger et al., 2012), Mediated Perception reconstructs a complete driving environment by identifying lanes, vehicles, and traffic signals. Using deep learning, behavior reflex—end-to-end learning—maps raw visuals to driving actions—shown in models such as ALVINN (1989) and NVIDIA's DAVE-2 (2016). Ultimately, Gibson's (1979) Affordance-Based Learning emphasizes on knowing important driving signs instead of whole scene reconstruction.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 5 -->
+      <div class="slide-section">
+        <img src="slide7.png" alt="Contributions of the Paper">
+        <div class="explanation">
+          <h2>Contributions of the Paper</h2>
+          <p>
+            This slide presents the key contributions of the paper, introducing Direct Perception as a new paradigm that predicts key driving indicators (affordances) instead of analyzing every object in a scene.CNNs are used in the method to estimate 13 affordances including heading angle, vehicle proximity, and lane distances. The results show that by avoiding complicated object identification and substituting structured driving signs instead of raw commands, Direct Perception is more efficient than Mediated Perception and surpasses Behavior Reflex. It offers a small and significant picture of the driving scene, therefore bridging perception and control. Furthermore proving successful sim-to-real transfer and real-world generalization is the method.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 6 -->
+      <div class="slide-section">
+        <img src="slide8.png" alt="Data Collection">
+        <div class="explanation">
+          <h2>Data Collection</h2>
+          <p>
+            This slide presents the data collection methodology used to train the model, focusing on pre-defining 13 driving affordances and leveraging a convolutional neural network (CNN) to detect them for generating driving indicators. TORCS, a freely available open-source driving simulator, was used for dataset collecting. For twelve hours on the simulator, a human driver manually drove a car to generate a dataset of driving images matched with associated affordances. To increase model generality, the gathered data comprised several road designs, lane layouts, and traffic circumstances. Three main kinds of data were gathered: speed and spatial data for tracking the driving environment; RGB images of the road ahead as input for the CNN; affordance indicators such lane distances, vehicle closeness, and heading angle. This ordered dataset improves the model's flexibility in real-world driving conditions and helps it to effectively learn important driving signs.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 7 -->
+      <div class="slide-section">
+        <img src="slide9.png" alt="CNN Architecture">
+        <div class="explanation">
+          <h2>CNN Architecture</h2>
+          <p>
+            This slide presents the CNN architecture used in the model, which is based on AlexNet, a widely used convolutional neural network (CNN). Following pooling layers that lower dimensionality while maintaining important details, the network comprises five convolutional layers extracting fundamental visual information including edges, lane markers, and vehicle shapes. These retrieved features are mapped to 13 affordance markers by the last four completely connected layers, therefore offering a structured depiction of the driving environment. The model learns using supervised learning that is, on images tagged with preset affordances. Whereas backpropagation and optimization change the network's weights over time to improve accuracy, a loss function gauges the gap between anticipated and actual values. Effective decision-making guaranteed by this architecture guarantees dependability and interpretability of autonomous driving models.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 8 -->
+      <div class="slide-section">
+        <img src="slide10.png" alt="Affordance Prediction">
+        <div class="explanation">
+          <h2>Affordance Prediction</h2>
+          <p>
+            This slide presents the affordance prediction approach used in the model.For every incoming RGB image from the front-facing camera, the trained CNN directly predicts 13 affordance markers that characterize the driving environment rather than identifying specific objects. Starting with the input image, CNN layers that identify lane markings, cars, and road curvature feature extraction, so transforming the image. Full connected layers transform the retrieved features—including lane distances, vehicle distances, and heading angle relative to the road—into numerical affordance values. Two main driving actions are made possible by the model: following the lane center line and switching lanes or slowing down to prevent runs-on. Figure 10 graphically shows how many affordances help to make decisions, hence enhancing efficiency and interpretability in autonomous driving.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 9 -->
+      <div class="slide-section">
+        <img src="slide11.png" alt="Affordance to Action Mapping">
+        <div class="explanation">
+          <h2>Affordance to Action Mapping</h2>
+          <p>
+            This slide presents how affordances are mapped to driving actions in autonomous systems. Though they are not direct orders for steering or throttle, the CNN generates 13 affordances. Rather, a controller uses these affordances to ascertain suitable driving behavior. Three main components define the decision-making process: Steering Control, whereby the system modifies the steering angle depending on lane markings and heading angle; Speed Control, whereby the model slows down if a vehicle is detected ahead, otherwise maintaining a constant speed (~72km/h in simulations); and Lane Change Decision, whereby the system checks lane availability and space before switching lanes. Should both lanes be crowded, the model slows down and waits for a gap. Figure 11 shows the controller logic and how dynamically in real-time affordances influence actions.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 10 -->
+      <div class="slide-section">
+        <img src="slide12.png" alt="Whole System Architecture">
+        <div class="explanation">
+          <h2>Whole System Architecture</h2>
+          <p>
+            This slide presents the overall system architecture for autonomous driving, which consists of three main components: Perception, Decision-Making, and Execution.Perception consists on CNN-based affordance prediction, in which the model derives important driving signals from visuals. Decision-making translates these affordances to certain driving actions with a controller. At last, execution is carrying out these steps in real-world and simulated environments. Data is gathered from the TORCS simulator, passed through a shared memory module, evaluated by the CNN for affordance prediction, and lastly the driving controller decides the vehicle's actions depending on the computed affordances in Figure 12.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 11 -->
+      <div class="slide-section">
+        <img src="slide13.png" alt="Testing The Model">
+        <div class="explanation">
+          <h2>Testing The Model</h2>
+          <p>
+            This slide presents how the trained CNN model was evaluated in two different environments: simulation testing in TORCS and real-world testing using driving videos. The model was tested in simulation under several road situations including single-lane, multi-lane, and highway scenarios to evaluate lane-following accuracy, collision avoidance, and lane-changing behavior. The model was tested practically using dashcam videos to assess its capacity to extend beyond simulation. Human judgment was matched with the expected affordances—that which included lane distances and vehicle proximity. Key performance measures are compiled in Table 1 from which a lane-centering error of less than 0.3 meters, a lane change success rate of 90%, and strong correlation with ground truth data from KITTI demonstrate. The model did well, although due to dataset variations slight car detection errors were noted.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 12 -->
+      <div class="slide-section">
+        <img src="slide14.png" alt="Comparison With Baseline Models">
+        <div class="explanation">
+          <h2>Comparison With Baseline Models</h2>
+          <p>
+            This slide compares DeepDriving with three baseline models: Behavior Reflex Approach, Mediated Perception, and GIST Descriptor with Support Vector Regression. While showing erratic behavior in complex traffic, the Behavior Reflex Approach did well in lane following. Mediated Perception struggled with high processing costs and object misclassification while nevertheless obtaining accuracy in controlled environments. Dependent on handcrafted characteristics, GAST Descriptor with SVR was less effective in complex settings, which resulted in noisy lane detection and inaccurate distance estimate. The tables indicate DeepDriving's better performance by a quantitative comparison.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 13 -->
+      <div class="slide-section">
+        <img src="slide15.png" alt="Strengths &amp; Limitations">
+        <div class="explanation">
+          <h2>Strengths &amp; Limitations</h2>
+          <p>
+            Predicting only important affordances allows the Direct Perception Approach to provide effective decision-making by avoiding the complexity of complete scene awareness. Since it offers organized driving indicators rather than raw steering orders, it is more understandable than end-to- end education. On real-world data, the model performs satisfactorily on dashcam films. Furthermore computationally efficient since it reduces computing resources by removing the need for complete object recognition. Limitations exist, though- The model depends on pre-defined 13 affordances, therefore limiting adaptability. Real-world differences could lead to failures; lane change decisions follow rule-based logic, hence dense traffic navigation is difficult.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 14 -->
+      <div class="slide-section">
+        <img src="slide16.png" alt="Future Improvements/Suggestions">
+        <div class="explanation">
+          <h2>Future Improvements/Suggestions</h2>
+          <p>
+            The slide presents potential improvements for enhancing the model's performance. Using more varied training data can assist the model to generalize better to real-world driving scenarios. The slide advises using advanced decision-making or reinforcement learning to handle lane change difficulties in heavy traffic by smoothing out transitions. At last, the slide offers a forum for any other recommendations to improve the strategy.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 15 -->
+      <div class="slide-section">
+        <img src="slide18.png" alt="Review and Thoughts">
+        <div class="explanation">
+          <h2>Review and Thoughts</h2>
+          <p>
+            The slide presents a review of the paper, highlighting its main contributions, strengths, weaknesses, and potential improvements. The major contribution is in presenting Direct Perception as an interpretable substitute for end-to-end driving. It proves successful sim-to-real transfer in real-world settings and shows that a CNN can forecast significant affordances without explicit object detection. Among the positives include computing efficiency, improved interpretability over Behavior Reflex, and applicability to both simulated and real-world settings. Weaknesses in specified affordances, a lack of high-level scene knowledge, and simple lane-changing logic abound, nevertheless. The slide offers suggestions for improvement include adding adaptable affordances, mixing affordance-based models with object-based perception, and using reinforcement learning to support better lane-changing judgments.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 16 -->
+      <div class="slide-section">
+        <img src="slide19.png" alt="Lesson and Takeaways">
+        <div class="explanation">
+          <h2>Lesson and Takeaways</h2>
+          <p>
+            The slide presents key takeaways from the paper, emphasizing that affordance-based learning serves as a middle ground between full scene understanding and end-to-end learning. It highlights that training in simulation is effective, but adapting models to real-world environments remains a challenge. The field is shifting towards data-driven and reinforcement-based approaches rather than solely relying on predefined affordances. Lastly, the slide underlines that explainability is a crucial challenge in AI-driven systems, as interpretability plays a significant role in self-driving decisions.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 17 (Open Questions and Discussions) -->
+      <div class="slide-section">
+        <img src="slide20.png" alt="Open Questions and Discussions">
+        <div class="explanation">
+          <h2>Open Questions and Discussions</h2>
+          <p>
+            The slide presents key discussion points about the future of self-driving technology. It questions whether simulation alone is enough to fully train self-driving cars, considering missing real-world factors like weather, road conditions, and human unpredictability. Another point explores the idea of defining more than 13 affordances, asking if including pedestrian locations or driver intent could improve the system’s decision-making. Finally, it raises an interesting debate: Would AI-driven cars improve traffic flow if human drivers were removed? These open questions invite further exploration and discussion.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- Discussion Section -->
+    <div class="discussion" id="discussion">
+      <h2>Discussion and Class Insights</h2>
+      <div class="qa-section">
+        <p class="question">Q1: Can we fully train self-driving cars in Simulation? Do you know any other simulation enviroments?</p>
+        <p class="answer"><strong>George:</strong> George says he has observed  AI was initially trained using games like chess and Go, later evolving to more complex environments. He wonders if a similar approach could apply to self-driving by using real-world Dashcam footage to analyze crash scenarios and develop AI behaviors to avoid them. George suggests that simulation is especially useful for training AI in rare but critical situations, such as crash avoidance. By continuously gathering data from autonomous vehicles and feeding it into simulations, AI could improve decision-making. However, real-world data remains essential, as simulations alone may not capture all unpredictable scenarios. In summary, George believes that while simulations are valuable for refining AI, a hybrid approach combining both simulation and real-world data is necessary for training reliable self-driving cars.</p>
+        <p class="answer"><strong>Bassel:</strong> Bassel says that while simulation is useful, there might be unexpected scenarios in real driving that simulations can't fully capture. He gives an example of a Tesla accident in Saudi Arabia, where a car crashed into a camel, highlighting how self-driving models may struggle with rare and unpredictable obstacles. This shows the need for real-world testing to improve AI decision-making in diverse environments.</p>
+      </div>
+      <div class="qa-section">
+        <p class="question">Q2: In this paper, 13 affordances used. What if we define more affordances?</p>
+        <p class="answer"><strong>Bassel:</strong> Bassel says that the researchers may have already identified the most important affordances, so increasing the number of affordances does not necessarily improve performance. Adding more affordances could increase complexity without significant benefits, and it may lead to unnecessary computational overhead. Instead, focusing on optimizing the existing affordances might be a more effective approach.</p>
+      </div>
+      <!-- Added question from Slide 17 -->
+      <div class="qa-section">
+        <p class="question">Q3: If all cars on the road were Al-driven, would traffic flow better with purely machine-optimized decision-making?</p>
+        <p class="answer"><strong>Bassel:</strong> Bassel says that if all cars were AI-driven, traffic flow could improve due to optimized decision-making and reduced human errors. However, he also notes that challenges like unpredictable situations, system failures, and ethical concerns must be addressed. He suggests that while AI can enhance efficiency, a fully AI-driven system would require advanced infrastructure and thorough testing to ensure safety.</p>
+      </div>
+    </div>
+
+    <!-- Audience Questions Section -->
+    <div class="audience-questions" id="audience">
+      <h2>Audience Questions and Answers</h2>
+      <div class="qa-section">
+        <p class="question"><strong>Professor:</strong> Could you explain behavioral reflex models? How do they work compared to mediative perception?</p>
+        <p class="answer"><strong>Ruslan:</strong> Yes, there are key differences between the two. Mediative perception involves perception, localization, planning, and control, meaning it analyzes the entire scene before making a decision. In contrast, behavioral reflex models rely on a single AI agent making decisions. These models are trained by recording human driving behavior for extended periods, such as 12 hours, to learn reflexive responses. For example, if a car stops, the model learns how a human would typically react in that situation.</p>
+      </div>
+      <div class="qa-section">
+        <p class="question"><strong>Professor:</strong> What type of input data does the behavioral reflex model use?</p>
+        <p class="answer"><strong>Ruslan:</strong> The model primarily uses sensor data rather than images. However, raw images are still part of the input, as the model processes visual information alongside sensor readings.</p>
+      </div>
+      <div class="qa-section">
+        <p class="question"><strong>Professor:</strong> How does the enabling model record human behavior? How does it work in the learning process?</p>
+        <p class="answer"><strong>Ruslan:</strong> It’s a combination of both raw images and sensor data. The system records how the car behaves in response to different driving scenarios, capturing patterns in human decision-making. This data is then used to train the AI model, allowing it to mimic human reflexes in similar situations.
+        </p>
+      </div>
+      <div class="qa-section">
+        <p class="question"><strong>Obiora:</strong> Have there been real-world implementations of this method in popular self-driving car companies? What test candidates are used for perception and decision-making?</p>
+        <p class="answer"><strong>Ruslan:</strong> I haven’t encountered real-world examples of this specific method being implemented in commercial self-driving cars. Most of the research is still in the theoretical stage, primarily explored through academic papers. However, there may be more recent studies building on these concepts.</p>
+      </div>
+      <div class="qa-section">
+        <p class="question"><strong>Obiora:</strong> Have these methods been applied to self-parking or other driving conditions?</p>
+        <p class="answer"><strong>Ruslan:</strong> Self-parking is a bit simpler compared to this approach. This method focuses more on decision-making in dynamic driving conditions, such as slowing down when there’s a car ahead, overtaking vehicles, and lane changes. While self-parking systems rely on sensors and predefined movements, this method aims to optimize real-time driving decisions.</p>
+      </div>
+    </div>
+
+    <!-- References Section -->
+    <div class="slide-section" id="references">
+      <img src="slide21.png" alt="References">
+      <div class="explanation">
+        <h2>References</h2>
+        <p>
+          [1] M. Aly, (2008). Real-time lane detection. <br>
+          [2] Geiger et al., (2012). KITTI Dataset. <br>
+          [3] D. A. Pomerleau, (1989). ALVINN. <br>
+          [4] NVIDIA DAVID-2, (2016). <br>
+          [5] Huval et al., (2015). Deep Learning on Highway Driving. <br>
+          [6] J. J. Gibson, (1979). The ecological approach to visual perception.
+        </p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal for Full Screen Image -->
+  <div id="modal">
+    <img id="modal-image" src="" alt="Full Screen Image" />
+  </div>
+  
+  <!-- Back to Top Button -->
+  <button id="backToTop">Top</button>
+  
+  <script>
+    // Lightbox functionality for full screen images
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modal-image');
+    document.querySelectorAll('.slide-section img').forEach(img => {
+      img.addEventListener('click', function () {
+        modalImg.src = this.src;
+        modal.style.display = 'flex';
+      });
+    });
+    modal.addEventListener('click', function () {
+      modal.style.display = 'none';
+    });
+  
+    // Back to Top Button functionality
+    const backToTop = document.getElementById('backToTop');
+    window.onscroll = function() {
+      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+        backToTop.style.display = "block";
+      } else {
+        backToTop.style.display = "none";
+      }
+    };
+    backToTop.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
