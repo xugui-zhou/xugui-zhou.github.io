@@ -68,6 +68,18 @@
                         </p>
 
                         <p>
+                            <b>Blog Post 6: BEVFormer </b> <br>
+                            BEVFormer is a spatiotemporal transformer model designed to generate Bird’s-Eye-View (BEV) representations from multi-camera images for autonomous driving. It aims to overcome the limitations of LiDAR-based systems (high cost) and camera-only methods (poor depth estimation). BEVFormer uses spatial cross-attention to extract features from multi-camera views and temporal self-attention to align and integrate historical BEV frames. These components help track object motion and build a unified BEV feature map for 3D detection and map segmentation. The model uses grid-shaped BEV queries tied to real-world coordinates to guide feature extraction. Evaluated on datasets like nuScenes and Waymo, BEVFormer outperforms previous camera-based methods like DETR3D, achieving a 56.9% NDS score. It approaches the performance of some LiDAR-based models, showing its effectiveness in camera-only setups. The architecture enables better object tracking, motion estimation, and recall for low-visibility objects. However, challenges remain in accurately inferring 3D geometry from 2D images. Overall, BEVFormer pushes camera-based 3D perception closer to practical deployment in autonomous vehicles.
+                            [<a href="./presentations/BEVFormer/Blog.html" target="_blank">Read more ...</a>]<br>
+                        </p>
+
+                        <p>
+                            <b>Blog Post 5: SORT </b> <br>
+                            SORT (Simple Online and Realtime Tracking) introduces a fast, lightweight object tracking algorithm that works in real-time by using a tracking-by-detection paradigm. It combines object detection (e.g., using Faster R-CNN), motion prediction via the Kalman filter, and data association using the Hungarian algorithm. While SORT achieves impressive speed and accuracy, it struggles with identity switches, especially during occlusions or when objects are close together. Deep SORT extends SORT by incorporating appearance information through deep learning. It uses a convolutional neural network (CNN) trained on a re-identification dataset to extract appearance features, which are then combined with motion data for better data association. This significantly reduces identity switches and improves tracking through occlusions, although it introduces computational overhead and requires a modern GPU for real-time performance.
+                            [<a href="./presentations/blog post 5/sort.html" target="_blank">Read more ...</a>]<br>
+                        </p>
+
+                        <p>
                             <b>Blog Post 4: DeepDriving </b> <br>
                             The paper "DeepDriving: Learning Affordance for Direct Perception in Autonomous Driving" introduces a novel approach to autonomous driving by predicting key driving affordances rather than processing the entire scene or mapping images directly to commands. Traditional Mediated Perception methods require complex scene reconstruction, while Behavior Reflex methods lack interpretability. The proposed Direct Perception model extracts 13 key affordances such as lane distances, heading angles, and vehicle distances using a Convolutional Neural Network (CNN). This study highlights how Direct Perception improves efficiency, interpretability, and generalization to real-world driving scenarios by balancing perception-based and reflex-based approaches.
                             [<a href="./presentations/blog post 4/blogpost_Deepdrive.html" target="_blank">Read more ...</a>]<br>

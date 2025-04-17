@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DeepDriving Presentation Blog</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      color: #fff;
+    }
+    /* Sticky Navigation Bar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      background: #fff;
+      color: #1e3c72;
+      padding: 10px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar ul li {
+      margin: 5px 10px;
+    }
+    .navbar ul li a {
+      text-decoration: none;
+      color: #1e3c72;
+      font-weight: 700;
+    }
+    /* Main Container */
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 40px auto;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      color: #333;
+    }
+    /* Paper Overview Section */
+    .paper-overview {
+      margin-bottom: 20px;
+    }
+    /* Paper Details */
+    .paper-details {
+      text-align: center;
+      background: #f5f9ff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    .paper-details h1 {
+      margin-top: 0;
+      color: #1e3c72;
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+    .paper-details p {
+      margin: 5px 0;
+      font-size: 0.95rem;
+      color: #333;
+    }
+    .paper-details a {
+      color: #1e3c72;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    /* Paper Summary - changed background color */
+    .paper-summary {
+      background: #e8f5e9;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    .paper-summary h2 {
+      margin-top: 0;
+      color: #1e3c72;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .paper-summary p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #333;
+    }
+    /* Scroll Margin for anchor targets */
+    #slides,
+    #discussion,
+    #audience,
+    #references {
+      scroll-margin-top: 100px;
+    }
+    /* Slide Sections */
+    .slide-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease-in-out, opacity 1s ease;
+      animation: fadeIn 1s ease-out;
+    }
+    .slide-section:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(0,0,0,0.15);
+    }
+    .slide-section img {
+      width: 45%;
+      border-radius: 5px;
+      transition: transform 0.3s ease-in-out;
+      cursor: pointer;
+    }
+    .slide-section:hover img {
+      transform: scale(1.08);
+    }
+    .explanation {
+      width: 50%;
+      padding-left: 20px;
+      text-align: left;
+    }
+    /* Slide Titles */
+    .explanation h2 {
+      margin-top: 0;
+      color: #2a5298;
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+    }
+    /* Fade In Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    /* Discussion and Audience Questions */
+    .discussion, .audience-questions {
+      margin-top: 40px;
+      background: rgba(245, 245, 245, 1);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .discussion h2, .audience-questions h2 {
+      color: #1e3c72;
+      text-align: center;
+      border-bottom: 2px solid #2a5298;
+      padding-bottom: 5px;
+    }
+    .qa-section {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    .qa-section p {
+      margin: 5px 0;
+    }
+    .question {
+      font-weight: bold;
+      color: #007acc;
+    }
+    .answer {
+      color: #333;
+    }
+    /* Modal for Full Screen Image */
+    #modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      align-items: center;
+      justify-content: center;
+    }
+    #modal img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 5px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.5);
+    }
+    /* Back to Top Button */
+    #backToTop {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #1e3c72;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      display: none;
+      z-index: 1001;
+    }
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .slide-section {
+        flex-direction: column;
+      }
+      .slide-section img {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+      .explanation {
+        width: 100%;
+        padding-left: 0;
+      }
+      .navbar ul {
+        flex-direction: column;
+      }
+      .navbar ul li {
+        margin: 10px 0;
+      }
+    }
+    
+    /* Justify all paragraph text in the container */
+    .container p {
+        text-align: justify;
+    }
+  
+  /* Override justification for the "above part" (Paper Details) */
+    .paper-details p {
+        text-align: inherit; /* or left, depending on your preference */
+    }
+  
+    /* Ensure the Summary of the Paper remains justified */
+    .paper-summary p {
+        text-align: justify;
+     }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <ul>
+      <li><a href="#top">Home</a></li>
+      <li><a href="#slides">Slides</a></li>
+      <li><a href="#discussion">Discussion</a></li>
+      <li><a href="#audience">Audience Questions</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="container" id="top">
+    <!-- Paper Overview Section -->
+    <div class="paper-overview">
+      <div class="paper-details">
+        <h1>SORT: Simple Online and Realtime Tracking</h1>
+        <h2>AND</h2>
+        <h1>DEEP SORT: With a Deep Association Metric</h1>
+        <p><strong>Authors(SORT):</strong> Alex Bewley, Zongyuan Ge, Lionel Ott, Fabio Ramos, and Ben Upcroft.
+            </p>
+            <p><strong>Authors(DEEP SORT):</strong> Nicolai Wojke, Alex Bewley, and Dietrich Paulus</p>
+        <p><strong>Presentation by:</strong> George Hendrick</p>
+        <p><strong>Blog post by:</strong> Obiora Odugu</p>
+        <p>
+          <strong>Link to Paper:</strong>
+          <a href="https://ieeexplore.ieee.org/abstract/document/8296962" target="_blank">
+            Read the Paper
+          </a>
+        </p>
+      </div>
+      <div class="paper-summary">
+        <h2>Summary of the Paper</h2>
+        <p>
+            SORT (Simple Online and Realtime Tracking) introduces a fast, lightweight object tracking algorithm that works in real-time by using a tracking-by-detection paradigm. It combines object detection (e.g., using Faster R-CNN), motion prediction via the Kalman filter, and data association using the Hungarian algorithm. While SORT achieves impressive speed and accuracy, it struggles with identity switches, especially during occlusions or when objects are close together. Deep SORT extends SORT by incorporating appearance information through deep learning. It uses a convolutional neural network (CNN) trained on a re-identification dataset to extract appearance features, which are then combined with motion data for better data association. This significantly reduces identity switches and improves tracking through occlusions, although it introduces computational overhead and requires a modern GPU for real-time performance.
+        </p>
+      </div>
+    </div>
+
+    <h2>Presentation Breakdown</h2>
+    
+    <!-- Slides Section (All Slides) -->
+    <div id="slides">
+      <!-- Slide 1 -->
+      <div class="slide-section">
+        <img src="slide3.png" alt="Introduction">
+        <div class="explanation">
+          <h2>Introduction</h2>
+          <p>
+            This slide introduces the SORT tracker, a fast and lightweight system that follows the "tracking-by-detection" paradigm. SORT leverages a Kalman Filter for motion prediction and the Hungarian Algorithm for data association. A key insight is that detection quality significantly impacts tracking accuracy. SORT achieves a tracking speed of 260Hz—20x faster than previous state-of-the-art trackers—although this does not include the time taken for object detection.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="slide-section">
+        <img src="slide4.png" alt="Introduction">
+        <div class="explanation">
+          <h2>Introduction</h2>
+          <p>
+            This slide introduces Deep SORT, which builds upon SORT by integrating deep learning for appearance-based tracking. A deep association metric, trained on a person re-identification dataset, enhances the system’s ability to handle identity switches and occlusions. This innovation bridges the gap between classical MOT systems and modern deep learning-based approaches by combining speed and robust identity tracking.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="slide-section">
+        <img src="slide5.png" alt="Motivation">
+        <div class="explanation">
+          <h2>Motivation</h2>
+          <p>
+            This slide presents the motivation behind SORT and Deep SORT. Prior to these works, MOT methods were either batch-based or traditional online trackers. Batch-based approaches relied on future frame data, making them impractical for real-time use. Meanwhile, online methods required heavy computation and struggled with the trade-off between speed and tracking accuracy. The motivation for these papers was to address these limitations by designing a simple yet effective tracking system suitable for real-time applications.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 4 -->
+      <div class="slide-section">
+        <img src="slide6.png" alt="Literature Background">
+        <div class="explanation">
+          <h2>Literature Background</h2>
+          <p>
+            The background section explores early data association methods in MOT. Techniques such as Global Data Association, Greedy Data Association, and K-Shortest Paths Tracking were all graph-based approaches to matching detections across frames. These methods laid the groundwork for how detection and tracking were handled prior to the rise of deep learning. Models like Faster R-CNN, YOLO, and SSD enabled real-time object detection, which in turn made simple tracking algorithms like SORT more viable. These breakthroughs provided the accuracy and speed needed to allow tracking-by-detection methods to thrive. </p>
+        </div>
+      </div>
+
+      <!-- Slide 5 -->
+      <div class="slide-section">
+        <img src="slide7.png" alt="Contributions of the Paper">
+        <div class="explanation">
+          <h2>Contributions of the Paper</h2>
+          <p>
+            This slide outlines the main contributions of both papers. SORT demonstrated that high-speed tracking was possible without complex models, setting a new benchmark in the MOT field. Deep SORT addressed SORT’s key limitation—identity switches—by incorporating deep feature embeddings. Together, these works influenced MOT research and became widely adopted in autonomous driving, robotics, and surveillance.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 6 -->
+      <div class="slide-section">
+        <img src="slide8.png" alt="Method">
+        <div class="explanation">
+          <h2>Method</h2>
+          <p>
+            The Method employed in sort and deep sort includes 1: Object Detection using Faster R-CNN. 2: Motion Prediction using Kalman Filter. 3: Data Association with Hungarian Algorithm. 4: Track Management to remove lost tracks. Deep SORT Tracking Pipeline Follows the same steps as SORT but adds Appearance Feature Extraction. Uses a CNN-based deep feature embedding to compare object appearances. Integrates Mahalanobis distance and cosine similarity into data association
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 7 -->
+      <div class="slide-section">
+        <img src="slide9.png" alt="Experimental Evaluation">
+        <div class="explanation">
+          <h2>Experimental Evaluation</h2>
+          <p>
+            The slide presents performance metrics. SORT achieved a high MOTA score, low false negatives, and the fewest lost targets among online trackers. These results confirmed that even simple tracking approaches can achieve state-of-the-art performance when paired with strong detectors.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 8 -->
+      <div class="slide-section">
+        <img src="slide10.png" alt="Main insight">
+        <div class="explanation">
+          <h2>Main Insight</h2>
+          <p>
+            This slide reinforces the idea that good tracking depends heavily on detection quality. SORT showed that classical methods could still excel when supported by modern detectors. The paper also positioned SORT as a strong baseline for future MOT improvements.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 9 -->
+      <div class="slide-section">
+        <img src="slide11.png" alt="Main Insight">
+        <div class="explanation">
+          <h2>Main Insight</h2>
+          <p>
+            Deep sort paper extends sort capabilities in areas such as surveillance systems where occulusion can create confusion for the sort algortihm. Other potential applications are in autonomous driving and robotics. </p>
+        </div>
+      </div>
+
+
+      <!-- Slide 10 -->
+      <div class="slide-section">
+        <img src="slide12.png" alt="Future work">
+        <div class="explanation">
+          <h2>Future Work</h2>
+          <p>
+            This section discusses extensions of SORT and Deep SORT, including OC-SORT, Hybrid SORT, AM-SORT, and Deep HM-SORT. Each builds upon the original methods by adding cues like velocity, using transformer models, or tailoring algorithms to specific domains such as sports and adverse weather conditions.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 11 -->
+      <div class="slide-section">
+        <img src="slide13.png" alt="Thoughts">
+        <div class="explanation">
+          <h2>Thoughts</h2>
+          <p>
+            The presenter reflects on SORT speed and simplicity, while recognizing Deep SORT for solving critical tracking issues. The presenter emphasizes that the best approach depends on the application—SORT for speed-critical tasks, Deep SORT for identity-sensitive scenarios.
+          </p>
+        </div>
+      </div>
+
+    <!-- Discussion Section -->
+    <div class="discussion" id="discussion">
+      <h2>Discussion and Class Insights</h2>
+      <div class="qa-section">
+        <p class="question">Q1: Do you believe Deep SORT should be considered an upgrade of SORT and should replace it in most scenarios? Is the speed tradeoff worth the greater tracking capability during periods of occlusion?</p>
+        <p class="answer"><strong>Bassel and Aleksandar:</strong> Bassel and Aleksandar discussed how in AV occlusion might not even be an issue and the need for solving the identity switching can be resolved compared to the application where deep sort and sort were tried on.</p>
+        <p class="answer"><strong>Sujan:</strong> Sujan talks about how deep sort can fit into privacy areas and would better fit such application while sort can be used in Avs further buttressing Bassel and Aleksandar comment.</p>
+      </div>
+    </div>
+
+    <!-- Audience Questions Section -->
+    <div class="audience-questions" id="audience">
+      <h2>Audience Questions and Answers</h2>
+      <div class="qa-section">
+        <p class="question"><strong>Professor:</strong> Professor Xugui asked if the papers are from the same group.</p>
+        <p class="answer"><strong>George:</strong> The first paper (SORT) introduced a simpler object tracking method using Kalman filtering and the Hungarian algorithm. The second paper (Deep SORT) extended it with appearance-based tracking. The first author is the same person</p>
+      </div>
+      <div class="qa-section">
+        <p class="question"><strong>Aleksandar Avdalovic:</strong>  is the function on page 18 focuses on minimization or maximization and what λ (lambda) represent.</p>
+        <p class="answer"><strong>George:</strong> George responded by referring him to the paper for details. The professor added that λ depends on the loss function and is often a parameter that is tuned experimentally.</p>
+      </div>
+      <div class="qa-section">
+        <p class="question"><strong>Sujan Gyawali:</strong> How is Deep SORT used in real-world scenarios and how it is different from YOLO.</p>
+        <p class="answer"><strong>George:</strong> George explained that it is primarily used for tracking humans in videos, but can be applied to general object tracking particularly in AV. He went on to clarify that YOLO is for object detection, while Deep SORT integrates object detection with motion prediction and tracking. Professor added that the general process for AV involves: sensor data → deep learning model for object detection → motion tracking system for object tracking → planning system → low-level control (braking, gas, etc.). He concludes that better tracking systems lead to better vehicle planning. 
+        </p>
+      </div>
+      <div class="qa-section">
+        <p class="question"><strong>Ruslan:</strong> Ruslan mentioned that SORT is good for real-time tracking, while Deep SORT is better for accuracy.</p>
+        <p class="answer"><strong>George:</strong> George clarified that Deep SORT can also be used in real-time, but it is slower than sort.</p>
+      </div>
+    </div>
+
+  <!-- Modal for Full Screen Image -->
+  <div id="modal">
+    <img id="modal-image" src="" alt="Full Screen Image" />
+  </div>
+  
+  <!-- Back to Top Button -->
+  <button id="backToTop">Top</button>
+  
+  <script>
+    // Lightbox functionality for full screen images
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modal-image');
+    document.querySelectorAll('.slide-section img').forEach(img => {
+      img.addEventListener('click', function () {
+        modalImg.src = this.src;
+        modal.style.display = 'flex';
+      });
+    });
+    modal.addEventListener('click', function () {
+      modal.style.display = 'none';
+    });
+  
+    // Back to Top Button functionality
+    const backToTop = document.getElementById('backToTop');
+    window.onscroll = function() {
+      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+        backToTop.style.display = "block";
+      } else {
+        backToTop.style.display = "none";
+      }
+    };
+    backToTop.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
