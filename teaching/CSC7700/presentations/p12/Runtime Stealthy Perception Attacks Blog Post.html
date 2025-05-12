@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title> Runtime Stealthy Perception Attacks against
+DNN-based Adaptive Cruise Control
+Systems</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      color: #fff;
+    }
+    /* Sticky Navigation Bar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      background: #fff;
+      color: #1e3c72;
+      padding: 10px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar ul li {
+      margin: 5px 10px;
+    }
+    .navbar ul li a {
+      text-decoration: none;
+      color: #1e3c72;
+      font-weight: 700;
+    }
+    /* Main Container */
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 40px auto;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      color: #333;
+    }
+    /* Paper Overview Section */
+    .paper-overview {
+      margin-bottom: 20px;
+    }
+    /* Paper Details */
+    .paper-details {
+      text-align: center;
+      background: #f5f9ff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    .paper-details h1 {
+      margin-top: 0;
+      color: #1e3c72;
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+    .paper-details p {
+      margin: 5px 0;
+      font-size: 0.95rem;
+      color: #333;
+    }
+    .paper-details a {
+      color: #1e3c72;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    /* Paper Summary - changed background color */
+    .paper-summary {
+      background: #e8f5e9;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    .paper-summary h2 {
+      margin-top: 0;
+      color: #1e3c72;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .paper-summary p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #333;
+    }
+    /* Scroll Margin for anchor targets */
+    #slides,
+    #discussion,
+    #audience,
+    #references {
+      scroll-margin-top: 100px;
+    }
+    /* Slide Sections */
+    .slide-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease-in-out, opacity 1s ease;
+      animation: fadeIn 1s ease-out;
+    }
+    .slide-section:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(0,0,0,0.15);
+    }
+    .slide-section img {
+      width: 45%;
+      border-radius: 5px;
+      transition: transform 0.3s ease-in-out;
+      cursor: pointer;
+    }
+    .slide-section:hover img {
+      transform: scale(1.08);
+    }
+    .explanation {
+      width: 50%;
+      padding-left: 20px;
+      text-align: left;
+    }
+    /* Slide Titles */
+    .explanation h2 {
+      margin-top: 0;
+      color: #2a5298;
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+    }
+    /* Fade In Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    /* Discussion and Audience Questions */
+    .discussion, .audience-questions {
+      margin-top: 40px;
+      background: rgba(245, 245, 245, 1);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .discussion h2, .audience-questions h2 {
+      color: #1e3c72;
+      text-align: center;
+      border-bottom: 2px solid #2a5298;
+      padding-bottom: 5px;
+    }
+    .qa-section {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    .qa-section p {
+      margin: 5px 0;
+    }
+    .question {
+      font-weight: bold;
+      color: #007acc;
+    }
+    .answer {
+      color: #333;
+    }
+    /* Modal for Full Screen Image */
+    #modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      align-items: center;
+      justify-content: center;
+    }
+    #modal img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 5px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.5);
+    }
+    /* Back to Top Button */
+    #backToTop {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #1e3c72;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      display: none;
+      z-index: 1001;
+    }
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .slide-section {
+        flex-direction: column;
+      }
+      .slide-section img {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+      .explanation {
+        width: 100%;
+        padding-left: 0;
+      }
+      .navbar ul {
+        flex-direction: column;
+      }
+      .navbar ul li {
+        margin: 10px 0;
+      }
+    }
+
+    /* Justify all paragraph text in the container */
+    .container p {
+        text-align: justify;
+    }
+
+  /* Override justification for the "above part" (Paper Details) */
+    .paper-details p {
+        text-align: inherit; /* or left, depending on your preference */
+    }
+
+    /* Ensure the Summary of the Paper remains justified */
+    .paper-summary p {
+        text-align: justify;
+     }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <ul>
+      <li><a href="#top">Home</a></li>
+      <li><a href="#slides">Slides</a></li>
+      <li><a href="#discussion">Discussion</a></li>
+      <li><a href="#audience">Audience Questions</a></li>
+      <li><a href="#references">References</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="container" id="top">
+    <!-- Paper Overview Section -->
+    <div class="paper-overview">
+      <div class="paper-details">
+        <h1> Runtime Stealthy Perception Attacks against
+DNN-based Adaptive Cruise Control
+Systems</h1>
+        <p><strong>Authors:</strong> Xugui Zhou, Anqi Chen, Maxfield Kouzel, Morgan McCarty,
+Cristina Nita-Rotaru, Homa Alemzadeh</p>
+        <p><strong>Presentation by:</strong> Obiora Odugu </p>
+        <p><strong>Time of Presentation:</strong> April 22, 2025</p>
+        <p><strong>Blog post by:</strong> Ruslan Akbarzade</p>
+        <p>
+          <strong>Link to Paper:</strong>
+          <a href="https://arxiv.org/pdf/2307.08939#:~:text=This%20paper%20evaluates%20the%20security%20of%20the%20deep,into%20camera%20data%20to%20cause%20forward%20col-%20lisions." target="_blank">
+            Read the Paper
+          </a>
+        </p>
+      </div>
+      <div class="paper-summary">
+        <h2>Summary of the Paper</h2>
+        <p>
+          The paper "Runtime Stealthy Perception Attacks against DNN-based Adaptive Cruise Control Systems" investigates how adversarial attacks on deep neural networks can compromise the safety of Adaptive Cruise Control (ACC) in autonomous vehicles. The authors propose a dynamic, stealthy attack model that modifies live camera feeds to mislead perception modules without triggering safety interventions like emergency braking. Unlike offline attacks, this method adapts in real-time to changing driving conditions and optimizes the timing and magnitude of perturbations for maximum impact. Their CA-Opt attack outperforms baseline methods (CA-Random, CA-APGD) by increasing collision risks while remaining undetected. The study includes both simulation and real-world evaluations, confirming the attack’s transferability and ability to bypass defense mechanisms. Ultimately, the work highlights the importance of robust perception security, especially in high-risk environments like construction zones.
+    </p>
+      </div>
+    </div>
+
+    <h2>Presentation Recaps</h2>
+
+    <!-- Slides Section (All Slides) -->
+    <div id="slides">
+      <!-- Slide 1 -->
+      <div class="slide-section">
+        <img src="slide2.png" alt="Introduction">
+        <div class="explanation">
+          <h2>Introduction</h2>
+          <p>
+
+            This slide introduces the core threat explored in the paper: stealthy runtime adversarial attacks on vision-based Adaptive Cruise Control (ACC) systems. It highlights how small, targeted image perturbations can mislead the deep neural network into misjudging the position of the lead vehicle, creating a discrepancy between the actual and predicted positions. The attacker subtly alters the live camera feed, fooling the system into thinking the path ahead is clear—leading to a failure to brake and potentially resulting in collisions. The visual flow on the left illustrates how adversarial inputs (e.g., noise added to a stop sign) can propagate through perception models to cause dangerous misinterpretations. This sets the stage for examining how such attacks work, why they are hard to detect, and what implications they have for the safety of real-world autonomous driving systems.
+
+
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="slide-section">
+        <img src="slide3.png" alt="Introduction 2">
+        <div class="explanation">
+          <h2>Introduction 2</h2>
+          <p>
+
+            This slide provides a visual introduction to how Adaptive Cruise Control (ACC) works in modern vehicles. ACC enhances traditional cruise control by dynamically adjusting the vehicle’s speed based on real-time data from sensors such as cameras, radar, or LIDAR. As shown, the system first sets a cruising speed, then uses perception inputs to detect vehicles ahead. If a lead vehicle is detected, ACC automatically reduces speed to maintain a safe distance. Once the lane is clear, it resumes the preset cruising speed. At the heart of ACC functionality is accurate detection and tracking of the lead vehicle, which makes the system highly dependent on the reliability of its sensor-based perception pipeline.
+
+
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="slide-section">
+        <img src="slide4.png" alt="Key Concepts &amp; Terminology">
+        <div class="explanation">
+          <h2>Motivation</h2>
+          <p>
+            This slide presents the motivation behind studying adversarial attacks on ACC systems. It underscores the critical reliance on object detection and tracking for safe operation—any failure in perception directly impacts the vehicle’s ability to maintain safe distances. Existing attack strategies often rely on offline optimizations, making them easier for humans to detect or mitigate. Moreover, built-in safety interventions and anomaly detection mechanisms can sometimes flag suspicious behavior. However, as the image illustrates, even subtle changes like an adversarial patch on a vehicle can fool the model into misclassifying or mislocalizing key objects, all while appearing benign to a human observer. This raises concerns about how easily attackers can exploit the visual pipeline without triggering standard safeguards.
+
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 4 -->
+      <div class="slide-section">
+        <img src="slide5.png" alt="Literature Background">
+        <div class="explanation">
+          <h2>Aim and Contributions</h2>
+          <p>
+            This slide outlines the aim and contributions of the study. The central objective is to examine the vulnerability of ACC systems in runtime conditions where a human is still in the control loop—a key aspect of Level-2 autonomous vehicles. The research focuses on identifying the optimal timing and scenario for launching adversarial attacks that can realistically result in collisions. To achieve this, the authors develop a dynamic optimization-based attack strategy that operates in real-time, rather than relying on static, precomputed plans. As shown in the architecture diagram, the attack targets the DNN-based perception module that feeds into the longitudinal planner of the ACC system. The study further validates its findings through both simulation and real-world testing, with special attention to safety interventions and human oversight.
+
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 6 -->
+      <div class="slide-section">
+        <img src="slide6.png" alt="Contributions of the Paper">
+        <div class="explanation">
+          <h2>Adaptive Cruise Control</h2>
+          <p>
+            This slide breaks down the internal structure of an Adaptive Cruise Control (ACC) system, emphasizing how multiple components interact to ensure safe driving. The system relies on a range of sensors—including cameras, radar, IMU, GPS, and LIDAR—to detect and monitor surrounding vehicles. A deep neural network (DNN) processes this sensor data to estimate relative distance (RD) and relative speed (RS) to the lead vehicle. These values feed into a longitudinal planner, which determines the required acceleration, deceleration, or braking to maintain safe following distances. The vehicle control unit then executes these actions to minimize risk while transitioning to the next state
+            𝑠
+            𝑡
+            +
+            1
+            s
+            t+1
+            ​
+             . This layered architecture highlights the importance of reliable perception, making it a prime target for adversarial manipulation.    </p>
+        </div>
+      </div>
+
+      <!-- Slide 7-->
+      <div class="slide-section">
+        <img src="slide7.png" alt="Data Collection">
+        <div class="explanation">
+          <h2>Attack Model</h2>
+          <p>
+            This slide defines the attack model explored in the study, focusing specifically on manipulating the input to the deep neural network (DNN) to achieve stealthy interference. The attacker’s primary constraint is the ability to modify live camera feeds in real-time. To carry out such an attack, the adversary is assumed to possess a certain level of knowledge about the ACC system design and access mechanisms. These include intercepting image frames during runtime via methods like over-the-air updates, remote access, or even physical projection attacks. The accompanying threat model table categorizes attacker strength—ranging from strong (e.g., malware with internal access) to weak (e.g., external physical manipulations)—along with the corresponding system impact. The focus on runtime DNN input manipulation allows attacks to remain subtle and bypass traditional detection mechanisms.
+
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 7 -->
+      <div class="slide-section">
+        <img src="slide8.png" alt="CNN Architecture">
+        <div class="explanation">
+          <h2>Attack Challenges</h2>
+          <p>
+            This slide highlights the key challenges in launching successful runtime attacks on ACC systems. The first challenge (C1) is determining the optimal timing for an attack—such as when the lead vehicle (LV) is present but undetected—maximizing the risk of a collision. The second challenge (C2) involves generating effective perturbations in real time that adapt to constantly changing driving conditions. Offline-generated attacks often assume fixed vehicle types or scenes, which don’t generalize well in practice. Lastly, challenge C3 addresses the tight real-time constraints of the system; any attack must be computed and executed before the next frame is processed, leaving only milliseconds for optimization. The images visually depict a successful attack where the lead vehicle disappears, misleading the ACC system into thinking the road is clear.
+
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 8 -->
+      <div class="slide-section">
+        <img src="slide9.png" alt="Affordance Prediction">
+        <div class="explanation">
+          <h2>Attack Design</h2>
+          <p>
+
+            This slide illustrates the design of the runtime attack targeting ACC systems. The attack pipeline is divided into offline and runtime stages. In the offline phase, attackers use reverse engineering and credential acquisition (e.g., SSH keys) to gain system access. During runtime, the attack leverages context-aware activation—monitoring live camera frames to determine the optimal moment for interference. It then uses adaptive adversarial patch generation, injecting subtle perturbations or projections into the input stream to fool the DNN model. The left diagram visualizes this multi-stage process, while the safety context table on the right shows how even minor misjudgments—such as accelerating when the headway time (HWT) is unsafe and the relative speed (RS) is positive—can lead to dangerous outcomes. This demonstrates how an attacker can exploit perception errors to violate predefined safety rules and provoke collisions.
+
+
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 9 -->
+      <div class="slide-section">
+        <img src="slide10.png" alt="Affordance to Action Mapping">
+        <div class="explanation">
+          <h2>Attach Design 2</h2>
+          <p>
+            This slide dives deeper into the mathematical formulation and implementation of the attack design. The goal is to generate an adversarial patch
+            Patch
+            𝑡
+            Patch
+            t
+            ​
+              that perturbs the camera frame in a targeted and constrained way, maximizing the DNN’s error in estimating the relative distance (RD) and relative speed (RS) of the lead vehicle. The optimization balances stealth (via small patch norms) and effectiveness (gradient-based loss maximization) under physical and perceptual constraints. The diagram illustrates the full pipeline: clean camera input is subtly modified with a patch generated by identifying key visual regions (e.g., the rear of the lead vehicle), which are then processed through the DNN. The altered perception misleads the control logic of the ACC, ultimately impacting throttle and brake decisions. This approach allows real-time, scene-adaptive attacks that remain hidden from both human drivers and safety systems.
+
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 10 -->
+      <div class="slide-section">
+        <img src="slide11.png" alt="Whole System Architecture">
+        <div class="explanation">
+          <h2>Safety Intervention Simulation</h2>
+          <p>
+            This slide explains how the study evaluates attack robustness in the presence of safety interventions. Using a simulation setup involving OpenPilot, CARLA simulator, and a virtual driver module, the system models how both automated responses and human drivers react to hazards. The framework supports three configurations: (1) AEBS (Automatic Emergency Braking System) enabled with intact camera input, (2) AEBS enabled but compromised by the attack, and (3) AEBS disabled entirely. The driver simulator table details the conditions that trigger responses, such as unexpected acceleration or unsafe following distances, with typical reaction times set at 2.5 seconds. The diagrams illustrate how alerts are prioritized: AEBS acts first, followed by the driver, and finally the ACC system. This layered design allows the researchers to test whether attacks can evade or overpower safety mechanisms under different real-world scenarios.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 12 -->
+      <div class="slide-section">
+        <img src="slide12.png" alt="Testing The Model">
+        <div class="explanation">
+          <h2> Simulation Methods and Results </h2>
+          <p>
+
+            This slide presents the simulation setup and key experimental results addressing three core research questions (RQs).
+
+            RQ1 explores whether timing attacks strategically increases the risk of forward collisions.
+
+            RQ2 tests if designing attacks with stealth in mind preserves their effectiveness despite safety interventions like AEBS or driver overrides.
+
+            RQ3 compares input-level attacks to those targeting control outputs, evaluating which is more effective.
+
+            The study compares several methods, including CA-Random, CA-APGD, and the proposed CA-Opt. The images show visual differences between random, gradient-based (APGD), and optimized adversarial patches. The bar chart highlights that CA-Opt consistently achieves a 100% success rate across all scenarios (SC1–SC4), significantly outperforming other baselines. The table below summarizes configurations and the number of simulations run per method. These results demonstrate that context-aware, optimized attacks on perception inputs are the most effective and resilient, even in safety-critical environments.
+
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 13 -->
+      <div class="slide-section">
+        <img src="slide13.png" alt="Comparison With Baseline Models">
+        <div class="explanation">
+          <h2> Simulation Methods and Results 2 </h2>
+          <p>
+            This slide continues the analysis of simulation results, focusing on how adversarial patch stealthiness affects both visual detectability and attack success. The images on the left show how the patch is adaptively adjusted—shifting and enlarging in response to bounding box changes around the lead vehicle. This dynamic targeting ensures the perturbation remains effective even as vehicle positions shift. The diagram on the right reiterates the central idea: misleading the DNN into overestimating the distance to the lead vehicle, causing the ego vehicle to maintain speed or accelerate.
+
+            The table presents quantitative results across varying stealth levels (λ). Even with increased stealth (smaller pixel perturbations and tighter L2 norms), the attack maintains near-100% success rates. All configurations yield high image similarity metrics (UIQ ≈ 0.993), indicating the perturbations are imperceptible to humans. These findings confirm that even highly stealthy patches can cause significant perception errors without visually alerting drivers or triggering safety systems.          </p>
+        </div>
+      </div>
+
+      <!-- Slide 14 -->
+      <div class="slide-section">
+        <img src="slide14.png" alt="Strengths &amp; Limitations">
+        <div class="explanation">
+          <h2> Simulation Methods and Results 3  </h2>
+          <p>
+
+            This slide analyzes the effectiveness of safety interventions under various AEBS configurations in response to different attack strategies. It reinforces the principle that human oversight is essential in Level-2 autonomous vehicles, as interventions can prevent accidents when properly engaged. The table compares the performance of CA-Random, CA-APGD, and the proposed CA-Opt method. When AEBS is uncompromised, baseline attacks are completely mitigated, while CA-Opt still succeeds nearly 49% of the time, showing its strength in bypassing safeguards. In more vulnerable setups—such as when AEBS is disabled or compromised—the CA-Opt attack achieves an 82.6% success rate, with only 17.4% of hazards being prevented, far outperforming other methods.
+
+            The graph below shows that even as driver perception thresholds increase, CA-Opt maintains high success rates, while intervention rates drop, revealing a growing blind spot in human detection. This emphasizes how subtle, adaptive attacks can slip past both machine and human defenses, underscoring the urgency for stronger safeguards.
+
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 14 -->
+      <div class="slide-section">
+        <img src="slide15.png" alt="Future Improvements/Suggestions">
+        <div class="explanation">
+          <h2> Simulation Methods and Results 4 </h2>
+          <p>
+
+            This slide compares context-aware perception attacks (CA-Opt) to control-output attacks like StrategicOut and OptOut under varying AEBS conditions. The table on the left shows that when AEBS is fully active, StrategicOut has a low success rate (20.3%) but a high hazard prevention rate (79.7%). However, when AEBS is disabled, its success jumps to 81.9%, demonstrating how critical active safety systems are. Meanwhile, CA-Opt perception attacks strike a better balance—achieving a higher success rate (34.5%) than StrategicOut in protected environments, and maintaining stealth without needing to manipulate control outputs directly.
+
+            The plots on the right provide dynamic system behavior comparisons across gas, acceleration, and speed. The vertical dashed line marks the attack initiation point. Notably, CA-Opt causes subtle, realistic deviations, while output-based attacks (e.g., MaxOut and StrategicOut) trigger more drastic changes, making them easier to detect. This underscores the advantage of input-space attacks for real-world stealth and reliability.
+
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 15 -->
+      <div class="slide-section">
+        <img src="slide16.png" alt="Review and Thoughts">
+        <div class="explanation">
+          <h2>Real World Evaluation</h2>
+          <p>
+
+
+            This slide addresses RQ4 and RQ5, which investigate the transferability and stealth of the proposed perception attack in real-world environments. The key question is whether an adversarial patch that works in simulation remains effective when applied to a physical vehicle in a real setting, and whether it can evade modern defense mechanisms. The images demonstrate successful real-world deployment:
+
+            Image 1a shows the system correctly estimating distance without the patch.
+
+            Image 1b shows the patch causing a misleading prediction (i.e., the system sees the lead vehicle as further away).
+
+            Image 2a–2b illustrate the real-world test platform and a collision scenario caused by the manipulated perception.
+
+            Image 2c shows a benign outcome when no attack is applied.
+
+            Image 2d shows the critical moment of system failure, with a brake warning following too late.
+
+            These results confirm that the attack transfers well to physical settings and maintains its stealth, effectively bypassing current adversarial patch defenses and leading to dangerous consequences in autonomous operation.
+
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 16 -->
+      <div class="slide-section">
+        <img src="slide17.png" alt="Discussion">
+        <div class="explanation">
+          <h2> Discussion </h2>
+          <p>
+
+            The final slide raises important open-ended questions about deploying autonomous vehicles (AVs) in real-world scenarios, especially in high-risk environments like construction zones. Citing U.S. Department of Transportation data, the slide highlights that over 42,000 crashes occur annually in work zones, with more than 800 fatalities in 2021—many involving rear-end collisions, reduced visibility, and unexpected maneuvers. These chaotic conditions are particularly challenging for both human drivers and AI systems.
+
+            The discussion prompts explore:
+
+            Whether these unpredictable environments could actually amplify the effectiveness or stealth of adversarial attacks.
+
+            If AVs relying on DNN-based perception are less adaptable than human drivers in such dynamic settings.
+
+            What additional components (e.g., driver reaction delay, AEBS effectiveness) must be realistically simulated to properly evaluate AV safety under these attack conditions.
+
+            These questions underscore the need for future research that bridges simulation, real-world unpredictability, and defense robustness.
+
+          </p>
+        </div>
+      </div>
+
+      <!-- Discussion Section -->
+      <div class="discussion" id="discussion">
+        <h2>Discussion and Class Insights</h2>
+
+        <div class="qa-section">
+          <p class="question">
+            Q1: How might real-world factors in construction zones increase the success rate or stealthiness of an attack on autonomous vehicles?
+          </p>
+          <p class="answer">
+            <strong>George:</strong> George mentioned that fully autonomous systems may struggle significantly in construction zones due to unpredictable lane changes and unfamiliar objects. He emphasized that the environment is too complex, with too many possibilities for the model to handle reliably.
+          </p>
+          <p class="answer">
+            <strong>Bassel & Alex :</strong> They  mentioned that adding the construction sites are already tricky even for human drivers. He suggests highlighting this complexity when discussing the vulnerability of autonomous systems.
+          </p>
+          <p class="answer">
+            <strong>Dr. Zhou:</strong> Professor commented that the angle of the discussion is well chosen. He points out that people may ignore signs or fail to follow instructions in such zones, and having an autonomous system could actually improve safety. He reminds the class that level 2 autonomous vehicles still require human supervision and cites the importance of a final driver check before the last 10 minutes of operation.
+          </p>
+        </div>
+
+        <div class="qa-section">
+          <p class="question">
+            Q2: What elements would you need to include in a simulation or field test to capture risks in construction zones (e.g., driver reaction delay, AEBS response)?
+          </p>
+          <p class="answer">
+            <strong>Ruslan & Sujan :</strong> Ruslan and Sujan raised  the point that future simulations must include factors like driver reaction time and AEBS (Automatic Emergency Braking System) behavior. These components are essential for testing how AVs handle last-minute decisions in unpredictable construction zones.
+          </p>
+        </div>
+      </div>
+
+
+
+  <!-- Modal for Full Screen Image -->
+  <div id="modal">
+    <img id="modal-image" src="" alt="Full Screen Image" />
+  </div>
+
+  <!-- Back to Top Button -->
+  <button id="backToTop">Top</button>
+
+  <script>
+    // Lightbox functionality for full screen images
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modal-image');
+    document.querySelectorAll('.slide-section img').forEach(img => {
+      img.addEventListener('click', function () {
+        modalImg.src = this.src;
+        modal.style.display = 'flex';
+      });
+    });
+    modal.addEventListener('click', function () {
+      modal.style.display = 'none';
+    });
+
+    // Back to Top Button functionality
+    const backToTop = document.getElementById('backToTop');
+    window.onscroll = function() {
+      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+        backToTop.style.display = "block";
+      } else {
+        backToTop.style.display = "none";
+      }
+    };
+    backToTop.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>

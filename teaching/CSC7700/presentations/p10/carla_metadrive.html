@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DeepDriving Presentation Blog</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      color: #fff;
+    }
+    /* Sticky Navigation Bar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      background: #fff;
+      color: #1e3c72;
+      padding: 10px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar ul li {
+      margin: 5px 10px;
+    }
+    .navbar ul li a {
+      text-decoration: none;
+      color: #1e3c72;
+      font-weight: 700;
+    }
+    /* Main Container */
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 40px auto;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      color: #333;
+    }
+    /* Paper Overview Section */
+    .paper-overview {
+      margin-bottom: 20px;
+    }
+    /* Paper Details */
+    .paper-details {
+      text-align: center;
+      background: #f5f9ff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    .paper-details h1 {
+      margin-top: 0;
+      color: #1e3c72;
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+    .paper-details p {
+      margin: 5px 0;
+      font-size: 0.95rem;
+      color: #333;
+    }
+    .paper-details a {
+      color: #1e3c72;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    /* Paper Summary - changed background color */
+    .paper-summary {
+      background: #e8f5e9;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    .paper-summary h2 {
+      margin-top: 0;
+      color: #1e3c72;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .paper-summary p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #333;
+    }
+    /* Scroll Margin for anchor targets */
+    #slides,
+    #discussion,
+    #audience {
+      scroll-margin-top: 100px;
+    }
+    /* Slide Sections */
+    .slide-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease-in-out, opacity 1s ease;
+      animation: fadeIn 1s ease-out;
+    }
+    .slide-section:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(0,0,0,0.15);
+    }
+    .slide-section img {
+      width: 45%;
+      border-radius: 5px;
+      transition: transform 0.3s ease-in-out;
+      cursor: pointer;
+    }
+    .slide-section:hover img {
+      transform: scale(1.08);
+    }
+    .explanation {
+      width: 50%;
+      padding-left: 20px;
+      text-align: left;
+    }
+    /* Slide Titles */
+    .explanation h2 {
+      margin-top: 0;
+      color: #2a5298;
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+    }
+    /* Fade In Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    /* Discussion and Audience Questions */
+    .discussion, .audience-questions {
+      margin-top: 40px;
+      background: rgba(245, 245, 245, 1);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .discussion h2, .audience-questions h2 {
+      color: #1e3c72;
+      text-align: center;
+      border-bottom: 2px solid #2a5298;
+      padding-bottom: 5px;
+    }
+    .qa-section {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    .qa-section p {
+      margin: 5px 0;
+    }
+    .question {
+      font-weight: bold;
+      color: #007acc;
+    }
+    .answer {
+      color: #333;
+    }
+    /* Modal for Full Screen Image */
+    #modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      align-items: center;
+      justify-content: center;
+    }
+    #modal img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 5px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.5);
+    }
+    /* Back to Top Button */
+    #backToTop {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #1e3c72;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      display: none;
+      z-index: 1001;
+    }
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .slide-section {
+        flex-direction: column;
+      }
+      .slide-section img {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+      .explanation {
+        width: 100%;
+        padding-left: 0;
+      }
+      .navbar ul {
+        flex-direction: column;
+      }
+      .navbar ul li {
+        margin: 10px 0;
+      }
+    }
+    
+    /* Justify all paragraph text in the container */
+    .container p {
+        text-align: justify;
+    }
+  
+  /* Override justification for the "above part" (Paper Details) */
+    .paper-details p {
+        text-align: inherit; /* or left, depending on your preference */
+    }
+  
+    /* Ensure the Summary of the Paper remains justified */
+    .paper-summary p {
+        text-align: justify;
+     }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <ul>
+      <li><a href="#top">Home</a></li>
+      <li><a href="#slides">Slides</a></li>
+      <li><a href="#discussion">Discussion</a></li>
+      <li><a href="#audience">Audience Questions</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="container" id="top">
+    <!-- Paper Overview Section -->
+    <div class="paper-overview">
+      <div class="paper-details">
+        <h1>CARLA: An Open Urban Driving Simulator</h1>
+        <p><strong>Authors:</strong> Alexey Dosovitskiy, German Ros, Felipe Codevilla, Antonio Lopez, Vladlen Koltun </p>
+        <h1>MetaDrive: Composing Diverse Driving Scenarios for Generalizable Reinforcement Learning</h1>
+        <p><strong>Authors:</strong> Quanyi Li§*, Zhenghao Peng†*, Lan Feng‡, Qihang Zhang†, Zhenghai Xue†, Bolei Zhou</p>
+        <p><strong>Presentation by:</strong> Ruslan Akbarzade</p>
+        <p><strong>Time of Presentation:</strong> April 15, 2025</p>
+        <p><strong>Blog post by:</strong> Sujan Gyawali</p>
+        <p>
+          <strong>Link to Carla:</strong>
+          <a href="https://proceedings.mlr.press/v78/dosovitskiy17a.html" target="_blank">
+            Read the Paper
+          </a>
+          <strong>Link to MetaDrive:</strong>
+          <a href="https://metadriverse.github.io/metadrive/" target="_blank">
+            Read the Paper
+          </a>
+        </p>
+      </div>
+      <div class="paper-summary">
+        <h2>Summary of the Paper</h2>
+        <p>
+          This presentation compares two autonomous driving simulators: CARLA and MetaDrive. CARLA focuses on high realism using rich visuals, sensor data, and complex traffic environments to support perception-based and imitation learning approaches. In contrast, MetaDrive emphasizes fast, scalable, and modular simulation for training reinforcement learning agents in diverse and procedurally generated scenarios. Together, they highlight the trade-offs between visual realism and training efficiency in developing generalizable self-driving systems.
+        </p>
+      </div>
+    </div>
+
+    <h2>Presentation Breakdown</h2>
+    
+    <!-- Slides Section (All Slides) -->
+    <div id="slides">
+      <!-- Slide 1 -->
+      <div class="slide-section">
+        <img src="1.png" alt="Introduction">
+        <div class="explanation">
+          <h2>Introduction</h2>
+          <p>
+            The slide introduces two simulators used in autonomous driving research: CARLA and MetaDrive. CARLA is a realistic urban driving simulator created in 2017 to help researchers safely train and test self-driving models. MetaDrive, on the other hand, is designed to build diverse driving situations for reinforcement learning agents. It focuses more on speed, efficiency, and generalization. The slide sets the stage for a comparative study between these two tools, showing how each serves different purposes in advancing autonomous vehicle technology.
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="slide-section">
+        <img src="2.png" alt="Suggested Approach">
+        <div class="explanation">
+          <h2>Introduction & Motivation</h2>
+          <p>
+            The slide explains the motivation behind developing CARLA. Testing autonomous vehicles on real roads is risky, especially for rare but dangerous events like children running into the street. Real-world driving is unpredictable, expensive, and full of unique situations that are hard to control. Deep learning models require massive and varied training data, which is difficult to gather from physical testing alone. CARLA addresses these issues by offering a realistic, controllable, and open simulation platform. It allows researchers to safely simulate complex environments, making it a powerful tool for training self-driving systems.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="slide-section">
+        <img src="3.png" alt="Key Concepts &amp; Terminology">
+        <div class="explanation">
+          <h2>Literature Background – Simulators Before CARLA</h2>
+          <p>
+            The slide reviews older driving simulators used before CARLA and explains why they were not suitable for realistic autonomous driving research. TORCS, developed in 1977, was open-source and lightweight but only supported racetracks without pedestrians or traffic rules, making it unrealistic for urban driving studies. Commercial games like GTA V offered rich graphics and traffic environments, but lacked access to internal control systems and did not support sensor modeling or custom training tasks. Academic simulators were often built for a single paper and were hard to reuse or generalize. These limitations highlighted the need for a more flexible and realistic simulator like CARLA that could support diverse, safe, and reproducible research.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 4 -->
+      <div class="slide-section">
+        <img src="4.png" alt="What is CARLA?">
+        <div class="explanation">
+          <h2>What is CARLA?</h2>
+          <p>
+            This slide introduces CARLA (Car Learning to Act), an open-source simulator built specifically for autonomous driving research. It was developed from scratch using Unreal Engine 4 to offer high-quality graphics and realistic physics. CARLA provides a variety of prebuilt urban environments with buildings, vehicles, pedestrians, and weather conditions. It supports many types of sensors like RGB cameras, depth sensors, GPS, and segmentation. What makes CARLA unique is its focus on self-driving systems—it’s not just a modified video game. It offers full control over scenes, supports different learning approaches like modular pipelines, imitation learning, and reinforcement learning, and allows precise testing through scripting and feedback on collisions or traffic rule violations.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 5 -->
+      <div class="slide-section">
+        <img src="5.png" alt="Inside CARLA – Simulation Engine & Architecture">
+        <div class="explanation">
+          <h2>Inside CARLA – Simulation Engine & Architecture</h2>
+          <p>
+            This slide explains the technical setup of CARLA, which is built on Unreal Engine 4 for realistic visuals and physics. CARLA uses a client-server architecture where the server handles the simulation and the client (written in Python) sends commands, changes the environment, and receives sensor data. Users can control everything from vehicle behavior to weather and sensor types. The system is fully programmable, supporting RGB cameras, depth sensors, GPS, and more. The diagram on the right shows how CARLA’s server communicates with Python scripts and how sensor outputs are collected. It also illustrates how different levels—like perception, planning, and control—work together to run an autonomous vehicle in simulation.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 6 -->
+      <div class="slide-section">
+        <img src="6.png" alt="CARLA in Autonomous Driving – Performances (Modular Pipeline)">
+        <div class="explanation">
+          <h2>CARLA in Autonomous Driving – Performances (Modular Pipeline)</h2>
+          <p>
+            This slide shows how a modular pipeline works in CARLA for self-driving tasks. The system is divided into three parts: perception, planning, and control. In the perception module, the system uses RefineNet to understand the scene by labeling roads, lanes, cars, and people. It also uses AlexNet to detect intersections. The planning part uses rules to decide what the car should do next—like turning or stopping—based on its current situation. The control module then uses a PID controller to move the car by adjusting the steering, throttle, and brakes. This classic method is easy to understand and is often used in early self-driving car models.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 7 -->
+      <div class="slide-section">
+        <img src="7.png" alt="CARLA in Autonomous Driving – Imitation Learning">
+        <div class="explanation">
+          <h2>CARLA in Autonomous Driving – Imitation Learning</h2>
+          <p>
+            This slide explains how imitation learning works in CARLA. The system learns by watching expert drivers. It takes input like camera images, speed, and commands, and uses a deep network to learn how to drive. The model has different parts to understand the input and control the car. It can decide to go straight, turn, or follow the lane—giving steering, throttle, and brake as outputs.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 8 -->
+      <div class="slide-section">
+        <img src="8.png" alt="Experimental Setup Overview">
+        <div class="explanation">
+          <h2>Experimental Setup Overview</h2>
+          <p>
+            This slide shows how the experiments were done. CARLA has two towns: Town 1 for training and Town 2 for testing. Each town has roads, sidewalks, and traffic. Three methods were tested: modular pipeline, imitation learning, and reinforcement learning. Each method was tested in different weather and locations using four tasks—driving straight, turning once, navigating with no traffic, and navigating with full traffic. Each setup ran 25 times.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 9 -->
+      <div class="slide-section">
+        <img src="9.png" alt="Results / Discussion">
+        <div class="explanation">
+          <h2>Results / Discussion</h2>
+          <p>
+            This slide shows how well each method performed. Imitation Learning worked best in most cases. Modular Pipeline did well in training areas but got worse in new towns. Reinforcement Learning performed the worst, especially when there were obstacles or changes. The hardest setup for all methods was a new town with new weather, which tested how well they could adapt to new situations.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 10 -->
+      <div class="slide-section">
+        <img src="10.png" alt="What Did We Learn From CARLA?">
+        <div class="explanation">
+          <h2>What Did We Learn From CARLA?</h2>
+          <p>
+            This slide shows what we learned by using CARLA. It tested three driving methods: modular pipeline, imitation learning, and reinforcement learning. Imitation learning did the best overall, even in new towns and weather. Reinforcement learning had trouble and needed a lot of training. CARLA helped test all methods in a safe, repeatable way, but it requires strong computers and time to run well.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 11 -->
+      <div class="slide-section">
+        <img src="11.png" alt="What Did We Learn From CARLA?">
+        <div class="explanation">
+          <h2>What Did We Learn From CARLA?</h2>
+          <p>
+            The video shows the different simulation environments and features available in CARLA.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 12 -->
+      <div class="slide-section">
+        <img src="12.png" alt="MetaDrive – Introduction & Motivation">
+        <div class="explanation">
+          <h2>MetaDrive – Introduction & Motivation</h2>
+          <p>
+            This slide introduces MetaDrive, a simulator made in 2022 for training AI using reinforcement learning. It is small, fast, and easy to use. MetaDrive creates many driving scenarios automatically and can also use real-world maps. It helps test how well AI can learn safe driving, work with other cars, and handle new roads. It runs fast and works well with popular AI tools like OpenAI Gym and Stable Baselines.
+        </div>
+      </div>
+
+      <!-- Slide 13 -->
+      <div class="slide-section">
+        <img src="13.png" alt=" MetaDrive – Motivation">
+        <div class="explanation">
+          <h2> MetaDrive – Motivation</h2>
+          <p>
+            This slide explains why MetaDrive was created. Older simulators like CARLA look realistic but are slow and hard to use for reinforcement learning. MetaDrive is faster and easier to scale. It creates many different road layouts and traffic setups using blocks. This helps train AI that can handle new situations. MetaDrive focuses on efficiency for research, not just visual quality.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 14 -->
+      <div class="slide-section">
+        <img src="14.png" alt="MetaDrive – Features & System Design">
+        <div class="explanation">
+          <h2>MetaDrive – Features & System Design</h2>
+          <p>
+            This slide shows what makes MetaDrive powerful. It builds different types of roads using small blocks, instead of manually drawing them. It can also use real map data from sources like Waymo and Argoverse. We can change settings like actions, rewards, and when the driving ends. It runs fast, uses little memory, and supports many cars at once for testing. The top images show road layouts recreated from real datasets like Waymo and Argoverse. The bottom image shows how MetaDrive builds a driving map by combining different road pieces like curves, ramps, and roundabouts.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 15 -->
+      <div class="slide-section">
+        <img src="15.png" alt="MetaDrive – Capabilities">
+        <div class="explanation">
+          <h2>MetaDrive – Capabilities</h2>
+          <p>
+            This slide explains what kind of tasks MetaDrive can handle. It supports single-agent tasks like lane following, goal reaching, and intersection handling. It also allows multi-agent training, where cars share the road and learn to cooperate or compete. Users can adjust how hard the task is by changing traffic, road shapes, or number of vehicles. The main goals are to test how stable, efficient, and generalizable the AI is. The images show different views and sensors used in MetaDrive, like RGB cameras, point clouds, and bird-eye view. There's also a human-in-the-loop setup with a steering wheel for control.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 16 -->
+      <div class="slide-section">
+        <img src="16.png" alt="MetaDrives Does it Close The Gaps?">
+        <div class="explanation">
+          <h2>MetaDrives Does it Close The Gaps?</h2>
+          <p>
+            This slide compares MetaDrive with other driving simulators. Many simulators are either realistic but slow, or fast but missing key features. MetaDrive offers a good balance. It supports many features like unlimited scenarios, multiple agents, custom maps, and real data importing—while staying lightweight and fast.The table compares popular simulators like CARLA, GTA V, TORCS, and SUMO. MetaDrive checks most boxes, showing it can close many gaps that other simulators leave open.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 17 -->
+      <div class="slide-section">
+        <img src="17.png" alt="Training and Evaluation Setup">
+        <div class="explanation">
+          <h2>Training and Evaluation Setup</h2>
+          <p>
+            This slide explains how agents are trained and tested in MetaDrive. It uses common reinforcement learning methods like PPO, A3C, TD3, and SAC. The agents interact with the simulator using a standard OpenAI Gym format. MetaDrive can run many simulations at once to save time and uses rewards to guide the agents' behavior. The diagrams show how the environment and agent communicate using the PPO and A3C algorithms. The Gym logo shows compatibility with popular AI training tools.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 18 -->
+      <div class="slide-section">
+        <img src="18.png" alt="Modular Managers and Scenario Composition">
+        <div class="explanation">
+          <h2>Modular Managers and Scenario Composition</h2>
+          <p>
+            This slide explains how managers in MetaDrive control different parts of the simulation. These include the map, traffic, objects like cones or gates, and the ego (main) car. We can mix different managers to build rich and varied driving scenes. Everything can be controlled using simple Python commands. The top row shows how different managers (like multi-agent or object managers) change the layout of a roundabout. The bottom row shows similar setups using real-world Waymo maps.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 19 -->
+      <div class="slide-section">
+        <img src="19.png" alt="MetaDrive - Creating Roads Using Blocks">
+        <div class="explanation">
+          <h2>MetaDrive - Creating Roads Using Blocks</h2>
+          <p>
+            This slide explains how MetaDrive creates road networks. Roads can be built in two ways: by using small pieces like curves and ramps (procedural generation), or by importing real maps. A smart method called BIG (Block Incremental Generation) adds one road piece at a time until a complete map is ready. The top image shows types of road blocks used—like curves, forks, and roundabouts. The bottom rows show examples of maps made with 5, 7, and 20 blocks. The right side shows how maps are described using simple code.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 20  -->
+      <div class="slide-section">
+        <img src="20.png" alt="Ethical Statement/Limitations">
+        <div class="explanation">
+          <h2>Ethical Statement/Limitations</h2>
+          <p>
+            This slide presents the ethical concerns and limitations of MetaDrive. It warns about the risks of using AI trained in simulation directly in real life and notes that MetaDrive is only for research. The visual comparison again shows that MetaDrive has lower visual realism than real-world driving data.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 21 -->
+      <div class="slide-section">
+        <img src="21.png" alt="Conclusion">
+        <div class="explanation">
+          <h2>Conclusion</h2>
+          <p>
+            This slide compares MetaDrive and CARLA. MetaDrive is fast, flexible, and good for training reinforcement learning (RL) agents in many types of driving tasks. It works well for safe and scalable AI training. CARLA, on the other hand, is very realistic and great for testing vision-based models and sensor setups. It’s useful when trying to transfer simulation to real-world driving (Sim2Real). The MetaDrive images show simple, fast-running driving environments. The CARLA images show rich and detailed scenes with lighting and pedestrians, useful for testing camera-based AI.
+          </p>
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 22  -->
+      <div class="slide-section">
+        <img src="22.png" alt="Conclusion – Beyond the Paper">
+        <div class="explanation">
+          <h2>Conclusion – Beyond the Paper</h2>
+          <p>
+            This slide looks at where the research is heading. One major goal is Sim2Real, which means moving trained AI from simulation to the real world. Another focus is corner case simulation—testing rare and risky situations. MetaDrive is also being improved for multi-agent learning, like toll gates or group driving.In the future, these simulators can help build safe self-driving cars, drones, and assistive robots. They reduce testing costs, improve safety, and allow AI to train in situations too dangerous to try in real life. The logos and diagrams show other tools like VISTA and Scenic, which also focus on training AI with safety in mind.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 23 -->
+      <div class="slide-section">
+        <img src="23.png" alt="Conclusion - My Thoughts">
+        <div class="explanation">
+          <h2>Conclusion - My Thoughts</h2>
+          <p>
+            This slide shares the presenter’s view. MetaDrive is great for fast and flexible training, especially for testing new ideas quickly. CARLA, on the other hand, is better for learning based on visuals and realism. MetaDrive is efficient, while CARLA is rich in detail and closer to real-world driving. Both tools have strengths and are best used based on the goal of the project. The slide highlights how both simulators serve clear but different purposes. One is for speed and scale; the other for realism and accuracy.
+          </p>
+        </div>
+      </div>
+       <!-- Slide 24 (Open Questions and Discussions) -->
+       <div class="slide-section">
+        <img src="24.png" alt="Discussion Questions">
+        <div class="explanation">
+          <h2>Discussion Questions</h2>
+          <p>
+            This slide asks key questions about choosing the right simulator. Should you prioritize realism (like CARLA) or speed and flexibility (like MetaDrive)? It also raises concerns about missing pedestrians in training and asks whether simulators should focus more on real-world accuracy or efficient learning.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- Discussion Section -->
+    <div class="discussion" id="discussion">
+      <h2>Discussion and Class Insights</h2>
+      <div class="qa-section">
+        <p class="question">Q1: 1. You’re developing an AI system that autonomously drives ambulances through congested urban areas.The system must learn how to:– Handle unpredictable traffic– Make fast but safe decisions– React to edge cases like roadblocks or aggressive drivers
+          Which simulator (CARLA or MetaDrive) would you choose to prototype and test this system, and why?What would be your testing priorities: realism, response time, or decision diversity?</p>
+        <p class="answer"><strong>Aleksandar:</strong> For the first case, I would choose CARLA. It lets me simulate different corner cases and hidden dangers using scripts. MetaDrive doesn’t support this kind of detailed scenario control, so it wouldn’t be as useful here.  </p>
+        <p class="answer"><strong>George:</strong> I agree CARLA is a better choice for the first question because it has more visual detail and can simulate things like pedestrians more realistically. </p>
+        <p class="answer"><strong>Obiora:</strong> When I was listening to the presentation, I kept thinking, how can this be used in construction? I didn’t even know that CARLA has a construction environment that was new to me. I’ve actually been searching for simulation tools that are already set up for construction use.</p>
+      </div>
+      <div class="qa-section">
+        <p class="question">Q2:MetaDrive doesn't include pedestrians or cyclists.CARLA has limited human-like behavior.If your agent is trained in a world where pedestrians don't exist, is it “fair” to expect it to handle them safely in the real world? Why? How can we include the effects of pedestrians in traffic?
+          </p>
+          <p class="answer"><strong>Aleksandar:</strong> For the second question, I don’t think it’s fair to expect an agent trained without obstacles like pedestrians to perform safely in the real world. The real world is very different—if the agent has never seen those challenges during training, it won’t know how to react properly.</p>
+          <p class="answer"><strong>George:</strong> For the second question, if the training environment doesn’t include pedestrians, then the model won't know how to detect or react to them properly. That’s why it’s important to combine simulation data with real-world data, especially for rare or risky situations. This helps create a more balanced and complete training dataset. Ideally, the model should be trained on scenarios that include pedestrians so it can learn to handle them safely.</p>
+      </div>
+    <!-- Audience Questions Section -->
+    <div class="audience-questions" id="audience">
+      <h2>Audience Questions and Answers</h2>
+      <div class="qa-section">
+        <p class="question"><strong>No questions were asked during a presentation. </strong></p>
+      </div>
+  
+  <!-- Modal for Full Screen Image -->
+  <div id="modal">
+    <img id="modal-image" src="" alt="Full Screen Image" />
+  </div>
+  
+  <!-- Back to Top Button -->
+  <button id="backToTop">Top</button>
+  
+  <script>
+    // Lightbox functionality for full screen images
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modal-image');
+    document.querySelectorAll('.slide-section img').forEach(img => {
+      img.addEventListener('click', function () {
+        modalImg.src = this.src;
+        modal.style.display = 'flex';
+      });
+    });
+    modal.addEventListener('click', function () {
+      modal.style.display = 'none';
+    });
+  
+    // Back to Top Button functionality
+    const backToTop = document.getElementById('backToTop');
+    window.onscroll = function() {
+      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+        backToTop.style.display = "block";
+      } else {
+        backToTop.style.display = "none";
+      }
+    };
+    backToTop.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Robust Physical-World Attacks on Deep Learning Visual Classification Presentation Blog</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      color: #fff;
+    }
+    /* Sticky Navigation Bar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      background: #fff;
+      color: #1e3c72;
+      padding: 10px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar ul li {
+      margin: 5px 10px;
+    }
+    .navbar ul li a {
+      text-decoration: none;
+      color: #1e3c72;
+      font-weight: 700;
+    }
+    /* Main Container */
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 40px auto;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      color: #333;
+    }
+    /* Paper Overview Section */
+    .paper-overview {
+      margin-bottom: 20px;
+    }
+    /* Paper Details */
+    .paper-details {
+      text-align: center;
+      background: #f5f9ff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    .paper-details h1 {
+      margin-top: 0;
+      color: #1e3c72;
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+    .paper-details p {
+      margin: 5px 0;
+      font-size: 0.95rem;
+      color: #333;
+    }
+    .paper-details a {
+      color: #1e3c72;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    /* Paper Summary - changed background color */
+    .paper-summary {
+      background: #e8f5e9;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    .paper-summary h2 {
+      margin-top: 0;
+      color: #1e3c72;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .paper-summary p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #333;
+    }
+    /* Scroll Margin for anchor targets */
+    #slides,
+    #discussion,
+    #audience,
+    #references {
+      scroll-margin-top: 100px;
+    }
+    /* Slide Sections */
+    .slide-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease-in-out, opacity 1s ease;
+      animation: fadeIn 1s ease-out;
+    }
+    .slide-section:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(0,0,0,0.15);
+    }
+    .slide-section img {
+      width: 45%;
+      border-radius: 5px;
+      transition: transform 0.3s ease-in-out;
+      cursor: pointer;
+    }
+    .slide-section:hover img {
+      transform: scale(1.08);
+    }
+    .explanation {
+      width: 50%;
+      padding-left: 20px;
+      text-align: left;
+    }
+    /* Slide Titles */
+    .explanation h2 {
+      margin-top: 0;
+      color: #2a5298;
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+    }
+    /* Fade In Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    /* Discussion and Audience Questions */
+    .discussion, .audience-questions {
+      margin-top: 40px;
+      background: rgba(245, 245, 245, 1);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .discussion h2, .audience-questions h2 {
+      color: #1e3c72;
+      text-align: center;
+      border-bottom: 2px solid #2a5298;
+      padding-bottom: 5px;
+    }
+    .qa-section {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    .qa-section p {
+      margin: 5px 0;
+    }
+    .question {
+      font-weight: bold;
+      color: #007acc;
+    }
+    .answer {
+      color: #333;
+    }
+    /* Modal for Full Screen Image */
+    #modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      align-items: center;
+      justify-content: center;
+    }
+    #modal img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 5px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.5);
+    }
+    /* Back to Top Button */
+    #backToTop {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #1e3c72;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      display: none;
+      z-index: 1001;
+    }
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .slide-section {
+        flex-direction: column;
+      }
+      .slide-section img {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+      .explanation {
+        width: 100%;
+        padding-left: 0;
+      }
+      .navbar ul {
+        flex-direction: column;
+      }
+      .navbar ul li {
+        margin: 10px 0;
+      }
+    }
+    
+    /* Justify all paragraph text in the container */
+    .container p {
+        text-align: justify;
+    }
+  
+  /* Override justification for the "above part" (Paper Details) */
+    .paper-details p {
+        text-align: inherit; /* or left, depending on your preference */
+    }
+  
+    /* Ensure the Summary of the Paper remains justified */
+    .paper-summary p {
+        text-align: justify;
+     }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <ul>
+      <li><a href="#top">Home</a></li>
+      <li><a href="#slides">Slides</a></li>
+      <li><a href="#discussion">Discussion</a></li>
+      <li><a href="#audience">Audience Questions</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="container" id="top">
+    <!-- Paper Overview Section -->
+    <div class="paper-overview">
+      <div class="paper-details">
+        <h1>Robust Physical-World Attacks on Deep Learning Visual Classification</h1>
+        <p><strong>Authors:</strong> Kevin Eykholt, Ivan Evtimov, Earlence Fernandes, Bo Li, Amir Rahmati, Chaowei Xiao, Atul Prakash, Tadayoshi Kohno, and Dawn Song.
+            </p>
+        <p><strong>Presentation by:</strong> George Hendrick</p>
+        <p><strong>Blog post by:</strong> Obiora Odugu</p>
+        <p>
+          <strong>Link to Paper:</strong>
+          <a href="https://ieeexplore.ieee.org/document/8578273" target="_blank">
+            Read the Paper
+          </a>
+        </p>
+      </div>
+      <div class="paper-summary">
+        <h2>Summary of the Paper</h2>
+        <p>
+          This paper introduces RP2 (Robust Physical Perturbation), a novel algorithm that generates physical adversarial perturbations capable of deceiving deep neural network (DNN) classifiers under real-world conditions. The authors target road sign classification, demonstrating how small, graffiti-like stickers applied to stop signs can mislead DNNs into classifying them as different signs (e.g., Speed Limit 45). These attacks remain effective despite environmental changes in lighting, angle, and distance. The study proposes a two-stage evaluation—lab and drive-by tests—to simulate real-world scenarios. Results show up to 100% targeted misclassification in lab tests and 84.8% in field tests. The paper also extends the attack to general objects like microwaves, which are misclassified as phones. By highlighting vulnerabilities in vision-based AI systems, this work emphasizes the urgent need for robust defenses against physical-world adversarial examples in safety-critical applications like autonomous driving.
+        </p>
+      </div>
+    </div>
+
+    <h2>Presentation Breakdown</h2>
+    
+    <!-- Slides Section (All Slides) -->
+    <div id="slides">
+      <!-- Slide 1 -->
+      <div class="slide-section">
+        <img src="slide1.png" alt="Motivation">
+        <div class="explanation">
+          <h2>Motivation</h2>
+          <p>
+            This slide explains the motivation behind the study. It highlights that deep neural networks, despite their success, are vulnerable to small, human-imperceptible perturbations. The authors aim to explore how such adversarial examples behave in the physical world using road signs as the test case
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="slide-section">
+        <img src="slide2.png" alt="Introduction">
+        <div class="explanation">
+          <h2>Introduction</h2>
+          <p>
+            Here, the authors justify the use of road sign classification: Road signs are simple yet critical. They appear in dynamic, uncontrolled environments. Misclasification can pose serious safety threats. This sets the stage for understanding real-world adversarial threats.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="slide-section">
+        <img src="slide3.png" alt="Background">
+        <div class="explanation">
+          <h2>Background</h2>
+          <p>
+            This slide provides a foundational understanding:
+
+Digital adversarial examples (e.g., Fast Gradient Method by Goodfellow).
+
+Early work showing that adversarial images can fool models even when printed and viewed through a camera.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 4 -->
+      <div class="slide-section">
+        <img src="slide4.png" alt="Literature Background">
+        <div class="explanation">
+          <h2>Background</h2>
+          <p>
+            This slide continues the literature review:
+
+Progression from synthetic to 3D-printed physical adversarial examples.
+
+Other works using perturbations in wearable items like eyeglasses.
+
+Notably, detectors (as opposed to classifiers) were found to be resistant, highlighting a gap in attack effectiveness.
+         </p>
+        </div>
+      </div>
+
+      <!-- Slide 5 -->
+      <div class="slide-section">
+        <img src="slide5.png" alt="Contributions of the Paper">
+        <div class="explanation">
+          <h2>Contributions of the Paper</h2>
+          <p>
+            This slide outlines the core contributions:
+
+Introduction of RP2: an algorithm that generates robust physical perturbations.
+
+Evaluated against two classifiers: LISA-CNN and GTSRB-CNN.
+
+Proposal of a two-stage evaluation methodology (lab + field tests).
+
+
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 6 -->
+      <div class="slide-section">
+        <img src="slide6.png" alt="Method">
+        <div class="explanation">
+          <h2>Method</h2>
+          <p>
+            The slide discusses real-world issues that adversarial attacks must survive:
+
+Changes in viewpoint and lighting.
+
+Constraints in applying perturbations.
+
+Fabrication and sensor errors.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 7 -->
+      <div class="slide-section">
+        <img src="slide7.png" alt="Method">
+        <div class="explanation">
+          <h2>Method</h2>
+          <p>
+            This slide introduces the RP2 algorithm:
+
+            It uses an optimization approach to generate perturbations.
+            
+            The loss function is modified to account for physical changes like rotation and lighting variations.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 8 -->
+      <div class="slide-section">
+        <img src="slide8.png" alt="Main insight">
+        <div class="explanation">
+          <h2>Method</h2>
+          <p>
+            Here, the use of a mask to constrain perturbations is discussed:
+
+The mask helps make perturbations appear as natural graffiti.
+
+Vulnerable regions are targeted using L1 and L2 optimization.
+
+
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 9 -->
+      <div class="slide-section">
+        <img src="slide9.png" alt="Main Insight">
+        <div class="explanation">
+          <h2>Experimental Evaluation</h2>
+          <p>
+            This slide summarizes the evaluation setup:
+
+            Attacks are tested on stop signs and general objects (e.g., microwave).
+            
+            Models used: LISA-CNN and GTSRB-CNN.
+            
+             
+          </p>
+        </div>
+      </div>
+
+
+      <!-- Slide 10 -->
+      <div class="slide-section">
+        <img src="slide10.png" alt="Future work">
+        <div class="explanation">
+          <h2>Experimental Evaluation</h2>
+          <p>
+            LISA-CNN:
+
+            Built using the LISA dataset (U.S. road signs).
+            
+            Contains three CNN layers and performs with 91% accuracy.
+            
+            
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 11 -->
+      <div class="slide-section">
+        <img src="slide11.png" alt="Thoughts">
+        <div class="explanation">
+          <h2>Experimental Evaluation</h2>
+          <p>
+            GTSRB: Based on the German benchmark (GTSRB).
+
+U.S. stop signs are used instead of German ones.
+
+Achieves 95.7% accuracy on test set, 99.4% on custom stop sign images.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 12 -->
+      <div class="slide-section">
+        <img src="slide12.png" alt="Thoughts">
+        <div class="explanation">
+          <h2>Experimental Evaluation</h2>
+          <p>
+            This slide categorizes the evaluation methods:
+
+Stationary tests: fixed camera setup.
+
+Drive-by tests: camera on moving car.
+
+Poster attacks: full sign perturbation.
+
+Sticker attacks: partial, graffiti-style perturbations.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 13 -->
+      <div class="slide-section">
+        <img src="slide13.png" alt="Thoughts">
+        <div class="explanation">
+          <h2>Experimental Evaluation</h2>
+          <p>
+            The table discusses how adversarial stickers are camouflaged as street graffiti to avoid suspicion from human observers, making the attacks stealthier.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 14 -->
+      <div class="slide-section">
+        <img src="slide14.png" alt="Thoughts">
+        <div class="explanation">
+          <h2>Experimental Evaluation</h2>
+          <p>
+            Results from LISA-CNN is discussed in this section
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 15 -->
+      <div class="slide-section">
+        <img src="slide15.png" alt="Thoughts">
+        <div class="explanation">
+          <h2>Experimental Evaluation</h2>
+          <p>
+            Results from GTSRB-CNN is discussed in this section
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 16 -->
+      <div class="slide-section">
+        <img src="slide16.png" alt="Thoughts">
+        <div class="explanation">
+          <h2>Experimental Evaluation</h2>
+          <p>
+            RP2 is extended to non-road objects:
+
+A microwave is misclassified as a phone (90% success).
+
+A coffee mug is misclassified as a cash machine (71.4%).
+
+
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 17 -->
+      <div class="slide-section">
+        <img src="slide17.png" alt="Thoughts">
+        <div class="explanation">
+          <h2>Experimental Evaluation</h2>
+          <p>
+            Cropped images were used to align adversarial examples with original inputs.
+
+High success rates were achieved:
+
+LISA-CNN: 70% targeted, 90% untargeted.
+
+GTSRB-CNN: 60% targeted, 100% untargeted.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 18 -->
+      <div class="slide-section">
+        <img src="slide18.png" alt="Thoughts">
+        <div class="explanation">
+          <h2>Main Insights</h2>
+          <p>
+            This slide emphasizes real-world adversarial attacks are effective and risky.
+
+RP2 can generate reliable perturbations across varied conditions.
+
+Both lab and real-world (drive-by) tests validate the attack’s effectiveness.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 19 -->
+      <div class="slide-section">
+        <img src="slide19.png" alt="Thoughts">
+        <div class="explanation">
+          <h2>Future Works</h2>
+          <p>
+            Follow-up works:
+
+RP2 extended to attack object detectors.
+
+Google’s universal adversarial patches.
+
+Defense proposals include robustness training and transformation-based defenses.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 20 -->
+      <div class="slide-section">
+        <img src="slide20.png" alt="Thoughts">
+        <div class="explanation">
+          <h2>Presenter thoughts: Strength</h2>
+          <p>
+            The author discusses some strengths such as first to explore real-world attacks for autonomous vehicles.
+
+High misclassification success rates.
+
+Realistic threat modeling using only altered sign
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 21 -->
+      <div class="slide-section">
+        <img src="slide21.png" alt="Thoughts">
+        <div class="explanation">
+          <h2>Presenter thoughts: Weaknesses</h2>
+          <p>
+            The author discusses some shortcomings including assumption white-box access (knowledge of the model).
+
+            Manual image cropping doesn’t reflect automated systems.
+            
+            Attacks are limited to classifiers, not detectors.
+          </p>
+        </div>
+      </div>
+
+      <div class="discussion" id="discussion">
+        <h2>Discussion and Class Insights</h2>
+        <div class="qa-section">
+          <p class="question">Q1: Do you believe the attacks outlined in this work are important to consider as refinement of autonomous vehicle behavior continues?</p>
+          <p class="question">Q2: What do you believe is the solution to attacks such as sticker attacks on stop signs? Should the AI be trained to identify altered stop signs? Is it possible to train the AI on all types of alterations?</p>
+          
+          <p class="answer"><strong>Ruslan Akbarzade:</strong> Ruslan emphasized that these types of attacks are important to study because they could impact vehicle behavior. He pointed out that the issue may not lie solely with the model—if the model is robust, it should ideally detect such anomalies. He also noted that even humans might misinterpret altered signs, suggesting that the fault doesn’t rest entirely with the system.</p>
+          
+          <p class="answer"><strong>Obiora:</strong> Obiora proposed incorporating a cybersecurity agent within the vehicle’s system that can detect and flag potential adversarial attacks early. This agent would alert the system before the altered input misguides the model, acting as a defense mechanism in real-time.</p>
+          
+          <p class="answer"><strong>Aleksandar:</strong> Aleksandar expressed skepticism about the continued relevance of such attacks, stating that advances in AI have likely made these specific methods outdated. However, he acknowledged the value of understanding past vulnerabilities to strengthen future systems.</p>
+          
+          <p class="answer"><strong>Obiora:</strong> Obiora added that certain physical attributes—such as the distinct shapes of stop signs versus speed limit signs—could serve as helpful features for classification, even under adversarial attack conditions.</p>
+          
+          <p class="answer"><strong>Professor:</strong> The professor highlighted the broader significance of the paper for future fully autonomous vehicles. He discussed how targeted attacks, such as those triggered to affect specific users, present serious risks. He praised the experimental design of the paper and stressed the importance of learning how to extract actionable insights from performance metrics and testing methodologies.</p>
+        </div>
+      </div>
+
+<!-- Audience Questions Section -->
+<div class="audience-questions" id="audience">
+  <h2>Audience Questions and Answers</h2>
+
+  <div class="qa-section">
+    <p class="question"><strong>Professor:</strong> What is the distinction between a classifier and a detector in the context of this study?</p>
+    <p class="answer"><strong>Answer:</strong> With no response, the professor clarified that a classifier identifies what an object is when the object is already isolated (e.g., determining that an image shows a stop sign). In contrast, a detector locates and identifies objects within a broader scene, making it more robust to real-world variability. This difference is significant in understanding the paper’s scope and limitations, as the study focused on classifiers rather than detectors.</p>
+  </div>
+
+  <div class="qa-section">
+    <p class="question"><strong>Professor:</strong> Why did the authors choose the specific architectures (LISA-CNN and GTSRB-CNN) over more modern or complex models?</p>
+    <p class="answer"><strong>George:</strong> George suggested that the authors may have selected CNN-based classifiers because they were aware of existing vulnerabilities in such architectures. Simpler CNNs are still widely used and serve as a meaningful starting point to demonstrate the feasibility and generalizability of physical adversarial attacks.</p>
+  </div>
+</div>
+
+
+  <!-- Modal for Full Screen Image -->
+  <div id="modal">
+    <img id="modal-image" src="" alt="Full Screen Image" />
+  </div>
+  
+  <!-- Back to Top Button -->
+  <button id="backToTop">Top</button>
+  
+  <script>
+    // Lightbox functionality for full screen images
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modal-image');
+    document.querySelectorAll('.slide-section img').forEach(img => {
+      img.addEventListener('click', function () {
+        modalImg.src = this.src;
+        modal.style.display = 'flex';
+      });
+    });
+    modal.addEventListener('click', function () {
+      modal.style.display = 'none';
+    });
+  
+    // Back to Top Button functionality
+    const backToTop = document.getElementById('backToTop');
+    window.onscroll = function() {
+      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+        backToTop.style.display = "block";
+      } else {
+        backToTop.style.display = "none";
+      }
+    };
+    backToTop.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>

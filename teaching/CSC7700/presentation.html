@@ -46,9 +46,49 @@
                             Deep Reinforcement Learning for Autonomous Driving: A Survey [<a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=9351818" target="_blank"> Link </a>]<br>
                             CARLA: An Open Urban Driving Simulator [<a href="https://proceedings.mlr.press/v78/dosovitskiy17a.html" target="_blank"> Link </a>]<br>
                             Metadrive: Composing diverse driving scenarios for generalizable reinforcement learning [<a href="https://metadriverse.github.io/metadrive/" target="_blank"> Link </a>]<br>
-                            
+
+                            Robust Physical-World Attacks on Deep Learning Visual Classification [<a href="https://openaccess.thecvf.com/content_cvpr_2018/html/Eykholt_Robust_Physical-World_Attacks_CVPR_2018_paper" target="_blank"> Link </a>]<br>
+                            Runtime Stealthy Perception Attacks against DNN-based Adaptive Cruise Control System [<a href="https://arxiv.org/abs/2307.08939" target="_blank"> Link </a>]<br>
+
+
                         </p>
                         
+                        <p>
+                            <b>Blog Post 12: CAP Attack </b> <br>
+                            The paper "Runtime Stealthy Perception Attacks against DNN-based Adaptive Cruise Control Systems" investigates how adversarial attacks on deep neural networks can compromise the safety of Adaptive Cruise Control (ACC) in autonomous vehicles. The authors propose a dynamic, stealthy attack model that modifies live camera feeds to mislead perception modules without triggering safety interventions like emergency braking. Unlike offline attacks, this method adapts in real-time to changing driving conditions and optimizes the timing and magnitude of perturbations for maximum impact. Their CA-Opt attack outperforms baseline methods (CA-Random, CA-APGD) by increasing collision risks while remaining undetected. The study includes both simulation and real-world evaluations, confirming the attack’s transferability and ability to bypass defense mechanisms. Ultimately, the work highlights the importance of robust perception security, especially in high-risk environments like construction zones.
+                            [<a href="./presentations/p12/Runtime Stealthy Perception Attacks Blog Post.html" target="_blank">Read more ...</a>]<br>
+                        </p>
+
+                        <p>
+                            <b>Blog Post 11: RP2 Attack </b> <br>
+                            This paper introduces RP2 (Robust Physical Perturbation), a novel algorithm that generates physical adversarial perturbations capable of deceiving deep neural network (DNN) classifiers under real-world conditions. The authors target road sign classification, demonstrating how small, graffiti-like stickers applied to stop signs can mislead DNNs into classifying them as different signs (e.g., Speed Limit 45). These attacks remain effective despite environmental changes in lighting, angle, and distance. The study proposes a two-stage evaluation—lab and drive-by tests—to simulate real-world scenarios. Results show up to 100% targeted misclassification in lab tests and 84.8% in field tests. The paper also extends the attack to general objects like microwaves, which are misclassified as phones. By highlighting vulnerabilities in vision-based AI systems, this work emphasizes the urgent need for robust defenses against physical-world adversarial examples in safety-critical applications like autonomous driving.                            
+                            [<a href="./presentations/p11/Adversary_attack.html" target="_blank">Read more ...</a>]<br>
+                        </p>
+
+                        <p>
+                            <b>Blog Post 10: Driving Simulator </b> <br>
+                            This presentation compares two autonomous driving simulators: CARLA and MetaDrive. CARLA focuses on high realism using rich visuals, sensor data, and complex traffic environments to support perception-based and imitation learning approaches. In contrast, MetaDrive emphasizes fast, scalable, and modular simulation for training reinforcement learning agents in diverse and procedurally generated scenarios. Together, they highlight the trade-offs between visual realism and training efficiency in developing generalizable self-driving systems.
+                            [<a href="./presentations/p10/carla_metadrive.html" target="_blank">Read more ...</a>]<br>
+                        </p>
+
+                        <p>
+                            <b>Blog Post 9: Deep RL </b> <br>
+                            Sujan Gyawali presents the paper Deep Reinforcement Learning for Autonomous Driving: A Survey. The paper summarizes deep reinforcement learning algorithms and provides a taxonomy of automated driving tasks where these methods have been employed. The paper discusses the role of simulators in training agents, as well as methods to validate, test, and robustify existing solutions in RL.
+                            [<a href="./presentations/blogpost9/blogpost9.html" target="_blank">Read more ...</a>]<br>
+                        </p>
+
+                        <p>
+                            <b>Blog Post 8: Motion Planning </b> <br>
+                            This paper reviews and compares current motion planning methods for autonomous driving. It discusses two main approaches: the pipeline planning method, which is modular and easy to interpret but depends on manual rules and can be resource heavy, and the end-to-end planning method, which uses deep learning for a unified solution yet struggles with explainability. The paper covers key techniques such as global route planning, local behavior/trajectory planning, imitation learning, reinforcement learning, and parallel learning. It also highlights the advantages and challenges of each approach, and offers insights into future research directions for building more robust, safe, and efficient autonomous driving systems.                            
+                            [<a href="./presentations/p12/Runtime Stealthy Perception Attacks Blog Post.html" target="_blank">Read more ...</a>]<br>
+                        </p>
+
+                        <p>
+                            <b>Blog Post 7: Motion Prediction </b> <br>
+                            The paper presents a comprehensive survey of motion prediction and risk assessment techniques for intelligent vehicles, covering physics-based models, maneuver-based models, and interaction-aware models. It also discusses risk assessment methods, including binary collision prediction, probabilistic risk evaluation, and risk estimation in driving scenarios.                            
+                            [<a href="./presentations/Blog post 7/blog.html" target="_blank">Read more ...</a>]<br>
+                        </p>
+
                         
                         <p align="left" style="font-size:18px; background-color: lightseagreen;">
                             <b>Module 1: Perception<br></b>
