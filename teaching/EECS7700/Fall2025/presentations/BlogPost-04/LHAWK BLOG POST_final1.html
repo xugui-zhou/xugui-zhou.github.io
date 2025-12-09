@@ -1,0 +1,776 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=Generator content="Microsoft Word 15 (filtered)">
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:"Arial Unicode MS";
+	panose-1:2 11 6 4 2 2 2 2 2 4;}
+@font-face
+	{font-family:"\@Arial Unicode MS";
+	panose-1:2 11 6 4 2 2 2 2 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Arial",sans-serif;}
+h1
+	{margin-top:20.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:20.0pt;
+	font-family:"Arial",sans-serif;
+	font-weight:normal;}
+.MsoChpDefault
+	{font-size:11.0pt;
+	font-family:"Arial",sans-serif;}
+.MsoPapDefault
+	{line-height:115%;}
+@page WordSection1
+	{size:11.0in 8.5in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-US style='word-wrap:break-word'>
+
+<div class=WordSection1>
+
+<h1 align=center style='text-align:center'><a name="_dxsu0vaiv9ze"></a><span
+lang=EN style='font-size:18.0pt;line-height:115%'>L-H</span><span lang=EN
+style='font-size:14.5pt;line-height:115%'>AWK</span><span lang=EN
+style='font-size:18.0pt;line-height:115%'>: A Controllable Physical Adversarial
+Patch Against a Long-Distance Target</span></h1>
+
+<p class=MsoNormal><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN
+style='font-size:14.0pt;line-height:115%'>Authors: Taifeng Liu, Yang Liu, Zhuo
+Ma, Tong Yang, Xinjing Liu, Teng Li, Jianfeng Ma</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN
+style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN
+style='font-size:14.0pt;line-height:115%'>Class: EE 7700 ML for CPS</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN
+style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN
+style='font-size:14.0pt;line-height:115%'>Instructor: Dr. Xugui Zhou</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN
+style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN
+style='font-size:14.0pt;line-height:115%'>Presented By: Group 4 on 11/04/2025</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN
+style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN
+style='font-size:14.0pt;line-height:115%'>Summarized By: Group 3</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN
+style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN
+style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN
+style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN
+style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN
+style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN
+style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN
+style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN
+style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN
+style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN
+style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<h1><a name="_eoshblk7g50k"></a><span lang=EN style='font-size:17.0pt;
+line-height:115%'>SUMMARY:</span></h1>
+
+<p class=MsoNormal style='margin-top:12.0pt;margin-right:0in;margin-bottom:
+12.0pt;margin-left:0in'><b><span lang=EN style='font-size:12.0pt;line-height:
+115%'>L-HAWK: A Controllable Physical Adversarial Patch Against a Long-Distance
+Target (NDSS 2025) </span></b><span lang=EN style='font-size:12.0pt;line-height:
+115%'>introduces a new kind of <b>laser-triggered physical attack</b> on
+autonomous vehicles (AVs).<br>
+Conventional adversarial patches fool AV vision models but are always active
+and affect every vehicle nearby. <b>L-HAWK </b>overcomes this by using a <b>printed
+patch that stays harmless</b> until a <b>laser signal</b> activates it,
+allowing attackers to target a specific vehicle at up to <b>50 meters</b>.</span></p>
+
+<p class=MsoNormal style='margin-top:12.0pt;margin-right:0in;margin-bottom:
+12.0pt;margin-left:0in'><span lang=EN style='font-size:12.0pt;line-height:115%'>The
+authors propose an <b>asynchronous learning framework</b> that jointly
+optimizes both the <b>patch</b> and <b>laser parameters </b>under real-world
+noise, distances, and lighting. Experiments on <b>object detectors (YOLO,
+Faster-R-CNN)</b> and <b>classifiers (VGG, ResNet, Inception)</b> show attack
+success rates over <b>90%</b>, outperforming previous methods by more than 50%
+and extending attack distance sevenfold.</span></p>
+
+<p class=MsoNormal style='margin-top:12.0pt;margin-right:0in;margin-bottom:
+12.0pt;margin-left:0in'><span lang=EN style='font-size:12.0pt;line-height:115%'>Key
+contributions include:</span></p>
+
+<p class=MsoNormal style='margin-top:12.0pt;margin-right:0in;margin-bottom:
+0in;margin-left:.5in;margin-bottom:.0001pt;text-indent:-.25in'><span lang=EN
+style='font-size:12.0pt;line-height:115%'>●<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN style='font-size:12.0pt;line-height:115%'>A <b>controllable
+long-range physical adversarial patch</b> activated by laser signals.</span></p>
+
+<p class=MsoNormal style='margin-left:.5in;text-indent:-.25in'><span lang=EN
+style='font-size:12.0pt;line-height:115%'>●<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN style='font-size:12.0pt;line-height:115%'>A new <b>trigger
+modeling and joint optimization</b> method combining physical and digital
+learning.</span></p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:12.0pt;
+margin-left:.5in;text-indent:-.25in'><span lang=EN style='font-size:12.0pt;
+line-height:115%'>●<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><b><span lang=EN style='font-size:12.0pt;line-height:115%'>Empirical
+validation</span></b><span lang=EN style='font-size:12.0pt;line-height:115%'>
+in both digital and physical setups with high robustness.</span></p>
+
+<p class=MsoNormal style='margin-top:12.0pt;margin-right:0in;margin-bottom:
+12.0pt;margin-left:0in'><span lang=EN style='font-size:12.0pt;line-height:115%'>Limitations
+involve dependency on camera frame timing, safety constraints during testing,
+and reduced stealth under night or close-range conditions.</span></p>
+
+<p class=MsoNormal><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:18.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:18.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:18.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:18.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:18.0pt;line-height:115%'>&nbsp;</span></p>
+
+<h1><a name="_wjv4slgplukn"></a><span lang=EN style='font-size:17.0pt;
+line-height:115%'>Slide - 1: Title Slide</span></h1>
+
+<p class=MsoNormal><span lang=EN style='font-size:18.0pt;line-height:115%'><img
+width=660 height=369 id=image4.png
+src="LHAWK%20BLOG%20POST_final1.fld/image001.jpg"></span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%'>This
+is the introduction slide of the presentation.</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<h1><a name="_ppdo2ee1m2kg"></a><span lang=EN style='font-size:17.0pt;
+line-height:115%'>Slide - 2: Overview</span></h1>
+
+<p class=MsoNormal><span lang=EN style='font-size:14.0pt;line-height:115%'><img
+width=653 height=346 id=image12.png
+src="LHAWK%20BLOG%20POST_final1.fld/image002.jpg"></span><span lang=EN
+style='font-size:14.0pt;line-height:115%'> </span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:14.0pt;line-height:115%'> </span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:14.0pt;line-height:115%'> </span><span
+lang=EN style='font-size:12.0pt;line-height:115%'>This slide shows the
+highlights of the presentation and what are the things that are going to be
+discussed.</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<h1><a name="_1y18rh9754cn"></a><span lang=EN style='font-size:17.0pt;
+line-height:115%'>Slide - 3: Part 1</span></h1>
+
+<p class=MsoNormal><span lang=EN style='font-size:14.0pt;line-height:115%'><img
+width=656 height=369 id=image6.png
+src="LHAWK%20BLOG%20POST_final1.fld/image003.jpg"></span></p>
+
+<p class=MsoNormal><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%'>This
+Slide contains the name and Authors of the presentation and the venue where it
+was presented.</span></p>
+
+<p class=MsoNormal><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN>&nbsp;</span></p>
+
+<h1><a name="_o8gd45ja50nv"></a><span lang=EN style='font-size:17.0pt;
+line-height:115%'>Slide - 4: L-Hawk</span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN><img width=655
+height=340 id=image9.png src="LHAWK%20BLOG%20POST_final1.fld/image004.jpg"></span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+12.0pt'>In this slide, we see the description of the title and the general idea
+of this study.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN> </span></p>
+
+<h1 style='line-height:normal'><a name="_ed5ngf5b7sa2"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 5: Motivation</span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN><img width=624
+height=351 id=image5.png src="LHAWK%20BLOG%20POST_final1.fld/image005.jpg"></span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+12.0pt'>Here, we can see the motivation of this work and why it is important.
+ML models have been used for perception models and in safety critical scenarios.
+It can be used in autonomous vehicles and in different other sectors. These
+types of models are vulnerable to physical perturbations and can be fooled
+which can be dangerous. There are different forms of patch attack, one can
+generate patches digitally and by means of a physical method.</span></p>
+
+<h1 style='line-height:normal'><a name="_d8o7kqrevyqt"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 6: Background</span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN> <img width=648
+height=365 id=image1.png src="LHAWK%20BLOG%20POST_final1.fld/image006.jpg"></span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+12.0pt'>Here we can see the attack and defense models which highlight the types
+of attacks and methods of defense as well as examples and where L-Hawk falls in
+place.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<h1 style='line-height:normal'><a name="_u44sb9tgeho4"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 7: Background</span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN> <img width=648
+height=365 id=image24.png src="LHAWK%20BLOG%20POST_final1.fld/image007.jpg"></span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>This slide shows
+the visual recognition model in Autonomous Driving and how it can be fooled
+using Adversarial Patches. These patches can be generated physically or can be
+generated using adversarial attacks on the Neural network.</span></p>
+
+<h1 style='line-height:normal'><a name="_s89if0lirnvk"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 8: Background</span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN> <img width=648
+height=365 id=image11.png src="LHAWK%20BLOG%20POST_final1.fld/image008.jpg"></span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>In this slide, we
+can see the conventional adversarial patch attack that is generated on stop
+signs. It affects all the passing vehicles that are trying to pick up stop sign
+signals from camera.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'>Slide - 9: Research Question</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN><img width=648
+height=365 id=image2.png src="LHAWK%20BLOG%20POST_final1.fld/image009.jpg"></span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>This is the main
+research question that this paper is trying to solve.</span></p>
+
+<h1 style='line-height:normal'><a name="_8n83k114s6xv"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 10: Related work</span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN> <img width=648
+height=365 id=image15.png src="LHAWK%20BLOG%20POST_final1.fld/image010.jpg"></span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>This slide presents
+several existing studies addressing this research question and the specific
+problems they aimed to solve. These works explore the use of acoustic signals,
+laser-colored signals, electromagnetic interference, and triggered physical adversarial
+patch methods to attack autonomous driving models.</span></p>
+
+<h1 style='line-height:normal'><a name="_q4da3y80bks"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 11: Related Work</span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN> <img width=654
+height=369 id=image7.png src="LHAWK%20BLOG%20POST_final1.fld/image011.jpg"></span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>This work proposes
+a laser-based attack that obstructs the vehicle’s camera, preventing it from
+capturing the correct road-sign image. It also shows that the laser method
+outperforms ultrasonic attacks because it remains effective at longer ranges.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<h1 style='line-height:normal'><a name="_nttr4ogrz9zo"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 12: How Laser Triggers Affect Camera Images</span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN><img width=648
+height=365 id=image14.png src="LHAWK%20BLOG%20POST_final1.fld/image012.jpg"></span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>This is a key slide
+explaining how the laser can be controlled to obscure the specific pixels that
+contain the object in the camera’s field of view. During camera exposure the
+laser emits short, localized pulses; because rolling-shutter sensors record rows
+sequentially, those pulses can affect particular image rows. Controllable laser
+parameters include wavelength, power, pulse width, aim angle, and distance,
+while the resulting appearance also depends on the camera settings.</span></p>
+
+<h1 style='line-height:normal'><a name="_z0qnulvlalxo"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 13: Controllable Activation</span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN> <img width=648
+height=365 id=image10.png src="LHAWK%20BLOG%20POST_final1.fld/image013.jpg"></span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>Here we can see how
+the laser can selectively affect vehicles when the object (road sign) appears
+in their camera exposure.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<h1 style='line-height:normal'><a name="_ay6mijxe0em4"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 14: Methodology Overview </span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN><img width=655
+height=369 id=image16.png src="LHAWK%20BLOG%20POST_final1.fld/image014.jpg"></span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>This slide shows
+the paper’s primary goal: to optimize a printable adversarial patch and a
+controllable laser trigger so the attack can be precisely controlled.</span></p>
+
+<h1 style='line-height:normal'><a name="_weighnnn90eq"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 15: Trigger modelling</span><span lang=EN><img
+width=627 height=354 id=image8.png
+src="LHAWK%20BLOG%20POST_final1.fld/image015.jpg"></span></h1>
+
+<p class=MsoNormal style='margin-top:12.0pt;margin-right:0in;margin-bottom:
+12.0pt;margin-left:0in;text-align:justify'><span lang=EN>This slide explains
+how real-world laser noise differs from synthetic noise used in simulations.
+Real laser-induced patterns are structured and asymmetric due to
+rolling-shutter and lens scattering effects. Modeling this empirical noise
+produces camera responses much closer to real images, significantly reducing
+MSE compared to generic noise models.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<h1 style='line-height:normal'><a name="_itopnyi8r6wy"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 16: Trigger modelling</span><span lang=EN><img
+width=648 height=365 id=image17.png
+src="LHAWK%20BLOG%20POST_final1.fld/image016.jpg"></span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>They build a
+library of real laser triggers by recording frames across
+power/distance/angle/light, isolating transient stripes via frame-differences
+and masking, and indexing each trigger for robust sampling during optimization.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<h1 style='line-height:normal'><a name="_xr7u2hxq8lf"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 17: Methodology</span><span lang=EN><img
+width=648 height=365 id=image22.png
+src="LHAWK%20BLOG%20POST_final1.fld/image017.jpg"></span></h1>
+
+<p class=MsoNormal><span lang=EN>This slide explains the core challenge:
+jointly optimizing a printable adversarial patch (continuous, pixel-space) and
+a controllable laser trigger (discrete, physical) creates a coupled digital and
+physical problem that is unstable under direct joint training. The solution is
+an alternating optimization strategy that updates the digital patch and the
+physical trigger separately while constraining triggers to the measured trigger
+space.</span></p>
+
+<h1 style='line-height:normal'><a name="_75hwwklejvj8"></a><span lang=EN
+style='font-size:17.0pt'> Slide - 18: Asynchronous Joint Optimization</span><span
+lang=EN><img width=648 height=365 id=image13.png
+src="LHAWK%20BLOG%20POST_final1.fld/image018.jpg"></span></h1>
+
+<p class=MsoNormal><span lang=EN>Here we can see how to update the digital
+patch with the current trigger, then refine trigger parameters, and repeat
+until both converge to a stable, controllable attack.</span></p>
+
+<h1 style='line-height:normal'><a name="_g9ep82pflmrd"></a><span lang=EN
+style='font-size:17.0pt'> Slide - 19: Four Attack Scenarios</span><span
+lang=EN><img width=648 height=365 id=image3.png
+src="LHAWK%20BLOG%20POST_final1.fld/image019.jpg"></span></h1>
+
+<p class=MsoNormal><span lang=EN>Here we can see four types of attacks: hiding
+attack, creating attack, targeted attack against detector and targeted attack
+against classifier. We will know about all of this in the later description.</span></p>
+
+<h1 style='line-height:normal'><a name="_bq1156tvq0ow"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 20: Evaluation</span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN><img width=628
+height=347 id=image27.png src="LHAWK%20BLOG%20POST_final1.fld/image020.jpg"></span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+12.0pt;font-family:"Arial Unicode MS",sans-serif'>The evaluation involves the
+main experiment setup which evaluates four attack types and shows high attack
+success rates (≈90–99%) across multiple detectors and classifiers for different
+attack types.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>&nbsp;</span></p>
+
+<h1 style='line-height:normal'><a name="_47t1upy7ij5n"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 21: Attack Robustness I</span><span lang=EN><img
+width=648 height=358 id=image38.png
+src="LHAWK%20BLOG%20POST_final1.fld/image021.jpg"></span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN>They showed video
+demonstrations in this slide of the attack testing how distance, position, and
+lighting affect the attack. They demonstrate that L-HAWK remains effective
+beyond 25m with strong robustness.</span></p>
+
+<h1 style='line-height:normal'><a name="_n7qemx5x3y3r"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 22: Attack Robustness II</span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'><img width=648 height=358 id=image28.png
+src="LHAWK%20BLOG%20POST_final1.fld/image022.jpg"></span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+12.0pt'>Outdoor experiments up to 30m and at varying incidence angles with
+three laser powers were also conducted. Quantitative results confirmed improved
+stability at longer ranges and higher power levels, with attack success above
+80% under moderate lighting. Higher power beyond 20m however yields diminishing
+returns. </span></p>
+
+<h1 style='line-height:normal'><a name="_rh7xu1f7u8hz"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 23: Contributions</span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'><img width=648 height=341 id=image23.png
+src="LHAWK%20BLOG%20POST_final1.fld/image023.jpg"></span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+12.0pt'>This slide summarizes the four main contributions in their own words
+namely: controllable laser-triggered patch, novel asynchronous optimization,
+investigation of laser parameters, and digital and physical validation.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+12.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'>&nbsp;</span></p>
+
+<h1 style='line-height:normal'><a name="_qioavhcgr7w2"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 24: Limitations</span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'><img width=648 height=341 id=image20.png
+src="LHAWK%20BLOG%20POST_final1.fld/image024.jpg"></span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+12.0pt'>In their own words, they note three drawbacks: reliance on knowing
+camera refresh rate, limited evaluation scale, and reduced stealth at close or
+dark conditions.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'>&nbsp;</span></p>
+
+<h1 style='line-height:normal'><a name="_52oza1xbpatb"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 25: Connection with the course</span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'><img width=648 height=340 id=image35.png
+src="LHAWK%20BLOG%20POST_final1.fld/image025.jpg"></span></p>
+
+<p class=MsoNormal style='margin-top:12.0pt;margin-right:0in;margin-bottom:
+12.0pt;margin-left:0in;line-height:normal'><span lang=EN style='font-size:12.0pt'>This
+slide links the paper to CPS security by showing the attack targets the ML
+perception in autonomous vehicles, a core cyber-physical system component.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'>&nbsp;</span></p>
+
+<h1 style='line-height:normal'><a name="_3wcl8r4rrfmz"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 26: Part 2</span><span lang=EN><img width=648
+height=340 id=image30.png src="LHAWK%20BLOG%20POST_final1.fld/image026.jpg"></span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+12.0pt'>This slide introduces how later studies build on L-HAWK and the
+evolving research directions in physical adversarial perception.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'>&nbsp;</span></p>
+
+<h1 style='line-height:normal'><a name="_kw42g7j5t1ds"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 27: Landscape of Physical Adversarial
+Perception Attacks</span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'><img width=648 height=353 id=image37.png
+src="LHAWK%20BLOG%20POST_final1.fld/image027.jpg"></span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+12.0pt'>They show the current landscape by highlighting works on physical
+patches, optical, and electromagnetic triggers. They also show L-HAWK’s place
+at the intersection of controllable and long-distance methods.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'>&nbsp;</span></p>
+
+<h1 style='line-height:normal'><a name="_42fnnoi4ysxy"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 28: Foundational Prior Work</span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'><img width=614 height=335 id=image34.png
+src="LHAWK%20BLOG%20POST_final1.fld/image028.jpg"></span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+12.0pt'>This slide lists Poltergeist, Rolling Colors, GlitchHiker, and TPatch
+as earlier works that inspired controllable or optical adversarial attacks and
+how they went about it.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'>&nbsp;</span></p>
+
+<h1 style='line-height:normal'><a name="_dqtb95gvdl1h"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 29: TPatch</span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'><img width=648 height=353 id=image32.png
+src="LHAWK%20BLOG%20POST_final1.fld/image029.jpg"></span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+12.0pt'>This slide explains TPatch’s acoustic trigger mechanism and how L-HAWK
+extends it using a laser for longer range and better control.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'>&nbsp;</span></p>
+
+<h1 style='line-height:normal'><a name="_ybsswtgpbq68"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 30: Rolling Colors</span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'><img width=648 height=353 id=image33.png
+src="LHAWK%20BLOG%20POST_final1.fld/image030.jpg"></span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+12.0pt'>They describe a prior laser-based color-stripe attack that misleads
+sign perception at a distance. L-HAWK builds upon its rolling-shutter insights
+to learn realistic triggers.</span></p>
+
+<h1 style='line-height:normal'><a name="_cpf85ls7oibr"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 31: Emerging Directions</span><span lang=EN><img
+width=648 height=353 id=image18.png
+src="LHAWK%20BLOG%20POST_final1.fld/image031.jpg"></span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+12.0pt'>The emerging directions after L-Hawk lean towards future work in
+near-infrared (NIR) attacks and multimodal (radar/LiDAR) triggers for more
+stealth and robustness.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'>&nbsp;</span></p>
+
+<h1 style='line-height:normal'><a name="_oudkc7kubyg6"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 32: Derivative Work</span><span lang=EN><img
+width=616 height=336 id=image25.png
+src="LHAWK%20BLOG%20POST_final1.fld/image032.jpg"></span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+12.0pt'>Recent research using NIR light for hidden attacks at night extends
+L-HAWK’s ideas to invisible spectrums. The key idea is to model an attack in a
+spectrum common to ADAS sensors. It also suggests the use of multi-spectrum
+triggers.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'>&nbsp;</span></p>
+
+<h1 style='line-height:normal'><a name="_c4lrohicg7u6"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 33: Team-Work</span><span lang=EN><img
+width=648 height=353 id=image19.png
+src="LHAWK%20BLOG%20POST_final1.fld/image033.jpg"></span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+12.0pt'>They detail each member’s role in this slide with Jordan handling
+literature review and formatting, and Shafikul focusing on methodology and
+evaluation analysis.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'>&nbsp;</span></p>
+
+<h1 style='line-height:normal'><a name="_bm79id3bcow8"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 34: Part 3 Q&amp;A</span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'><img width=648 height=353 id=image31.png
+src="LHAWK%20BLOG%20POST_final1.fld/image034.jpg"></span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+12.0pt'>This slide introduced a segment for questions and answers which
+stimulated discussions about feasibility and implications and the impact L-Hawk
+has for the future of AVs.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'>&nbsp;</span></p>
+
+<h1 style='line-height:normal'><a name="_fop2vsu4yi5c"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 35: Part 4 Discussion</span><span lang=EN><img
+width=648 height=353 id=image21.png
+src="LHAWK%20BLOG%20POST_final1.fld/image035.jpg"></span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+12.0pt'>The discussion slide opened another interactive section of the
+presentation inviting class debate on the questions in the following slides. </span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'>&nbsp;</span></p>
+
+<h1 style='line-height:normal'><a name="_bzbx0tmos5ea"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 36: Discussion</span><span lang=EN><img
+width=592 height=274 id=image36.png
+src="LHAWK%20BLOG%20POST_final1.fld/image036.jpg"></span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+12.0pt'>      The class also discussed whether L-HAWK-type attacks could bypass
+multi-sensor fusion e.g., LiDAR + cameras and how adaptive defense mechanisms
+might randomize camera exposure to block such attacks.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+12.0pt'>      Future triggers could move beyond lasers and sound into
+multi-spectrum or cross-modal triggers, such as infrared or electromagnetic
+interference invisible to humans but detectable by sensors. Researchers may
+also explore sensor-fusion deception, where coordinated signals subtly mislead
+multiple sensing modalities simultaneously for more reliable, stealthy
+activation. </span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+12.0pt'>        Our group believes Glare and autofocus adjustments most
+strongly degrade L-HAWK’s effectiveness by changing camera exposure and
+suppressing the laser-induced stripe. To counter this, attackers could use
+adaptive power control or synchronized pulsing that compensates for brightness
+changes and maintains consistent pixel intensity on the sensor.</span></p>
+
+<h1 style='line-height:normal'><a name="_v55bj4kbimmw"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 37: Reference</span></h1>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'><img width=648 height=353 id=image29.png
+src="LHAWK%20BLOG%20POST_final1.fld/image037.jpg"></span></p>
+
+<p class=MsoNormal style='margin-top:12.0pt;margin-right:0in;margin-bottom:
+12.0pt;margin-left:0in;line-height:normal'><span lang=EN style='font-size:12.0pt'>Lists
+all cited academic works, including Poltergeist, Rolling Colors, TPatch, and
+NIR-based attacks.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span lang=EN style='font-size:
+17.0pt'>&nbsp;</span></p>
+
+<h1 style='line-height:normal'><a name="_whje7z7c6147"></a><span lang=EN
+style='font-size:17.0pt'>Slide - 38: Final Slide</span><span lang=EN><img
+width=648 height=353 id=image26.png
+src="LHAWK%20BLOG%20POST_final1.fld/image038.jpg"></span></h1>
+
+<p class=MsoNormal><span lang=EN style='font-size:12.0pt;line-height:115%'>Closing
+slide with acknowledgments and end of presentation.</span></p>
+
+</div>
+
+</body>
+
+</html>

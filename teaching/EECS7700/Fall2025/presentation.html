@@ -50,6 +50,12 @@
                             This paper discusses a method of improving the integration of symbolic logic into a neural network loss function by factoring in an additional "semantic loss function" without modifying the actual model or dataset(s) utilized. The utility of symbolic knowledge is that it improves user interpratability in the loss function without sacrificing too much accuracy, but as neural networks tend to struggle with this information being directly provided, this paper's approach helps alleviate that issue. The concept of semantic loss is described along with explanations of the experimentation on data for semi-supervised classification, as well as more complex scenarios involving reasoning.
                             [<a href="./presentations/BP19/blogpost.html" target="_blank">Read more ...</a>]<br>
                         </p> -->
+
+                         <p>
+                            <b>Blog Post 9: Semantic Loss </b> <br>
+                            This paper introduces Semantic Loss, a logic-based loss function that allows deep neural networks to respect symbolic constraints during training. Instead of learning only from labeled data, the model is also guided by a logical formula that defines which output configurations are valid. Semantic Loss is defined as the negative log-probability that the network’s prediction satisfies that formula. This makes it possible to enforce rules such as “exactly one label must be true,” “the path must be continuous,” or “rankings must be transitive,” without changing the network architecture. The authors show that adding Semantic Loss improves performance on semi-supervised classification, structured path prediction, and ranking tasks. Overall, the work demonstrates a principled way to combine symbolic reasoning with deep learning by treating logic as a differentiable regularizer.
+                            [<a href="presentations/Blogpost-08/blogpost-08.html" target="_blank">Read more ...</a>]<br>
+                        </p>
                  
                         <p align="left" style="font-size:18px; background-color: lightblue;">
                             <b>Week 12: ML Interpretebility<br></b>
@@ -59,6 +65,19 @@
                             A Survey for Machine Learning Security to Securing Machine Learning for CPS [<a href="https://ieeexplore.ieee.org/document/9252851" target="_blank"> Link </a>]<br>
                             Asymmetry Vulnerability and Physical Attacks on Online Map Construction for Autonomous Driving  [<a href="https://arxiv.org/abs/2509.06071" target="_blank"> Link </a>]<br>
                         </p>
+
+                         <p>
+                            <b>Blog Post 8:  Online Map Construction </b> <br>
+                            This paper reveals a fundamental vulnerability in modern online HD map construction models such as MapTR and VectorMapNet. These models exhibit a strong symmetry bias, often mispredicting asymmetric roads—like forks, merges, or sharp turns—as symmetric or straight. This flaw arises from training data imbalance and architectural design, and it can lead to unsafe planning behaviors such as missed turns or unreachable routes. To exploit this weakness, the authors introduce the first physical-world attacks on online map construction using simple roadside tools: a flashlight for camera blinding and adversarial patches for white-box attacks. Their two-stage framework first detects vulnerable asymmetric scenes and then optimizes roadside attack locations. Experiments on the nuScenes dataset and real-world tests show that these attacks significantly degrade map accuracy and increase unsafe planned trajectories. As a partial defense, the paper proposes fine-tuning with asymmetric data to improve robustness. A key limitation is that the attack is most effective only when the vehicle is near the interference source, and its impact weakens quickly once the vehicle passes it. Despite this, the work demonstrates a critical and previously overlooked safety risk in autonomous driving systems.
+                            [<a href="presentations/BlogPost-07/Blog Post_Faiza12 (1).html " target="_blank">Read more ...</a>]<br>
+                        </p>
+                        <p>
+                            <b>Blog Post 7:  Resilient Machine Learning for Networked CPS </b> <br>
+                            This paper proposed a systematic view about achieving the resilient CPS system by applying ML algorithms. They also discuss the interaction between the ML and CPS. Also point out that ML also faces vulnerability itself. Many aspects of achieving resilient CPS by using ML and resilient ML model are discussed along with promising future research directions.
+                            [<a href="presentations/BlogPost-07/BlogPost-07.html" target="_blank">Read more ...</a>]<br>
+                        </p>
+
+
                         
                    
                         <p align="left" style="font-size:18px; background-color: lightblue;">
@@ -69,6 +88,12 @@
                             
                             Mastering the game of Go with deep neural networks and tree search  [<a href="https://www.nature.com/articles/nature16961" target="_blank"> Link </a>]<br>
                             Adversarial Policies: Attacking Deep Reinforcement Learning  [<a href="https://openreview.net/pdf?id=HJgEMpVFwB" target="_blank"> Link </a>]<br>
+                        </p>
+
+                        <p>
+                            <b>Blog Post 6: Attacking Deep Reinforcement Learning </b> <br>
+                            The presentation consists of using adversarial policies to attack reinforcement learning. This is applied to a two-player Markov game using multi-Joint in four different scenarios with different goals, such as kick and defend, you shall not pass, Sumo, and 2d Sumo. All were trained with LSTM except You shall not pass which was trained with MLP.  The adversarial policy excelled at the you shall not pass scenario by confusing the victim by curling up in a ball. This unexpected behavior caused the adversarial opponent to win 86% of these scenarios. This demonstrates adversarial policies that can be applied to robotics.
+                            [<a href="./presentations/BlogPost-06/BlogPost-06.htm" target="_blank">Read more ...</a>]<br>
                         </p>
 
                         <p>
@@ -89,12 +114,20 @@
                             L-HAWK: A Controllable Physical Adversarial Patch Against a Long-Distance Target  [<a href="https://www.ndss-symposium.org/wp-content/uploads/2025-26-paper.pdf" target="_blank"> Link </a>]<br>
                             Generative Adversarial Nets [<a href="https://proceedings.neurips.cc/paper_files/paper/2014/file/5ca3e9b122f61f8f06494c97b1afccf3-Paper.pdf" target="_blank"> Link </a>]<br>
                         </p>
-                        <!-- <p>
-                            <b>Blog Post 14: GANs</b> <br>
-                            
-                            The authors of this paper present their innovative Generative Adversarial Nets, or GANs.  This process utilizes adversarial training by training two models simultaneously- one generative model and one discriminative model.  These models achieve different goals that when used together, are able generate "synthetic" output that is similar to real data.
-                            [<a href="./presentations/p14/blog.html" target="_blank">Read more ...</a>]<br>
-                        </p> -->
+                        
+                        <p>
+                            <b>Blog Post 4: L-HAWK </b> <br>
+                            L-HAWK: A Controllable Physical Adversarial Patch Against a Long-Distance Target (NDSS 2025) introduces a new kind of laser-triggered physical attack on autonomous vehicles (AVs).
+                            Conventional adversarial patches fool AV vision models but are always active and affect every vehicle nearby. L-HAWK overcomes this by using a printed patch that stays harmless until a laser signal activates it, allowing attackers to target a specific vehicle at up to 50 meters.
+                            [<a href="./presentations/BlogPost-04/LHAWK BLOG POST_final1.html" target="_blank">Read more ...</a>]<br>
+                        </p>
+
+                         <p>
+                            <b>Blog Post 3: GAN </b> <br>
+                            L-HAWK: A Controllable Physical Adversarial Patch Against a Long-Distance Target (NDSS 2025) introduces a new kind of laser-triggered physical attack on autonomous vehicles (AVs).
+                            [<a href="./presentations/BlogPost-3.html" target="_blank">Read more ...</a>]<br>
+                        </p>
+                        
                         
                                                 
          
@@ -107,6 +140,12 @@
                             <b>Reading tasks </b> <br>                           
                             Attacks against process control systems: risk assessment, detection, and response [<a href="https://dl.acm.org/doi/abs/10.1145/1966913.1966959" target="_blank"> Link </a>]<br>
                             Recovery-Guaranteed Sensor Attack Detection for Cyber-Physical Systems [<a href="https://ieeexplore.ieee.org/abstract/document/11018669" target="_blank"> Link </a>]<br>
+                        </p>
+
+                        <p>
+                            <b>Blog Post 2: Recovery-Guaranteed Sensor Attack Detection </b> <br>
+                            This presentation proposes a recovery-guaranteed sensor attack detection framework for cyber‑physical systems (CPS). Unlike prior work that treats detection and recovery separately, the method co-designs detection thresholds with online recoverability verification, ensuring alarms are raised only when there remains enough time (a window of K steps) to safely recover. The architecture integrates residual calculation, state authentication with bounded error, incremental reachability-based recoverability estimation, and dynamic threshold adjustment that tightens or loosens sensitivity to guarantee recovery while minimizing false alarms. Validation spans vehicle platoon, aircraft pitch, and lane-keeping simulators, plus a physical 4‑wheel testbed, demonstrating zero missed recovery windows across bias, delay, and replay attacks.
+                            [<a href="./presentations/BlogPost-2/BlogPost-2.html" target="_blank">Read more ...</a>]<br>
                         </p>
 
                         <p>
@@ -146,13 +185,13 @@
                             with encoder-decoder attention enabling the decoder to focus on all input positions, 
                             self-attention improving contextual understanding by attending to all positions within layers, 
                             and positional encodings ensuring the model captures the order of tokens in a sequence.
-                            [<a href="./Fall 2024/presentations/p2/final.html" target="_blank">Read more ...</a>]<br>
+                            [<a href="../Fall2024/presentations/p2/final.html" target="_blank">Read more ...</a>]<br>
                         </p>
 
                         <p>
                             <b>Blog Post 1: ResNet </b> <br>
                             As the number of layers of neural networks increases, the problems of overfitting, gradient vanishing, and gradient explosion often occur, so this article came into being. In this paper, the concept of deep residual networks (ResNets) is proposed. By introducing "shortcut connections," this study solves the problem of gradient vanishing in deep network training and has an important impact on the field of deep learning. The method of the paper explicitly redefines the network layers as learning residual functions relative to the inputs. By learning residuals, the network can be optimized more easily and can train deeper models more efficiently. Therefore, this method can help solve the performance degradation problem that may occur when the network layer increases. In addition, the article displays the experimental part. The model shows significant improvements in handling large-scale visual recognition tasks like ImageNet and CIFAR-10. The application of deep residual networks in major visual recognition competitions like ILSVRC and COCO 2015 further proves their power and wide applicability.
-                            [<a href="./Fall 2024/presentations/p1/final.html" target="_blank">Read more ...</a>]<br>
+                            [<a href="../Fall2024/presentations/p1/final.html" target="_blank">Read more ...</a>]<br>
                         </p>
                         <!-- <p align="right" style="font-size:18px">
                          <a href="./presentations/p1/final.html" target="_blank"> Read more ... </a><br>

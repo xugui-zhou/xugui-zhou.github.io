@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 25.8.2.2 (Windows)"/>
+	<meta name="author" content="Faiza"/>
+	<meta name="created" content="2025-11-22T17:47:00"/>
+	<meta name="changed" content="2025-11-23T22:49:05.778531800"/>
+	<meta name="AppVersion" content="16.0000"/>
+	<meta name="Company" content="HP"/>
+	<meta name="GrammarlyDocumentId" content="8c57a6cd-345e-4e04-95ba-5935067ef95a"/>
+	<style type="text/css">
+		@page { size: 8.5in 11in; margin: 1in }
+		p { line-height: 115%; font-size: 12pt; text-align: left; orphans: 2; widows: 2; margin-bottom: 0.1in; direction: ltr; background: transparent }
+		a:link { color: #0000ff; text-decoration: underline }
+		strong { font-weight: bold }
+	</style>
+</head>
+<body lang="en-US" link="#0000ff" vlink="#800000" dir="ltr"><p style="line-height: 150%; margin-bottom: 0.11in">
+<br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<ul>
+	<li><p style="line-height: 150%; margin-bottom: 0.11in"><a name="_GoBack"></a>
+	<font face="Times New Roman, serif"><font size="4" style="font-size: 14pt"><b>Blog
+	post by Group 7: </b></font></font><font face="Times New Roman, serif"><font size="4" style="font-size: 14pt">Faiza
+	Dad and Paul Yeon </font></font>
+	</p></li>
+	<li><p style="line-height: 150%; margin-bottom: 0.11in"><font face="Times New Roman, serif"><font size="4" style="font-size: 14pt"><b>Authors:</b></font></font><font face="Times New Roman, serif"><font size="4" style="font-size: 14pt">&nbsp;Yang
+	Lou*, Haibo Hu*, Qun Song*, Qian Xu, Yi Zhu, Rui Tan, Wei-Bin Lee,
+	and Jianping Wang†</font></font></p></li>
+	<li><p style="line-height: 150%; margin-bottom: 0.11in"><font face="Times New Roman, serif"><font size="4" style="font-size: 14pt"><b>Class:
+	 </b></font></font><font face="Times New Roman, serif"><font size="4" style="font-size: 14pt">EE/CSC
+	7700 ML for CPS</font></font></p></li>
+	<li><p style="line-height: 150%; margin-bottom: 0.11in"><font face="Times New Roman, serif"><font size="4" style="font-size: 14pt"><b>Instructor:</b></font></font><font face="Times New Roman, serif"><font size="4" style="font-size: 14pt">&nbsp;Dr.
+	Xugui Zhou</font></font></p></li>
+	<li><p style="line-height: 150%; margin-bottom: 0.11in"><font face="Times New Roman, serif"><font size="4" style="font-size: 14pt"><b>Presentation
+	by Group 8: </b></font></font><font face="Times New Roman, serif"><font size="4" style="font-size: 14pt">Duc
+	Long Vu , Abdulla Asad</font></font></p></li>
+	<li><p style="line-height: 150%; margin-bottom: 0.11in"><font face="Times New Roman, serif"><font size="4" style="font-size: 14pt"><b>Link
+	to Paper: </b></font></font><font color="#0000ff"><u><a href="https://arxiv.org/abs/2509.06071" target="_blank"><font face="Times New Roman, serif"><font size="4" style="font-size: 14pt">https://arxiv.org/abs/2509.06071</font></font></a></u></font></p></li>
+</ul>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><font face="Times New Roman, serif"><font size="4" style="font-size: 14pt"><b>Brief
+Summary </b></font></font>
+</p>
+<p align="justify" style="margin-top: 0.19in; margin-bottom: 0.19in; line-height: 150%">
+<font face="Times New Roman, serif"><font face="Calibri, serif">This
+paper reveals a fundamental vulnerability in modern online HD map
+construction models such as MapTR and VectorMapNet. These models
+exhibit a strong symmetry bias, often mispredicting asymmetric
+roads—like forks, merges, or sharp turns—as symmetric or
+straight. This flaw arises from training data imbalance and
+architectural design, and it can lead to unsafe planning behaviors
+such as missed turns or unreachable routes. To exploit this weakness,
+the authors introduce the first physical-world attacks on online map
+construction using simple roadside tools: a flashlight for camera
+blinding and adversarial patches for white-box attacks. Their
+two-stage framework first detects vulnerable asymmetric scenes and
+then optimizes roadside attack locations. Experiments on the nuScenes
+dataset and real-world tests show that these attacks significantly
+degrade map accuracy and increase unsafe planned trajectories. As a
+partial defense, the paper proposes fine-tuning with asymmetric data
+to improve robustness. </font><strong><font face="Calibri, serif"><span style="font-weight: normal">A
+key limitation is that the attack is most effective only when the
+vehicle is near the interference source, and its impact weakens
+quickly once the vehicle passes it</span></font></strong><strong><font face="Calibri, serif">.</font></strong><font face="Calibri, serif">
+Despite this, the work demonstrates a critical and previously
+overlooked safety risk in autonomous driving systems.</font></font></p>
+<p align="justify" style="line-height: 150%; margin-top: 0.19in; margin-bottom: 0.19in">
+<br/>
+<br/>
+
+</p>
+<p align="justify" style="line-height: 150%; margin-top: 0.19in; margin-bottom: 0.19in">
+<br/>
+<br/>
+
+</p>
+<p align="justify" style="line-height: 150%; margin-top: 0.19in; margin-bottom: 0.19in">
+<font face="Times New Roman, serif">Slide 01: Title</font></p>
+<p align="justify" style="line-height: 150%; margin-top: 0.19in; margin-bottom: 0.19in">
+<img src="Blog%20Post_Faiza12%20(1)_html_7f0f5260.jpg" name="Picture 67" align="bottom" width="624" height="328" border="0"/>
+</p>
+<p align="justify" style="line-height: 150%; margin-top: 0.19in; margin-bottom: 0.19in">
+<br/>
+<br/>
+
+</p>
+<p align="justify" style="line-height: 150%; margin-top: 0.19in; margin-bottom: 0.19in">
+<br/>
+<br/>
+
+</p>
+<p align="justify" style="line-height: 150%; margin-top: 0.19in; margin-bottom: 0.19in">
+<table dir="ltr" align="left" width="690" hspace="12" cellpadding="7" cellspacing="0">
+	<col width="327"/>
+	<col width="333"/>
+	<tr valign="top">
+		<td width="327" height="302" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 02: Presentation Outline</font></p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_20f6cace.jpg" name="Picture 1" align="bottom" width="326" height="230" border="0"/>
+</p>
+		</td>
+		<td width="333" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="left" style="margin-top: 0.19in; orphans: 2; widows: 2"><font face="Calibri, serif">This
+			slide gives an overview of the presentation flow. It briefly lists
+			the major sections covered in the paper, including the motivation,
+			vulnerability analysis, attack design, experiments, and future
+			research directions. It helps readers understand how the topic
+			will be explained step-by-step.</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="327" height="290" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 03: Motivation </font>
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_f7d63352.jpg" name="Picture 3" align="bottom" width="323" height="240" border="0"/>
+</p>
+		</td>
+		<td width="333" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">This slide explains why online HD maps
+			are becoming widely used and why their security is important.
+			Since traditional HD maps are expensive to maintain, vehicles rely
+			on online mapping, which is still vulnerable to physical
+			interference. The example shows how a simple roadside flashlight
+			or adversarial patch can mislead the map model, motivating the
+			need for this research.</font></p>
+		</td>
+	</tr>
+</table><br/>
+<br/>
+
+</p>
+<p align="justify" style="line-height: 150%; margin-top: 0.19in; margin-bottom: 0.19in">
+<br/>
+<br/>
+
+</p>
+<p align="justify" style="line-height: 150%; margin-top: 0.19in; margin-bottom: 0.19in">
+<br/>
+<br/>
+
+</p>
+<p align="justify" style="line-height: 150%; margin-top: 0.19in; margin-bottom: 0.19in">
+<br/>
+<br/>
+
+</p>
+<p align="justify" style="line-height: 150%; margin-top: 0.19in; margin-bottom: 0.19in">
+<br/>
+<br/>
+
+</p>
+<p align="justify" style="line-height: 150%; margin-top: 0.19in; margin-bottom: 0.19in">
+<br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><table dir="ltr" align="left" width="678" hspace="12" cellpadding="7" cellspacing="0">
+	<col width="333"/>
+	<col width="315"/>
+	<tr valign="top">
+		<td width="333" height="267" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 04: Background (AD Systems)</font></p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_aba2d6de.jpg" name="Picture 6" align="bottom" width="332" height="219" border="0"/>
+</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="left" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">This slide explains the key components
+			of an autonomous driving (AD) system. AD relies on perception,
+			trajectory prediction, and motion planning, all of which depend on
+			accurate environmental understanding. Mapping is a crucial part of
+			perception because it provides detailed geometric and semantic
+			information about the road. Since motion planning uses this map
+			information to generate safe driving paths, the reliability and
+			robustness of HD maps are essential for ensuring the overall
+			safety of autonomous vehicles.</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="333" height="290" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 05: Background (Online Map
+			Construction)</font></p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_ed9396da.jpg" name="Picture 7" align="bottom" width="333" height="232" border="0"/>
+</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">This slide compares traditional HD map
+			construction with online map construction. Traditional HD maps
+			require heavy manual data collection and annotation, making them
+			expensive and quickly outdated. Online map construction addresses
+			this by predicting map elements directly from real-time sensor
+			data, enabling dynamic and continuously updated HD maps. Modern
+			approaches such as VectorMapNet and MapTR use query-based decoding
+			to improve both accuracy and efficiency, making them widely
+			adopted in current autonomous driving systems.</font></p>
+		</td>
+	</tr>
+</table><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><table dir="ltr" align="left" width="678" hspace="12" cellpadding="7" cellspacing="0">
+	<col width="333"/>
+	<col width="315"/>
+	<tr valign="top">
+		<td width="333" height="267" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 06: Vulnerability Analysis
+			(Dataset + Real World)</font></p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_ab29e585.jpg" name="Picture 10" align="bottom" width="333" height="202" border="0"/>
+</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="left" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">This slide shows that online HD map
+			models often misinterpret asymmetric roads as symmetric. Both
+			dataset tests and real-world vehicle experiments confirm this
+			bias, and optimized flashlight interference makes the problem
+			worse. This means a natural model weakness can become a safety
+			risk when triggered physically.</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="333" height="290" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 07:  Vulnerability Analysis
+			(Model Behavior) </font>
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_8bba0ecd.jpg" name="Picture 11" align="bottom" width="333" height="221" border="0"/>
+</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">This slide explains that the model
+			architecture itself contributes to the vulnerability. Because the
+			BEV encoder and map decoder rely heavily on nearby features, the
+			model is easily influenced and tends to force asymmetric roads
+			into symmetric shapes. This leads to errors like road
+			straightening or early-turn predictions.</font></p>
+		</td>
+	</tr>
+</table><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><table dir="ltr" align="left" width="678" hspace="12" cellpadding="7" cellspacing="0">
+	<col width="333"/>
+	<col width="315"/>
+	<tr valign="top">
+		<td width="333" height="267" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 08: Threat Model </font>
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_d241a18e.jpg" name="Picture 14" align="bottom" width="333" height="216" border="0"/>
+</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="left" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">This slide explains the goal and
+			ability of the attacker. The attacker aims to exploit the model’s
+			symmetry bias to make the online map incorrectly predict road
+			structure. Two attack objectives are introduced: <strong>Road
+			Straightening</strong> and <strong>Early Turn</strong>. The
+			attacker operates offline, has no access to the vehicle, and can
+			only place interference on the roadside using limited tools such
+			as a flashlight or small adversarial patch.</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="333" height="290" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 09:  Attack Design </font>
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_56472f9d.jpg" name="Picture 15" align="bottom" width="333" height="259" border="0"/>
+</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">This slide summarizes the two-stage
+			attack framework. First, the system automatically identifies
+			asymmetric scenes that are vulnerable to manipulation. Next, it
+			searches for the best roadside positions for physical interference
+			(flashlight or adversarial patch). The design addresses three
+			challenges: detecting attack-prone scenes, navigating a large
+			search space, and producing effective real-world attacks on online
+			map construction models.</font></p>
+		</td>
+	</tr>
+</table><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><table dir="ltr" align="left" width="678" hspace="12" cellpadding="7" cellspacing="0">
+	<col width="333"/>
+	<col width="315"/>
+	<tr valign="top">
+		<td width="333" height="267" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 10: Attack Design Overview</font></p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_acb1cc26.jpg" name="Picture 18" align="bottom" width="333" height="189" border="0"/>
+</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="left" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">This slide summarizes the two-stage
+			attack process.<br/>
+In <strong>Stage 1</strong>, the system
+			automatically detects asymmetric scenes using a rule-based
+			classifier and then refines the results with a vision-language
+			model to remove false positives.<br/>
+In <strong>Stage 2</strong>,
+			the framework ranks roadside attack positions and simulates how a
+			flashlight or adversarial patch would affect the camera view,
+			choosing the most effective configuration to trigger the mapping
+			error.</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="333" height="290" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 11:  Attack Design: Identify
+			Asymmetric Scenario</font></p>
+			<p align="justify" style="margin-top: 0.19in; margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_ccad8d57.jpg" name="Picture 19" align="bottom" width="333" height="179" border="0"/>
+</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<br/>
+
+			</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">This slide explains why identifying
+			asymmetric scenes is important for the attack. Since datasets do
+			not label which scenes are symmetric or where turns begin, the
+			system must detect them automatically. It does this by locating
+			asymmetric road patterns and pinpointing “asymmetry anchors,”
+			which are the best points for placing physical interference during
+			the attack.</font></p>
+		</td>
+	</tr>
+</table><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><table dir="ltr" align="left" width="678" hspace="12" cellpadding="7" cellspacing="0">
+	<col width="333"/>
+	<col width="315"/>
+	<tr valign="top">
+		<td width="333" height="267" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 12: Attack Design – Two-Step
+			Asymmetric Scene Classifier</font></p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_49c0244b.jpg" name="Picture 22" align="bottom" width="333" height="188" border="0"/>
+</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="left" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">This slide explains how the system
+			detects asymmetric scenes.<br/>
+In <strong>Step 1</strong>, a
+			rule-based geometric classifier looks for large curvature
+			differences between the left and right road boundaries and marks
+			the divergence points as asymmetry anchors.<br/>
+In <strong>Step
+			2</strong>, a vision-language model (GPT-4o) refines these results
+			by checking map data and images to confirm whether the scene is
+			truly asymmetric. This ensures only accurate asymmetric cases are
+			passed to the next stage of the attack.</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="333" height="290" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 13: Attack Design – VLM Prompt
+			and Example</font></p>
+			<p align="justify" style="margin-top: 0.19in; margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_c51f9291.jpg" name="Picture 23" align="bottom" width="333" height="182" border="0"/>
+</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">This slide shows how the
+			vision-language model improves scene classification. The VLM uses
+			maps, boundary coordinates, and camera images to understand road
+			geometry and correct mistakes made by the rule-based classifier.
+			The example demonstrates the VLM successfully identifying symmetry
+			or asymmetry with detailed reasoning, leading to more reliable
+			attack planning.</font></p>
+		</td>
+	</tr>
+</table><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><table dir="ltr" align="left" width="678" hspace="12" cellpadding="7" cellspacing="0">
+	<col width="333"/>
+	<col width="315"/>
+	<tr valign="top">
+		<td width="333" height="267" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 14: Attack Design – Attack
+			Position Ranking (Concept)</font></p>
+			<p align="justify" style="margin-top: 0.19in; margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_eeaf9339.jpg" name="Picture 26" align="bottom" width="333" height="181" border="0"/>
+</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<br/>
+
+			</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="left" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="left" style="margin-top: 0.19in; orphans: 2; widows: 2"><font face="Calibri, serif">This
+			slide explains why the attack needs a ranking system for roadside
+			positions.<br/>
+Searching an entire 3D space is too large and
+			unrealistic, so the authors use a lightweight scoring method. The
+			attack is strongest when the interference is close to the cameras
+			and near the asymmetry anchors, so these factors guide which
+			positions are ranked highest for launching the attack.</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="333" height="290" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 15: Attack Design – Scoring
+			Function Details</font></p>
+			<p align="justify" style="margin-top: 0.19in; margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_1a82aa92.jpg" name="Picture 27" align="bottom" width="333" height="193" border="0"/>
+</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<br/>
+
+			</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">This slide shows how the ranking score
+			is computed.<br/>
+Each candidate position is evaluated based on
+			two factors: how intense the interference would be at the camera
+			(distance) and how well it aligns with the asymmetry anchor
+			(angle). By combining these factors into a single score, the
+			system selects a small set of top-k positions for final attack
+			optimization.</font></p>
+		</td>
+	</tr>
+</table><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><table dir="ltr" align="left" width="678" hspace="12" cellpadding="7" cellspacing="0">
+	<col width="333"/>
+	<col width="315"/>
+	<tr valign="top">
+		<td width="333" height="267" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 16: Attack Objectives (Road
+			Straightening &amp; Early Turn)</font></p>
+			<p align="justify" style="margin-top: 0.19in; margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_bf640e05.jpg" name="Picture 30" align="bottom" width="333" height="186" border="0"/>
+</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<br/>
+
+			</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="left" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="left" style="margin-top: 0.19in; orphans: 2; widows: 2"><font face="Calibri, serif">This
+			slide explains the two goals of the attack.<br/>
+In <strong><span style="font-weight: normal">Road
+			Straightening</span></strong>, the attacker tries to make the
+			model convert a curved or diverging boundary into a straight one.
+			In <strong><span style="font-weight: normal">Early Turn</span></strong><b>,</b>
+			the attacker pushes the predicted boundary outward so the model
+			believes a turn starts earlier than it really does. Both
+			objectives use boundary-based losses that guide the model toward
+			these incorrect road shapes when interference is applied.</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="333" height="290" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 17: Attack Configuration
+			Optimization (Four Configurations)</font></p>
+			<p align="justify" style="margin-top: 0.19in; margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_85b782bc.jpg" name="Picture 31" align="bottom" width="333" height="192" border="0"/>
+</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<br/>
+
+			</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">This slide shows how the attack is
+			applied using two methods camera blinding (black-box) and
+			adversarial patches (white-box) combined with the two attack
+			objectives (straightening and early turn). Camera blinding uses a
+			search strategy to find the best roadside position, while the
+			patch attack optimizes both the position and the patch pattern.
+			The final attack is chosen based on which configuration produces
+			the lowest loss for the targeted road manipulation.</font></p>
+		</td>
+	</tr>
+</table><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><table dir="ltr" align="left" width="678" hspace="12" cellpadding="7" cellspacing="0">
+	<col width="333"/>
+	<col width="315"/>
+	<tr valign="top">
+		<td width="333" height="267" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 18: Experiments Overview</font></p>
+			<p align="justify" style="margin-top: 0.19in; margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_7f130417.jpg" name="Picture 34" align="bottom" width="333" height="214" border="0"/>
+</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<br/>
+
+			</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="left" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="left" style="margin-top: 0.19in; orphans: 2; widows: 2"><font face="Calibri, serif">This
+			slide summarizes the two types of experiments conducted.<br/>
+The
+			<strong>dataset experiments</strong> use 100 asymmetric scenes
+			from nuScenes to test multiple map-construction models under
+			flashlight and patch attacks.<br/>
+The <strong>real-world
+			experiments</strong> use a custom vehicle with six cameras and
+			evaluate attacks at real intersections and road splits under
+			different weather and lighting conditions.<br/>
+Together, these
+			experiments show both simulated and real-world impacts of the
+			proposed attacks.</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="333" height="293" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 19: Dataset Results – Road
+			Straightening Attack</font></p>
+			<p align="justify" style="margin-top: 0.19in; margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="justify" style="margin-top: 0.19in; margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_6699a580.jpg" name="Picture 35" align="bottom" width="333" height="175" border="0"/>
+</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<br/>
+
+			</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="left" style="margin-top: 0.19in; orphans: 2; widows: 2"><font face="Calibri, serif">This
+			slide presents the effect of the road-straightening attack on
+			mapping accuracy and route planning.<br/>
+Both flashlight and
+			adversarial patch attacks reduce boundary AP by nearly <strong><span style="font-weight: normal">10%</span></strong>,
+			showing a clear drop in map quality.<br/>
+More importantly<b>,
+			</b><strong><span style="font-weight: normal">unreachable routes
+			jump from 27% to 44%</span></strong><b>,</b> meaning almost half
+			of the planned paths fail so the vehicle cannot find a safe way to
+			the destination.</font></p>
+		</td>
+	</tr>
+</table><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><table dir="ltr" align="left" width="678" hspace="12" cellpadding="7" cellspacing="0">
+	<col width="333"/>
+	<col width="315"/>
+	<tr valign="top">
+		<td width="333" height="267" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 20: Dataset Results – Early
+			Turn Attack</font></p>
+			<p align="justify" style="margin-top: 0.19in; margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_e4413468.jpg" name="Picture 38" align="bottom" width="333" height="168" border="0"/>
+</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<br/>
+
+			</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="left" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="left" style="margin-top: 0.19in; orphans: 2; widows: 2"><font face="Calibri, serif">This
+			slide presents the impact of the early-turn attack.<br/>
+The
+			attack slightly lowers mapping accuracy (Boundary AP drops by
+			~3–5%) but has a much bigger effect on planning. Unreachable
+			routes rise from <strong><span style="font-weight: normal">10% to
+			27%</span></strong><b>,</b> meaning the model becomes confused
+			about where the turn begins. This can cause up to <strong><span style="font-weight: normal">27%
+			of planned paths to collide with real road boundaries</span></strong><b>,</b>
+			highlighting a serious safety threat.</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="333" height="308" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 21: Attack Effectiveness –
+			Road Straightening Attack</font></p>
+			<p align="justify" style="margin-top: 0.19in; margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_5249be2d.jpg" name="Picture 39" align="bottom" width="333" height="197" border="0"/>
+</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<br/>
+
+			</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="left" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="left" style="margin-top: 0.19in; orphans: 2; widows: 2"><font face="Calibri, serif">This
+			slide compares the proposed attack to baseline methods.<br/>
+For
+			road straightening, the authors’ attack achieves the <strong><span style="font-weight: normal">lowest
+			map AP</span></strong><b>,</b> showing it is the most effective at
+			degrading map quality. It also causes the <strong><span style="font-weight: normal">highest
+			unreachable goal rate (44%)</span></strong><b>,</b> outperforming
+			random sampling and PSO. These results confirm that the proposed
+			method is both stronger and more targeted than baseline attack
+			strategies.</font></p>
+		</td>
+	</tr>
+</table><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><table dir="ltr" align="left" width="678" hspace="12" cellpadding="7" cellspacing="0">
+	<col width="333"/>
+	<col width="315"/>
+	<tr valign="top">
+		<td width="333" height="266" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 22: Attack Effectiveness –
+			Early Turn Attacks</font></p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_498302d0.jpg" name="Picture 42" align="bottom" width="333" height="195" border="0"/>
+</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="left" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="left" style="margin-top: 0.19in; orphans: 2; widows: 2"><font face="Calibri, serif">This
+			slide shows the performance of the early-turn attack.<br/>
+Although
+			the accuracy drop is smaller than in the straightening attack, the
+			early-turn attack significantly increases unsafe driving behavior.
+			The unsafe trajectory rate rises from <strong><span style="font-weight: normal">10%
+			to up to 27%</span></strong><b>,</b> meaning the vehicle is more
+			likely to drift toward road boundaries. This confirms that
+			early-turn attacks can directly impact driving safety even with
+			modest changes in map accuracy.</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="333" height="285" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 23: Real-World Attacks Results </font>
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_ba2ddfc4.jpg" name="Picture 43" align="bottom" width="333" height="181" border="0"/>
+</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="left" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="left" style="margin-top: 0.19in; orphans: 2; widows: 2"><font face="Calibri, serif">This
+			slide summarizes the real-world attack performance using a test
+			vehicle equipped with multiple cameras.<br/>
+Road straightening
+			attacks are highly effective: flashlight interference succeeds in
+			<strong><span style="font-weight: normal">all 8 scenes</span></strong><b>,</b>
+			while adversarial patches work in most cases. Early-turn attacks
+			are harder but still successful in several scenarios. These
+			results demonstrate that simple roadside tools like a flashlight
+			or printed patch can reliably mislead real autonomous driving
+			systems.</font></p>
+		</td>
+	</tr>
+</table><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><table dir="ltr" align="left" width="678" hspace="12" cellpadding="7" cellspacing="0">
+	<col width="333"/>
+	<col width="315"/>
+	<tr valign="top">
+		<td width="333" height="266" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 24: Attack Works in Different
+			Conditions</font></p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_dd528a05.jpg" name="Picture 46" align="bottom" width="333" height="186" border="0"/>
+</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="left" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="left" style="margin-top: 0.19in; orphans: 2; widows: 2"><font face="Calibri, serif">This
+			slide shows that the attacks remain effective under various
+			real-world conditions.<br/>
+They work in cloudy and nighttime
+			environments, and can still succeed even when pedestrians or
+			passing vehicles partially block the camera. This demonstrates
+			that the attacks are not limited to controlled laboratory settings
+			they hold up in realistic, everyday driving scenarios.</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="333" height="273" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 25: Attack Other
+			State-of-the-art Models </font>
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_1d92f901.jpg" name="Picture 47" align="bottom" width="333" height="191" border="0"/>
+</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="left" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="left" style="margin-top: 0.19in; margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">This slide evaluates the attack on
+			additional advanced HD map models, including those using
+			LiDAR–camera fusion.<br/>
+Across models like MapTR, MapQR, and
+			GeMap, the attacks consistently reduce mapping accuracy and
+			significantly increase unreachable or unsafe planned trajectories.
+			This shows that the vulnerability is widespread and affects
+			multiple state-of-the-art approaches, not just a single model.</font></p>
+			<p align="left" style="orphans: 2; widows: 2"><br/>
+
+			</p>
+		</td>
+	</tr>
+</table><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><table dir="ltr" align="left" width="678" hspace="12" cellpadding="7" cellspacing="0">
+	<col width="333"/>
+	<col width="315"/>
+	<tr valign="top">
+		<td width="333" height="266" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 26: Limitations</font></p>
+			<p align="justify" style="margin-top: 0.19in; margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_557271b4.jpg" name="Picture 53" align="bottom" width="333" height="188" border="0"/>
+</p>
+			<p align="justify" style="margin-top: 0.19in; margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<br/>
+
+			</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="left" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="left" style="margin-top: 0.19in; margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Times New Roman, serif"><font face="Calibri, serif">This
+			slide explains the main weaknesses of the attack.<br/>
+The attack
+			only works when the vehicle is close to the flashlight or patch,
+			and the effect quickly fades after passing it. It is less
+			effective on LiDAR–camera fusion systems, though it still causes
+			some errors. Environmental factors also matter patches are hard to
+			see at night, while flashlights are more noticeable and easier for
+			humans to detect.</font></font></p>
+			<p align="left" style="margin-top: 0.19in; orphans: 2; widows: 2"><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="333" height="273" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 27: Relation to CPS</font></p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_101a37c8.jpg" name="Picture 52" align="bottom" width="333" height="187" border="0"/>
+</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="left" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="left" style="orphans: 2; widows: 2"><font face="Calibri, serif">This
+			slide connects the work to Cyber-Physical Systems (CPS).<br/>
+The
+			attacks reveal real-world adversarial vulnerabilities in
+			camera-based perception, which can lead to unsafe driving
+			decisions. Although sensor fusion adds robustness, data bias and
+			rare scene types still cause failures. Because planning depends
+			directly on mapping, a manipulated map can trigger dangerous
+			actions, showing how tightly coupled perception and control are in
+			CPS.</font></p>
+		</td>
+	</tr>
+</table><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><table dir="ltr" align="left" width="678" hspace="12" cellpadding="7" cellspacing="0">
+	<col width="333"/>
+	<col width="315"/>
+	<tr valign="top">
+		<td width="333" height="266" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 28: Related Work &amp; Follow-Up
+			Research (Part 1)</font></p>
+			<p align="justify" style="margin-top: 0.19in; margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_819ed6b6.jpg" name="Picture 56" align="bottom" width="333" height="189" border="0"/>
+</p>
+			<p align="justify" style="margin-top: 0.19in; margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<br/>
+
+			</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="left" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="left" style="margin-top: 0.19in; margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="left" style="margin-top: 0.19in; orphans: 2; widows: 2"><font face="Calibri, serif">This
+			slide highlights foundational papers in online HD map
+			construction.<br/>
+HDMapNet introduced the first framework for
+			building HD maps directly from onboard sensors. VectorMapNet
+			advanced this by predicting vectorized map elements end-to-end.
+			MapTR then improved accuracy and structure using a
+			transformer-based design. These works laid the groundwork for
+			modern online HD mapping systems that the current paper studies
+			and attacks.</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="333" height="313" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 29: Related Work &amp; Follow-Up
+			Research (Part 2)</font></p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_51236974.jpg" name="Picture 58" align="bottom" width="333" height="186" border="0"/>
+</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="left" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="left" style="margin-bottom: 0in; orphans: 2; widows: 2"><br/>
+
+			</p>
+			<p align="left" style="orphans: 2; widows: 2"><font face="Calibri, serif">This
+			slide presents more recent developments in HD map learning and
+			robustness.<br/>
+InstaGraM models HD maps as instance-level graphs
+			for better flexibility and long-range accuracy. ADMap focuses on
+			stabilizing jagged map predictions to improve planning safety. The
+			WIP/USENIX work investigates HD map tampering threats, showing
+			growing interest in map security. Together, these papers
+			complement the current study by addressing scalability, stability,
+			and security of HD map systems.</font></p>
+		</td>
+	</tr>
+</table><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><table dir="ltr" align="left" width="678" hspace="12" cellpadding="7" cellspacing="0">
+	<col width="333"/>
+	<col width="315"/>
+	<tr valign="top">
+		<td width="333" height="230" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 30: Future Research Directions </font>
+			</p>
+			<p align="justify" style="margin-top: 0.19in; margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_36eaff32.jpg" name="Picture 61" align="bottom" width="333" height="176" border="0"/>
+</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<br/>
+
+			</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="left" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="left" style="margin-top: 0.19in; margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">This slide outlines potential next
+			steps for both defending against and extending the attacks.<br/>
+On
+			the defense side, improvements include adding more asymmetric
+			scenes to training data, redesigning model architectures to reduce
+			unwanted boundary interactions, and verifying predictions using
+			multiple sensor types. On the attack side, future work could
+			explore moving or continuous attacks, combining camera and LiDAR
+			attacks, using invisible infrared light, or scaling attacks across
+			larger city areas.</font></p>
+			<p align="left" style="margin-top: 0.19in; orphans: 2; widows: 2"><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="333" height="249" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 31: Teamwork </font>
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_6b9036da.jpg" name="Picture 62" align="bottom" width="333" height="187" border="0"/>
+</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="left" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="left" style="orphans: 2; widows: 2"><font face="Calibri, serif">This
+			slide explains how the project tasks were divided among team
+			members.<br/>
+One member focused on motivation, background,
+			analysis, and attack design; the other handled experiments,
+			limitations, contributions, and future directions. Both
+			collaborated on reading the paper, refining slide content, and
+			preparing the final presentation.</font></p>
+		</td>
+	</tr>
+</table><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><table dir="ltr" align="left" width="678" hspace="12" cellpadding="7" cellspacing="0">
+	<col width="333"/>
+	<col width="315"/>
+	<tr valign="top">
+		<td width="333" height="230" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 32:  Questions?</font></p>
+			<p align="justify" style="margin-top: 0.19in; margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_c5af3485.jpg" name="Picture 65" align="bottom" width="333" height="184" border="0"/>
+</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="left" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<br/>
+<br/>
+
+			</p>
+			<p align="left" style="margin-top: 0.19in; margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">This slide marks the transition to the
+			Q&amp;A portion of the presentation.<br/>
+It invites the audience
+			to ask questions about the paper’s findings, attack methods,
+			experiments, or broader implications for autonomous driving safety
+			and map robustness.</font></p>
+			<p align="left" style="margin-top: 0.19in; orphans: 2; widows: 2"><br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="333" height="305" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="justify" style="margin-bottom: 0.19in; orphans: 2; widows: 2">
+			<font face="Calibri, serif">Slide 33:  Discussion</font></p>
+			<p align="justify" style="margin-top: 0.19in; orphans: 2; widows: 2">
+			<img src="Blog%20Post_Faiza12%20(1)_html_c58242e1.jpg" name="Picture 66" align="bottom" width="333" height="183" border="0"/>
+</p>
+		</td>
+		<td width="315" style="border: 1px solid #000000; padding: 0in 0.08in"><p align="left" style="margin-bottom: 0in; orphans: 2; widows: 2">
+			<br/>
+
+			</p>
+			<p align="left" style="margin-bottom: 0in; orphans: 2; widows: 2"><br/>
+
+			</p>
+			<p align="left" style="orphans: 2; widows: 2"><font face="Calibri, serif">This
+			slide raises two open-ended questions to encourage critical
+			thinking.<br/>
+The first asks whether autonomous vehicles should
+			be required to pass adversarial robustness tests before operating
+			on public roads.<br/>
+The second asks the audience to consider how
+			they would design defenses against such physical-world attacks.
+			These questions are meant to spark conversation on policy, safety,
+			and future research directions.</font></p>
+		</td>
+	</tr>
+</table><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-bottom: 0.11in"><br/>
+<br/>
+
+</p>
+<p style="line-height: 150%; margin-top: 0.19in; margin-bottom: 0.19in">
+<font face="Times New Roman, serif"><font size="4" style="font-size: 13pt"><b>Summary
+of Ideas Shared by Groups for discussion</b></font></font></p>
+<p align="justify" style="line-height: 150%; margin-bottom: 0.11in">Across
+the class discussion, most groups agreed that autonomous vehicles
+should undergo formal adversarial robustness testing before being
+allowed on public roads, since physical-world attacks like glare,
+spoofed patterns, or manipulated boundaries can cause real safety
+hazards. Groups highlighted that current systems rely too heavily on
+cameras, making them vulnerable, and suggested strengthening defenses
+by combining multiple sensing modalities such as LiDAR, radar, and
+cameras to cross-validate predictions. Another common idea was
+enriching training datasets with more asymmetric and rare road
+structures so models learn to handle unusual scenes more reliably and
+also emphasized implementing real-time anomaly detection for example,
+flagging abnormal brightness spikes, inconsistent boundaries, or
+sudden shape deviations and comparing outputs across sensors to
+quickly identify when the map construction model is being misled.
+Overall, the shared view was that improving redundancy, diversity of
+training data, and early-warning detection mechanisms are crucial for
+safer autonomous navigation.</p>
+</body>
+</html>

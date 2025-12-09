@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BlogPost-xx — Recovery-Guaranteed Sensor Attack Detection for Cyber-Physical Systems</title>
+  <style>
+    :root {
+      --fg: #111;
+      --muted: #555;
+      --bg: #fff;
+      --accent: #0ea5e9;
+      --card: #f5f7fb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0 auto;
+      padding: 2rem 1rem 4rem;
+      max-width: 900px;
+      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--fg);
+      background: var(--bg);
+    }
+    header { border-bottom: 3px solid var(--card); margin-bottom: 1rem; padding-bottom: 0.5rem; }
+    h1 { font-size: 1.9rem; margin: 0.2rem 0 0.5rem; }
+    .meta { font-size: 0.95rem; color: var(--muted); display: grid; gap: 0.1rem; }
+    section { margin: 2rem 0; }
+    h2 { font-size: 1.4rem; margin: 0 0 0.5rem; }
+    h3 { font-size: 1.15rem; margin: 1.25rem 0 0.25rem; }
+    p { margin: 0.5rem 0; }
+    .card { background: var(--card); border-radius: 12px; padding: 1rem; }
+    .slides article {
+      border: 1px solid #e6e6ef; border-radius: 12px; padding: 1rem; margin: 1rem 0; background: #fff;
+    }
+    .slides h3 { margin-top: 0; }
+    figure { margin: 0.5rem 0 0.75rem; display: grid; gap: 0.5rem; }
+    figure img { width: 100%; height: auto; border-radius: 10px; border: 1px solid #e6e6ef; }
+    figcaption { font-size: 0.9rem; color: var(--muted); }
+    .small { font-size: 0.9rem; color: var(--muted); }
+    .footer { margin-top: 2rem; padding-top: 1rem; border-top: 3px solid var(--card); font-size: 0.9rem; color: var(--muted); }
+    .toc { background: #fff; border: 1px solid #e6e6ef; border-radius: 12px; padding: 1rem; }
+    .toc ul { margin: 0.5rem 0 0 1.1rem; }
+    ul.tight > li { margin: 0.25rem 0; }
+    code { background: #eef2ff; padding: 0.05rem 0.35rem; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Recovery-Guaranteed Sensor Attack Detection for Cyber-Physical Systems</h1>
+    <div class="meta">
+      <div><strong>Course:</strong> EE/CSC 7700 — ML for CPS</div>
+      <div><strong>Instructor:</strong> Dr. Xugui Zhou</div>
+      <div><strong>Presented by:</strong> Kouhyar Sheida &amp; Amirhossein Ghorbansarvi</div>
+      <div><strong>Summarized by:</strong> Peyton Andras &amp; Chisom Osigwe</div>
+    </div>
+  </header>
+
+  <section id="brief-summary" class="card">
+    <h2>Brief Summary</h2>
+    <p>
+      This presentation proposes a <em>recovery-guaranteed sensor attack detection</em> framework for cyber‑physical systems (CPS).
+      Unlike prior work that treats detection and recovery separately, the method <strong>co-designs</strong> detection thresholds with
+      online <strong>recoverability verification</strong>, ensuring alarms are raised only when there remains enough time (a window of K steps)
+      to safely recover. The architecture integrates residual calculation, state authentication with bounded error, incremental
+      reachability-based recoverability estimation, and dynamic threshold adjustment that tightens or loosens sensitivity to
+      guarantee recovery while minimizing false alarms. Validation spans vehicle platoon, aircraft pitch, and lane-keeping simulators,
+      plus a physical 4‑wheel testbed, demonstrating zero missed recovery windows across bias, delay, and replay attacks.
+    </p>
+  </section>
+
+  <section class="toc">
+    <h2>Contents</h2>
+    <ul>
+      <li><a href="#slides">Slide Descriptions & Screenshots</a></li>
+      <li><a href="#discussion">Summary of Discussion Ideas</a></li>
+    </ul>
+  </section>
+
+  <section id="slides" class="slides">
+    <h2>Slide Descriptions &amp; Screenshots</h2>
+
+    <article id="s01">
+      <h3>1) State of The Art</h3>
+      <figure>
+        <img src="slides/slide1.jpg" alt="Slide 1 — Title and presenters"/>
+        <figcaption>Problem: sensor attacks in CPS can cause unsafe control actions.</figcaption>
+      </figure>
+      <p>Motivates CPS security: autonomy, industrial automation, smart grids, aerospace; sensor spoofing can crash drones or mislead vehicles. Current approaches treat recovery and detection as separate problems, leading to scenarios where alarms arrive too late for safe intervention or too early causing unnecessary disruptions. The slide introduces the critical challenge of ensuring both timely detection and guaranteed recovery in safety-critical systems where delayed responses can lead to catastrophic failures.</p>
+    </article>
+
+    <article id="s02">
+      <h3>2) Motivation</h3>
+      <figure>
+        <img src="slides/slide2.jpg" alt="Slide 2 — State of the art"/>
+        <figcaption>Detection and recovery traditionally handled separately.</figcaption>
+      </figure>
+      <p>Calls for a unified framework that coordinates detection decisions with recovery capabilities in real time. This slide highlights the fundamental limitation of existing approaches where detection systems raise alarms without considering whether sufficient time remains for the control system to safely recover. The gap between detection and recovery planning creates scenarios where systems either miss critical windows for safe intervention or generate excessive false alarms that degrade operational efficiency.</p>
+    </article>
+
+    <article id="s03">
+      <h3>3) Problem Statement — Critical Gaps</h3>
+      <figure>
+        <img src="slides/slide3.jpg" alt="Slide 3 — Gaps in CPS security"/>
+        <figcaption>Late alarms → no time to recover; early alarms → false positives.</figcaption>
+      </figure>
+      <p>Highlights timing/coordination challenge: sensitivity vs specificity trade‑off, ensuring alarms arrive with sufficient recovery margin. The core technical challenge is determining the optimal detection threshold that maximizes sensitivity to attacks while guaranteeing the system retains a minimum K-step window for safe recovery. Traditional approaches fail because they set static thresholds without real-time verification of the system's current recoverability state, leading to either missed attacks or unnecessary operational disruptions that impact system performance and user trust.</p>
+    </article>
+
+    <article id="s04">
+      <h3>4) Threat Landscape</h3>
+      <figure>
+        <img src="slides/slide4.jpg" alt="Slide 4 — Threats"/>
+        <figcaption>Sensor attacks, timing constraints, functional complexity.</figcaption>
+      </figure>
+      <p>Defines attack classes (bias, delay, replay) and real‑time constraints that make recovery‑aware detection necessary. Bias attacks inject constant or slowly varying offsets into sensor readings, delay attacks introduce temporal misalignment between measurements and their timestamps, while replay attacks retransmit previously captured legitimate sensor data to mask current malicious activities. Each attack type has unique challenges for detection systems as they can remain stealthy by staying within normal operational bounds while gradually pushing the system toward unsafe states, requiring sophisticated detection mechanisms that can distinguish malicious deviations from benign noise.</p>
+    </article>
+
+    <article id="s05">
+      <h3>5) Solution Overview — Recovery‑Guaranteed Detection</h3>
+      <figure>
+        <img src="slides/slide5.jpg" alt="Slide 5 — Solution overview"/>
+        <figcaption>Monitor state, verify recoverability, adjust threshold, guarantee recovery.</figcaption>
+      </figure>
+      <p>End‑to‑end loop: compute residuals; online check of recoverable window K; adapt threshold to maintain K≥required; raise timely alarms. The framework continuously monitors system state deviations through residual calculations, simultaneously verifying whether the current state remains within a K-step recoverable region using reachability analysis. Based on this real-time recoverability assessment, detection thresholds are dynamically adjusted. This tightens when recovery margins are healthy and loosening when the system approaches critical boundaries. This ensures alarms always provide sufficient lead time for safe intervention while minimizing false positives during normal operation.</p>
+    </article>
+
+    <article id="s06">
+      <h3>6) Framework Architecture</h3>
+      <figure>
+        <img src="slides/slide6.jpg" alt="Slide 6 — Architecture block diagram"/>
+        <figcaption>Residual calculator, error estimator, authenticator, recoverability calculator, threshold adjuster.</figcaption>
+      </figure>
+      <p>Each module collaborates to balance false alarms against recovery feasibility under real‑time constraints. The residual calculator compares predicted and measured states, the error estimator bounds uncertainty in state estimation, and the authenticator verifies whether observations fall within acceptable bounds given the error model. The recoverability calculator performs incremental reachability analysis to determine the K-step recovery window, while the threshold adjuster optimizes detection sensitivity subject to maintaining minimum recovery guarantees. This creates a closed-loop system where detection and recovery planning are inseparable and mutually reinforcing components.</p>
+    </article>
+
+    <article id="s07">
+      <h3>7) Main Contributions </h3>
+      <figure>
+        <img src="slides/slide7.jpg" alt="Slide 7 — Residuals and thresholds"/>
+        <figcaption>Authentication, incremental verification, threshold adjustment.</figcaption>
+      </figure>
+      <ul class="tight">
+        <li><strong>Authentication:</strong> Bounded‑error state estimates that account for both process noise and measurement uncertainty, providing provable guarantees on state estimation accuracy even under normal conditions without attacks.</li>
+        <li><strong>Incremental verification:</strong> Online recoverability windows computed using efficient reachability analysis that updates incrementally at each time step, avoiding costly full recomputation of safe sets and enabling real-time operation.</li>
+        <li><strong>Threshold adjustment:</strong> Optimize sensitivity subject to K≥required by solving a constrained optimization problem that maximizes detection capability while maintaining formal recovery guarantees at all times. This ensures a balance between security and operational efficiency.</li>
+      </ul>
+    </article>
+
+    <article id="s08">
+      <h3>8) Recoverability Calculator (Core)</h3>
+      <figure>
+        <img src="slides/slide8.jpg" alt="Slide 8 — Contributions"/>
+        <figcaption>Reachability‑based K‑step window with online, incremental checks.</figcaption>
+      </figure>
+      <p>Optimization objective: maximize threshold while keeping recoverability window K above a required minimum. The calculator uses set-based reachability techniques to compute forward reachable sets from the current estimated state under all possible control inputs, determining the maximum number of time steps K before the system would exit the safe operating region. By leveraging incremental computation methods and exploiting the structure of linear time-invariant systems, this module achieves real-time performance suitable for closed-loop operation in resource-constrained embedded platforms commonly found in cyber-physical systems.</p>
+    </article>
+
+    <article id="s09">
+      <h3>9) Experimental Validation</h3>
+      <figure>
+        <img src="slides/slide9.jpg" alt="Slide 9 — Recoverability calculator"/>
+        <figcaption> 3 simulators x 9 attack types → 0 missed recovery windows.</figcaption>
+      </figure>
+      <p>Vehicle platoon, aircraft pitch control, lane keeping; bias/delay/replay attacks; embedded real‑time testbed demonstration. The validation spans diverse cyber-physical domains with different dynamics and safety requirements, testing the framework against three attack categories (bias, delay, replay) with varying magnitudes and timing profiles for a total of 27 attack scenarios across the different platforms. Critically, across all experiments, the system achieved zero instances of missed recovery windows, meaning every detected attack was flagged with sufficient lead time for safe intervention, while a physical four-wheel robot testbed confirmed real-world feasibility with acceptable computational overhead on embedded hardware.</p>
+    </article>
+
+    <article id="s10">
+      <h3>10) Impact &amp; Future Directions</h3>
+      <figure>
+        <img src="slides/slide10.jpg" alt="Slide 10 — Experiments"/>
+        <figcaption>Safety guarantees, real‑world validation, broad CPS applicability.</figcaption>
+      </figure>
+      <p>Positions framework for life‑critical CPS and motivates probabilistic and distributed extensions. The work establishes a new paradigm for secure CPS design where detection and recovery are co-designed rather than treated as separate concerns, with immediate applicability to autonomous vehicles, industrial control systems, and aerospace platforms where safety is paramount. Future research directions include extending the deterministic framework to handle stochastic disturbances and uncertainties, developing distributed versions for large-scale networked systems, and investigating learning-based approaches to accelerate online recoverability computations for complex nonlinear dynamics.</p>
+    </article>
+
+    <article id="s11">
+      <h3>11) Limitations</h3>
+      <figure>
+        <img src="slides/slide11.jpg" alt="Slide 11 — Impact"/>
+        <figcaption>LTI assumptions; no attack isolation; deterministic set‑based reasoning.</figcaption>
+      </figure>
+      <ul class="tight">
+        <li>Assumes LTI dynamics which limits applicability to systems with significant nonlinearities, hybrid discrete-continuous behavior, or time-varying parameters that cannot be adequately approximated by linear models around operating points.</li>
+        <li>Detects attacks but doesn't localize or identify which specific sensors are compromised, requiring system-wide mitigation strategies rather than targeted sensor replacement or reconfiguration that could maintain higher operational performance during recovery.</li>
+        <li>Deterministic thresholds and set-based reasoning lack probabilistic confidence modeling, meaning the framework cannot quantify detection uncertainty or provide risk-aware decisions under stochastic disturbances and measurement noise that characterize many real-world systems.</li>
+      </ul>    
+    </article>
+
+    <article id="s12">
+      <h3>12) λ‑Detectability (Probabilistic Automata)</h3>
+      <figure>
+        <img src="slides/slide12.jpg" alt="Slide 12 — Limitations"/>
+        <figcaption>Quantifies probability of detection within a horizon.</figcaption>
+      </figure>
+      <p>Models uncertainty explicitly to enable risk‑aware detection decisions in supervisory control. Lambda-detectability extends classical detectability notions to probabilistic automata by quantifying the probability that an observer can determine the system's true state within a specified time horizon, accounting for stochastic transitions and observation uncertainties. This probabilistic framework enables designers to make quantitative trade-offs between detection confidence and response time, supporting applications where deterministic guarantees are infeasible due to inherent system randomness or incomplete information about system behavior.</p>
+    </article>
+
+    <!-- Related Work / Extensions (included per user's confirmation) -->
+    <article id="s13">
+      <h3>13) Control Barrier Functions (CBFs) for Safe Control</h3>
+      <figure>
+        <img src="slides/slide13.jpg" alt="Slide 13 — Control Barrier Functions"/>
+        <figcaption>Real‑time safety via invariance constraints; avoids heavy reachability.</figcaption>
+      </figure>
+      <p>Convex optimization enforces safety despite partial sensor corruption with reduced compute load. Control Barrier Functions provide safety where set invariance is maintained through pointwise constraints on control inputs, formulated as quadratic programs that can be solved in real-time even on embedded platforms. Unlike reachability-based methods that compute entire forward-reachable sets, CBFs evaluate safety conditions locally at each state, offering computational efficiency while still providing formal safety guarantees.</p>
+    </article>
+
+    <article id="s14">
+      <h3>14) Detecting Zero‑Dynamics Attacks</h3>
+      <figure>
+        <img src="slides/slide14.jpg" alt="Slide 14 — Detecting Zero-Dynamics Attacks"/>
+        <figcaption>Event‑triggered communication; detection &amp; isolation of stealthy attacks.</figcaption>
+      </figure>
+      <p>Zero-dynamics attacks are particularly insidious because they manipulate sensor readings in directions that align with the system's unobservable modes, making them invisible to traditional residual-based detectors that rely on state estimation errors. By combining geometric analysis of the system's observability structure with event-triggered communication strategies, this approach enables detection and isolation of such stealthy attacks while simultaneously reducing network bandwidth requirements, addressing both security and resource constraints in networked cyber-physical systems.</p>
+    </article>
+
+    <article id="s15">
+      <h3>15) Cross‑Layer Cyber–Physical Security</h3>
+      <figure>
+        <img src="slides/slide15.jpg" alt="Slide 15 — Cross-layer security"/>
+        <figcaption>Network‑level + physical‑level detection with correlation.</figcaption>
+      </figure>
+      <p>Combines protocol anomaly detection with physical signal anomalies to catch coordinated threats. Cross-layer security architectures recognize that cyber-attacks often leave traces at multiple system layers from network packet patterns to physical process deviations and that correlation across these layers can improve detection accuracy while reducing false alarms. By fusing information from network intrusion detection systems with physical-layer residual monitoring, cross-layer approaches can identify sophisticated attacks that appear benign when viewed from a single layer, such as man-in-the-middle attacks that inject physically plausible but malicious commands into control loops.</p>
+    </article>
+
+    <article id="s16">
+      <h3>16) Discrete Event Systems under Actuator Attacks</h3>
+      <figure>
+        <img src="slides/slide16.jpg" alt="Slide 16 — DES actuator attacks"/>
+        <figcaption>Supervisor synthesis to restore safe operation under re‑enabled events.</figcaption>
+      </figure>
+      <p>Maintains correctness via event‑sequence reasoning and robust supervisor design. In discrete event systems such as manufacturing lines, transportation networks, and building automation, actuator attacks can enable forbidden event sequences that violate safety specifications or deadlock the system. Supervisor synthesis techniques from formal methods provide a principled approach to designing controllers that enforce safety and liveness properties even when attackers can arbitrarily enable or disable certain events, ensuring the system remains within its specification despite malicious interference by constructing maximally permissive controllers that guarantee correctness.</p>
+    </article>
+
+    <article id="s17">
+      <h3>17) Dual Detection: Faults vs Integrity Attacks</h3>
+      <figure>
+        <img src="slides/slide17.jpg" alt="Slide 17 — Dual detection framework"/>
+        <figcaption>Controller‑side fault detector + plant‑side attack detector.</figcaption>
+      </figure>
+      <p>Jointly distinguishes benign faults from malicious attacks using closed‑loop signatures. Dual detection frameworks address the fundamental challenge that sensor deviations can arise from either benign hardware faults or malicious integrity attacks, requiring different mitigation strategies. By deploying detectors at both the controller side (monitoring expected closed-loop behavior) and plant side (monitoring physical consistency), and analyzing the correlation patterns between their outputs, these systems can differentiate between fault scenarios that require maintenance and attack scenarios that demand security responses, reducing both false positives from treating faults as attacks and false negatives from dismissing attacks as faults.</p>
+    </article>
+
+    <article id="s18">
+      <h3>18) Proposed Improvements &amp; Future Work</h3>
+      <figure>
+        <img src="slides/slide18.jpg" alt="Slide 18 — Proposed improvements"/>
+        <figcaption>Stochastic guarantees, risk metrics (CVaR/DRO), Bayesian/H∞ filters, K‑surrogates + CBFs.</figcaption>
+      </figure>
+      <ul class="tight">
+        <li>Chance‑constrained thresholds: Replace deterministic recovery guarantees with probabilistic ones, ensuring Pr(recovery within K steps) ≥ 1−ε for some acceptable risk level ε, enabling graceful degradation under uncertainty.</li>
+        <li>Risk‑aware optimization using Conditional Value-at-Risk (CVaR) or Distributionally Robust Optimization (DRO) to handle worst-case scenarios and ambiguous probability distributions, providing robustness against model misspecification and uncertain threat profiles.</li>
+        <li>Probabilistic state estimation methods such as Bayesian filters, H∞ filtering, or particle filters to explicitly model and propagate uncertainty through the detection and recovery pipeline, replacing bounded-error estimation with distributional representations that capture measurement noise characteristics.</li>
+        <li>Learned neural network surrogates to approximate computationally expensive K-step reachability calculations in real-time, combined with Control Barrier Functions for lightweight safety certification that scales to high-dimensional nonlinear systems where traditional reachability analysis becomes intractable.</li>
+      </ul>    
+    </article>
+
+    <article id="s19">
+      <h3>19) Q&amp;A / Discussion Topics</h3>
+      <figure>
+        <img src="slides/slide19.jpg" alt="Slide 19 — Future work"/>
+        <figcaption>Questions.</figcaption>
+      </figure>
+      <p>Open questions: localize attacked sensors; learn fast K predictors for complex CPS. Key discussion points include how to incorporate probabilistic guarantees into the framework for systems with significant disturbances, whether attack localization techniques can identify specific compromised sensors to enable more targeted recovery actions, and how machine learning can accelerate online recoverability computations. Additional topics include scalability to large-scale nonlinear distributed systems.</p>
+    </article>
+
+    <article id="discussion">
+      <h3>20) Discussion Topics</h3>
+      <figure>
+        <img src="slides/slide20.jpg" alt="Slide 20 — Q&A"/>
+        <figcaption>Probabilistic detection, attack localization, learning‑based recoverability.</figcaption>
+      </figure>
+      <h2>Summary of Discussion Ideas</h2>
+    <ul class="tight">
+      <li><strong>Probabilistic detection:</strong> Chance constraints on recovery windows; quantify confidence and false‑alarm likelihood.</li>
+      <li><strong>Attack localization:</strong> Identify which sensors/subsystems are compromised to enable targeted recovery. </li>
+      <li><strong>Learning‑based K estimation:</strong> Surrogate models to predict recoverability window in real time, combined with Control Barrier Functions (CBFs).</li>
+    </ul>
+    <p>Overall, the discussion highlighted the first two bullet points mainly. The discussion included the potential for integrating learning-based approaches combining probabilistic detection and attack localization techniques to determine which sensor or subsystem is compromised and how to recover from the attack effectively.</p>
+    </article>
+  </section>
+</body>
+</html>
