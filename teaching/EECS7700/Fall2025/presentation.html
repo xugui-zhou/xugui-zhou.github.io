@@ -71,6 +71,12 @@
                             Adversarial Policies: Attacking Deep Reinforcement Learning  [<a href="https://openreview.net/pdf?id=HJgEMpVFwB" target="_blank"> Link </a>]<br>
                         </p>
 
+                        <p>
+                            <b>Blog Post 5: AlphaGo </b> <br>
+                            The paper proposes a system that masters the game of Go by combining deep policy and value neural networks with Monte Carlo Tree Search (MCTS), introduced as AlphaGo. First, to imitate strong human moves, a supervised policy network on tens of millions of expert positions is trained, then it is refined by self-play reinforcement learning to maximize win rate. A separate value network learns to predict the eventual winner from a position, which leads to reducing dependence on slow rollout simulations. For leaf evaluation during play, Monte Carlo Tree Search uses the policy network’s move probabilities as priors and the value network, to enable efficient exploration of a vast search space. The single-machine version AlphaGo defeated other Go programs in 494/495 games and also beat European champion, Fan Hui, 0 in an official match with score of 5-0. Ablations demonstrated that combining value estimates with rollouts works best and that policy + value + search is clearly stronger than any component alone. Overall, this paper proved that high-branching domains may be conquered by deep learning combined with guided search, opening the door for AlphaGo Zero and AlphaZero.
+                            [<a href="presentations/BlogPost-5/Group6blog.html" target="_blank">Read more ...</a>]<br>
+                        </p>
+
 
 
 
@@ -112,7 +118,7 @@
                             predictions to form residuals and uses a CUSUM statistic to surface slow, stealthy manipulations. 
                             Upon an alarm, a conservative response replaces compromised measurements with trusted estimates to 
                             keep the plant within constraints until operators intervene.
-                            [<a href="./Fall2025/presentations/BlogPost-01/BlogPost-01-embedded-final.html" target="_blank">Read more ...</a>]<br>
+                            [<a href="./presentations/BlogPost-01/BlogPost-01-embedded-final.html" target="_blank">Read more ...</a>]<br>
                         </p>
 
 

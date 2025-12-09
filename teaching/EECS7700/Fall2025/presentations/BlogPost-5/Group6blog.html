@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mastering the Game of Go with Deep Neural Networks and Tree Search — Blog</title>
+<style>
+  :root{
+    --ink:#222; --muted:#555; --link:#0b57d0; --rule:#e5e7eb;
+    --section-bg:#eef3fb;          
+    --accent:#0b2f6b;               
+    --accent-ink:#07306f;
+  }
+  html,body{background:#fff;color:var(--ink)}
+  body{margin:0;padding:24px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"Noto Sans","Liberation Sans",sans-serif;line-height:1.6}
+  main{max-width:900px;margin:0 auto}
+  h1{margin:0 0 .25rem;line-height:1.2;font-weight:700;font-size:clamp(1.8rem,4vw,2.1rem)}
+  h2{margin-top:1.75rem;border-top:1px solid var(--rule);padding-top:1rem;font-size:1.35rem}
+  h3{margin:0 0 .5rem;font-size:1.12rem;color:var(--accent)}
+  p.meta{margin:.1rem 0;color:var(--muted)}
+  a{color:var(--link);text-decoration:none} a:hover{text-decoration:underline}
+  .small{font-size:.92rem;color:var(--muted)}
+  .code{font-family:ui-monospace,Menlo,Consolas,monospace;background:#f7f7f8;border:1px solid var(--rule);padding:.1rem .35rem;border-radius:4px}
+
+  /* Section card with left (text) and right (gallery) columns */
+  .section{background:var(--section-bg);border:1px solid var(--rule);border-left:6px solid var(--accent);border-radius:6px;padding:14px;margin:16px 0}
+  .section .grid{display:grid;grid-template-columns:1.15fr 1fr;gap:16px;align-items:start}
+  @media (max-width:860px){ .section .grid{grid-template-columns:1fr} }
+  .explain p{margin:.25rem 0 .5rem}
+
+  /* Gallery with small images side-by-side */
+  .gallery{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+  figure{margin:0;background:#fff;border:1px solid var(--rule)}
+  figure img{display:block;width:100%;height:auto;cursor:zoom-in}
+  figcaption{padding:.35rem .45rem;font-size:.85rem;color:var(--muted);text-align:center}
+
+  /* helpers for grouped rows inside a section */
+  .subsec{margin:.5rem 0 .25rem}
+  .subsec p{margin:.25rem 0}
+  .gallery.row-4{grid-template-columns:repeat(4,minmax(150px,1fr))}
+  @media (max-width:860px){
+    .gallery.row-4{grid-template-columns:repeat(2,minmax(150px,1fr))}
+  }
+
+  /* --- Lightbox (click-to-zoom) --- */
+  .lightbox{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
+    padding:24px;background:rgba(0,0,0,.92);opacity:0;pointer-events:none;transition:opacity .2s}
+  .lightbox.show{opacity:1;pointer-events:auto}
+  .lightbox img{max-width:96vw;max-height:92vh;box-shadow:0 6px 30px rgba(0,0,0,.5);background:#111}
+  .lightbox .btn{position:absolute;color:#fff;background:rgba(0,0,0,.35);border-radius:6px;cursor:pointer;
+    padding:8px 12px;line-height:1;border:0}
+  .lightbox .close{top:16px;right:16px;font-size:24px}
+  .lightbox .prev{top:50%;left:16px;transform:translateY(-50%);font-size:22px}
+  .lightbox .next{top:50%;right:16px;transform:translateY(-50%);font-size:22px}
+</style>
+</head>
+<body>
+<main>
+  <h1>Mastering the Game of Go with Deep Neural Networks and Tree Search</h1>
+  <p class="meta"><strong>Authors:</strong> David Silver, Aja Huang, Chris J. Maddison, Arthur Guez, Laurent Sifre, et al.</p>
+  <p class="meta"><strong>For class:</strong> EE/CSC 7700 — ML for CPS</p>
+  <p class="meta"><strong>Instructor:</strong> Dr. Xugui Zhou</p>
+  <p class="meta"><strong>Presented by Group 5:</strong> Julian Johnson, Eric Jones</p>
+  <p class="meta"><strong>Summarized by Group 6:</strong> Azin Atarodi, Amaal Ahmed</p>
+  <p class="meta"><strong>Time:</strong> Wednesday, November 5, 2025</p>
+
+  <h2 id="summary">Summary</h2>
+  <p>The paper proposes a system that masters the game of Go by combining deep policy and value neural networks with Monte Carlo Tree Search (MCTS), introduced as AlphaGo. First, to imitate strong human moves, a supervised policy network on tens of millions of expert positions is trained, then it is refined by self-play reinforcement learning to maximize win rate. A separate value network learns to predict the eventual winner from a position, which leads to reducing dependence on slow rollout simulations. For leaf evaluation during play, Monte Carlo Tree Search uses the policy network’s move probabilities as priors and the value network, to enable efficient exploration of a vast search space. The single-machine version AlphaGo defeated other Go programs in 494/495 games and also beat European champion, Fan Hui, 0 in an official match with score of 5-0. Ablations demonstrated that combining value estimates with rollouts works best and that policy + value + search is clearly stronger than any component alone. Overall, this paper proved that high-branching domains may be conquered by deep learning combined with guided search, opening the door for AlphaGo Zero and AlphaZero.</p>
+
+  <h2 id="slide-outlines">Slide Outlines</h2>
+
+  <!-- Introduction — 2 pics -->
+  <div class="section" id="introduction">
+    <h3>Introduction</h3>
+    <div class="grid">
+      <div class="explain">
+        <p>AlphaGo was introduced as an AI system intended to outperform prior Go programs and human players. The central question was posed: whether a learning-guided search AI could surpass traditional, rollout-driven MCTS-based Go engines. The article “Mastering the game of Go with deep neural networks and tree search” was summarized as a framework in which supervised, RL policy and a value network were used to guide MCTS.</p>
+      </div>
+      <div class="gallery">
+        <figure><img loading="lazy" src="assets/b1.png" alt="Introduction 1"><figcaption>Overview</figcaption></figure>
+        <figure><img loading="lazy" src="assets/b2.png" alt="Introduction 2"><figcaption>System sketch</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- Motivation — 1 pic -->
+  <div class="section" id="motivation">
+    <h3>Motivation</h3>
+    <div class="grid">
+      <div class="explain">
+        <p>The motivation was the challenge of evaluating an enormous search space, exemplified by Go. In order to determine whether learning-guided search might outperform previous techniques and human players, an AI system that could effectively explore this space was to be developed.</p>
+      </div>
+      <div class="gallery">
+        <figure><img loading="lazy" src="assets/b3.png" alt="Motivation"><figcaption>Why Go is hard</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background MCTS — restructured -->
+  <div class="section" id="background-mcts">
+    <h3>Background MCTS</h3>
+
+    <!-- b4 alone + description -->
+    <div class="grid">
+      <div class="explain">
+        <p> Monte Carlo Tree Search was presented as a method designed for very large decision spaces. A search tree was built incrementally, and each iteration followed four phases: selection, expansion, simulation, and backpropagation.</p>
+      </div>
+      <div class="gallery">
+        <figure><img loading="lazy" src="assets/b4.png" alt="Selection"><figcaption>Selection</figcaption></figure>
+      </div>
+    </div>
+
+    <!-- b5 b6 b7 b8 in a row + description above -->
+    <div class="subsec">
+      <p><strong>Selection . Expansion · Simulation · Backpropagation ·  .</strong> In selection, an existing path from the root to a leaf was followed using the current statistics of the nodes. At expansion, a new child node was added on that path. During simulation, rapid rollouts from the new node were run to estimate how promising that position was. In backpropagation, the outcome of the simulation was returned to the root to update the performance of the traversed nodes.</p>
+    </div>
+    <div class="gallery row-4">
+      <figure><img loading="lazy" src="assets/b5.png" alt="Expansion"><figcaption>Expansion</figcaption></figure>
+      <figure><img loading="lazy" src="assets/b6.png" alt="Simulation"><figcaption>Simulation</figcaption></figure>
+      <figure><img loading="lazy" src="assets/b7.png" alt="Backpropagation"><figcaption>Backpropagation</figcaption></figure>
+      <figure><img loading="lazy" src="assets/b8.png" alt="Selection rule"><figcaption>Selection rule</figcaption></figure>
+    </div>
+
+    <!-- b9 alone + note -->
+    <div class="grid">
+      <div class="explain">
+        <p><strong>Putting it together.</strong> This slide shows the full loop—selection, expansion, simulation, and backpropagation—repeated many times before choosing the root move.</p>
+      </div>
+      <div class="gallery">
+        <figure><img loading="lazy" src="assets/b9.png" alt="All phases overview"><figcaption>All phases together</figcaption></figure>
+      </div>
+    </div>
+
+    <!-- b10 alone + description -->
+    <div class="grid">
+      <div class="explain">
+        <p><strong>Paper illustration.</strong> This figure in the paper illustrates the full MCTS loop used by AlphaGo. Panel (a) shows selection: a path is followed from the root using a confidence score that balances past success with exploration guided by the policy prior. Panel (b) is expansion: a new child node is added and initialized. Panel (c) is evaluation: the new position is scored by a fast rollout or the value network. Panel (d) is backup: that score is propagated back to update the tree; after many iterations, the root move with the most visits is chosen.</p>
+      </div>
+      <div class="gallery">
+        <figure><img loading="lazy" src="assets/b10.png" alt="Paper diagram"><figcaption>Detailed diagram</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background Chess vs. Go — 2 pics -->
+  <div class="section" id="background-chess-go">
+    <h3>Background Chess vs. Go</h3>
+    <div class="grid">
+      <div class="explain">
+        <p>These slides contrasted chess and Go to show why Go is harder for search. Go had an average branching factor of 50 and a depth of 150, while Chess had an average of 35 and 80. As a result, game-tree sizes increase from about 10²⁰ for checkers to 10⁴⁰ for chess to  10⁸⁰ for go.The use of learnt priors and value estimations to direct exploration was inspired by the observation that traditional α–β search with hand-crafted assessment performed well in chess but poorly in Go.</p>
+      </div>
+      <div class="gallery">
+        <figure><img loading="lazy" src="assets/b11.png" alt="Chess vs Go 1"><figcaption>Branching/Depth</figcaption></figure>
+        <figure><img loading="lazy" src="assets/b12.png" alt="Chess vs Go 2"><figcaption>Heuristics</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background - Space — 1 pic -->
+  <div class="section" id="background-space">
+    <h3>Background - Space</h3>
+    <div class="grid">
+      <div class="explain">
+        <p>Search space was reduced by scoring positions directly to shorten depth (common in chess/checkers, not in Go) and by using a policy with Monte Carlo rollouts to focus exploration instead of expanding every branch. This motivated learning both a value function and a policy for Go.</p>
+      </div>
+      <div class="gallery">
+        <figure><img loading="lazy" src="assets/b13.png" alt="Space"><figcaption>State/Action space</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background SOTA Go AI — 1 pic -->
+  <div class="section" id="background-sota">
+    <h3>Background SOTA Go AI</h3>
+    <div class="grid">
+      <div class="explain">
+        <p>At the time, strong AIs had been established for checkers, chess, and Othello using hand-crafted evaluation with α–β search. In Go, Monte-Carlo rollout programs and early CNN policies existed but were not yet dominant. The open question of could a CNN-based system achieve top-tier Go performance? was later answered by combining deep policy and value networks with MCTS (AlphaGo).</p>
+      </div>
+      <div class="gallery">
+        <figure><img loading="lazy" src="assets/b14.png" alt="SOTA Go AI"><figcaption>Before AlphaGo</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- Methods - Overview — 1 pic -->
+  <div class="section" id="methods-overview">
+    <h3>Methods - Overview</h3>
+    <div class="grid">
+      <div class="explain">
+        <p>This slide lists the method components to be covered: problem modeling, SL policy network, RL policy network, RL value network, and evaluating AlphaGo. Each item is introduced here and discussed in the following subsections.</p>
+      </div>
+      <div class="gallery">
+        <figure><img loading="lazy" src="assets/b15.png" alt="Methods Overview"><figcaption>Pipeline</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- Methods - Modelling — 3 pics -->
+  <div class="section" id="methods-modelling">
+    <h3>Methods - Modelling</h3>
+    <div class="grid">
+      <div class="explain">
+        <p>The task was framed as exploring a large space of move sequences bd, where the aim was to approximate the optimal value v(s) of a position by predicting the game outcome directly from the current state. Unlike earlier Go programs, the board was encoded as a 19×19 image-like tensor and processed by a deep CNN, rather than hand-crafted features. The overall approach was organized as a pipeline in which a policy network and a value network were learned and then combined with MCTS policy to suggest promising moves, value to evaluate positions.</p>
+      </div>
+      <div class="gallery">
+        <figure><img loading="lazy" src="assets/b16.png" alt="Modelling 1"><figcaption>Board encoding</figcaption></figure>
+        <figure><img loading="lazy" src="assets/b17.png" alt="Modelling 2"><figcaption>Architecture</figcaption></figure>
+        <figure><img loading="lazy" src="assets/b18.png" alt="Modelling 3"><figcaption>Datasets</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- Methods - SL Policy Network — 4 pics -->
+  <div class="section" id="methods-sl-policy">
+    <h3>Methods - SL Policy Network</h3>
+    <div class="grid">
+      <div class="explain">
+        <p>A 13-layer CNN policy was trained by supervised learning on expert games to maximize the log-likelihood of the human move in each position (move prediction). With all input features, the accuracy of 57% at 3 ms was reported, outperforming prior SOTA (44%) and rollout baselines (24%). This supervised policy was then used as a prior over moves to guide MCTS during search.</p>
+      </div>
+      <div class="gallery">
+        <figure><img loading="lazy" src="assets/b19.png" alt="SL Policy 1"><figcaption>Imitation</figcaption></figure>
+        <figure><img loading="lazy" src="assets/b20.png" alt="SL Policy 2"><figcaption>Curves</figcaption></figure>
+        <figure><img loading="lazy" src="assets/b21.png" alt="SL Policy 3"><figcaption>Architecture</figcaption></figure>
+        <figure><img loading="lazy" src="assets/b22.png" alt="SL Policy 4"><figcaption>Priors in search</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- Methods - RL Value Network — 2 pics -->
+  <div class="section" id="methods-rl-value">
+    <h3>Methods - RL Value Network</h3>
+    <div class="grid">
+      <div class="explain">
+        <p>The true optimal value of a position cannot be observed, so a value network was trained to approximate the expected game outcome under the current policy. Training data consisted of state and outcome pairs (s, z) from self-play, the network outputs a single scalar value for each position. Parameters were updated with stochastic gradient descent to minimize mean-squared error between z and the prediction. This learned value was then used to evaluate leaf nodes in MCTS, reducing the need for long rollouts.</p>
+      </div>
+      <div class="gallery">
+        <figure><img loading="lazy" src="assets/b23.png" alt="RL/Value 1"><figcaption>Self-play data</figcaption></figure>
+        <figure><img loading="lazy" src="assets/b24.png" alt="RL/Value 2"><figcaption>Win prob</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- Methods - Searching Networks — 2 pics -->
+  <div class="section" id="methods-searching">
+    <h3>Methods - Searching Networks</h3>
+    <div class="grid">
+      <div class="explain">
+        <p>Selection in MCTS was driven by a rule that picks the move maximizing Q(s,a) + u(s,a). Here Q(s,a) is the average evaluation from prior simulations on that edge, N(s,a) is the visit count, and the bonus u(s,a) uses the policy prior P(s,a) and decays with more visit, balancing exploration and exploitation. Two compute settings were reported: a standard setup (40 search threads, 48 CPUs, 8 GPUs) and a distributed setup (40 threads coordinated across 1202 CPUs and 176 GPUs), enabling substantially larger searches.</p>
+      </div>
+      <div class="gallery">
+        <figure><img loading="lazy" src="assets/b25.png" alt="Searching 1"><figcaption>PUCT</figcaption></figure>
+        <figure><img loading="lazy" src="assets/b27.png" alt="Searching 2"><figcaption>Value + rollouts</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- Methods - Comparison — 1 pic -->
+  <div class="section" id="methods-comparison">
+    <h3>Methods - Comparison</h3>
+    <div class="grid">
+      <div class="explain">
+        <p>The figure plots mean-squared error on expert moves vs. move number. Learned policies clearly dominate: the RL policy achieves the lowest error, the SL policy is second, the value network alone lags behind for move prediction, and rollout policies (fast/uniform) perform worst. Showing that learned policies are far stronger guides for search.</p>
+      </div>
+      <div class="gallery">
+        <figure><img loading="lazy" src="assets/b26.png" alt="Comparison"><figcaption>Ablations</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contributions — 1 pic -->
+  <div class="section" id="contributions">
+    <h3>Contributions</h3>
+    <div class="grid">
+      <div class="explain">
+        <p>Deep neural networks were combined with tree search to guide exploration (policy priors) and evaluate positions (value), producing a system that reached professional strength. AlphaGo defeated European champion Fan Hui 5–0 with fewer node evaluations than chess engines like Deep Blue, showing that learned guidance can replace brute-force search.</p>
+      </div>
+      <div class="gallery">
+        <figure><img loading="lazy" src="assets/b28.png" alt="Contributions"><figcaption>Key results</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- Limitations — 1 pic -->
+  <div class="section" id="limitations">
+    <h3>Limitations</h3>
+    <div class="grid">
+      <div class="explain">
+        <p>The design was Go-specific (feature planes and heuristics tailored to Go), so generality was asserted more than embedded in the architecture. The supervised pretraining relied on expert moves, which may deviate from truly optimal play and can imprint human biases, only later systems removed this dependency.</p>
+      </div>
+      <div class="gallery">
+        <figure><img loading="lazy" src="assets/b29.png" alt="Limitations"><figcaption>Compute &amp; data</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- Connection with Course — 1 pic -->
+  <div class="section" id="connection">
+    <h3>Connection with Course</h3>
+    <div class="grid">
+      <div class="explain">
+        <p>This slide linked AlphaGo to course themes: Powered by CNN advances for representation learning. Demonstrated RL + planning aligned with learning-based control and decision making. Inspired broader AI applications.</p>
+      </div>
+      <div class="gallery">
+        <figure><img loading="lazy" src="assets/b30.png" alt="Connection"><figcaption>CPS links</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- Follow-up — 4 pics -->
+  <div class="section" id="follow-up">
+    <h3>Follow-up</h3>
+    <div class="grid">
+      <div class="explain">
+        <p>The line of work was broadened from Go-specific to general purpose game agents. AlphaZero is a self-play system trained from scratch (no human data) and paired with a more general MCTS. It reached superhuman strength in chess, shogi, and Go, showing the recipe generalizes. MuZero is further generalized by learning its own model of dynamics. The network predicts reward, policy, and value, without knowing the rules a priori. Another is Deepseek. Recent discussions have questioned heavy reliance on MCTS, exploring hybrids that lean more on learned value/policy and vary the amount of search n, aiming for efficiency while keeping strength.</p>
+      </div>
+      <div class="gallery">
+        <figure><img loading="lazy" src="assets/b31.png" alt="Follow-up 1"><figcaption>AlphaGo Zero</figcaption></figure>
+        <figure><img loading="lazy" src="assets/b32.png" alt="Follow-up 2"><figcaption>AlphaZero</figcaption></figure>
+        <figure><img loading="lazy" src="assets/b33.png" alt="Follow-up 3"><figcaption>MuZero</figcaption></figure>
+        <figure><img loading="lazy" src="assets/b34.png" alt="Follow-up 4"><figcaption>Later work</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- Team-work — 1 pic -->
+  <div class="section" id="team-work">
+    <h3>Team-work</h3>
+    <div class="grid">
+      <div class="explain">
+        <p>Who did which parts (reading, reproductions, writing, Q and A), and how coordination was handled.</p>
+      </div>
+      <div class="gallery">
+        <figure><img loading="lazy" src="assets/b35.png" alt="Team-work"><figcaption>Division</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- Closing — 1 pic -->
+  <div class="section" id="takeaways">
+    <h3>Takeaways</h3>
+    <div class="grid">
+      <div class="explain">
+        <p>AlphaGo crystallized a powerful recipe (policy + value + MCTS) proving that learning-guided search can outperform brute force. CNN feature planes with supervised pretraining and self-play RL produced strong priors, and a learned value function cut rollouts, enabling professional-level play (e.g., 5–0 vs. Fan Hui) with far fewer node evaluations than classic chess engines. The field is moving toward more universal learning-plus-planning systems as a result of this effort.</p>
+      </div>
+      <div class="gallery">
+        <figure><img loading="lazy" src="assets/b36.png" alt="Closing"><figcaption>Takeaways</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <h2 id="qa">Q&amp;A</h2> 
+
+  <p><strong>Q1.</strong> “Are those formulas recursive? Do the variables hide inner functions we’re not seeing?”<br>
+  <strong>A.</strong> Not recursion in the code sense. The math is a high-level view of MCTS traversal. After each step the statistics <span class="code">P(s,a)</span> and <span class="code">N(s,a)</span> (and related probabilities) are updated via rollouts and backprop, then the search continues on another branch.</p>
+
+  <p><strong>Q2.</strong> “SL needs labels and RL is trial-and-error—when you say ‘replace Monte Carlo,’ do you mean MCTS is obsolete?”<br>
+  <strong>A.</strong> No. “Replace” meant choosing modern RL-based agents instead of <em>pure</em> MCTS. In practice, today’s systems are hybrids (e.g., PUCT) and still look like tree search. Also, Monte Carlo methods remain core in domains like finance, so it isn’t going away.</p>
+
+  <h2 id="discussion">Discussion</h2>
+
+  <h3>1) Modern LLMs often have lite versions runnable on personal machines. What would let a modern AlphaGo run with less compute?</h3>
+  <ul>
+    <li><strong>Model distillation and light variants</strong> that reduce size without sacrificing performance.</li>
+    <li><strong>Partition &amp; merge computation</strong> (download-manager analogy): split, resume, and stitch results for resilience and better utilization.</li>
+  </ul>
+
+  <h3>2) Do modern RL/SL methods completely replace MCTS? Do modern LLMs replace MCTS?</h3>
+  <ul>
+    <li><strong>Complexity still favors search:</strong> full replacement was seen as unrealistic in hard domains.</li>
+    <li><strong>Hybrid future:</strong> RL policies and value nets guide/prune the tree; some form of search remains useful.</li>
+    <li><strong>DeepSeek-style critiques:</strong> collapsing sub-trees / altered selection rules can cut cost, but guided search persists.</li>
+  </ul>
+
+  <h3>3) What game could be a future AI feat?</h3>
+  <ul>
+    <li><strong>Sandbox/open-world games</strong> (e.g., Minecraft-like): huge state spaces and reward design are the bottlenecks.</li>
+    <li><strong>Team control</strong> (e.g., one model controlling five players, Dota-style) as a tougher multi-agent benchmark.</li>
+    <li>Other ideas: card/video games with long horizons; data and compute remain the main obstacles.</li>
+  </ul>
+  
+</main>
+
+<!-- Lightbox overlay -->
+<div class="lightbox" id="lb" aria-hidden="true">
+  <button class="btn close" id="lbClose" aria-label="Close">×</button>
+  <button class="btn prev"  id="lbPrev"  aria-label="Previous">◀</button>
+  <img id="lbImg" alt="">
+  <button class="btn next"  id="lbNext"  aria-label="Next">▶</button>
+</div>
+
+<script>
+(function(){
+  // Collect ALL gallery images into a single sequence
+  const imgs = Array.from(document.querySelectorAll('.gallery img'));
+  const lb = document.getElementById('lb');
+  const lbImg = document.getElementById('lbImg');
+  const btnClose = document.getElementById('lbClose');
+  const btnPrev  = document.getElementById('lbPrev');
+  const btnNext  = document.getElementById('lbNext');
+  let i = -1;
+
+  function show(k){
+    i = k;
+    const el = imgs[i];
+    const src = el.currentSrc || el.src;
+    lbImg.src = src;
+    lb.classList.add('show');
+    lb.setAttribute('aria-hidden','false');
+  }
+  function hide(){
+    lb.classList.remove('show');
+    lb.setAttribute('aria-hidden','true');
+    lbImg.src = '';
+    i = -1;
+  }
+  function nav(d){
+    if (i < 0) return;
+    i = (i + d + imgs.length) % imgs.length;
+    const el = imgs[i];
+    lbImg.src = el.currentSrc || el.src;
+  }
+
+  imgs.forEach((el, idx) => el.addEventListener('click', () => show(idx)));
+  btnClose.addEventListener('click', hide);
+  btnNext.addEventListener('click', () => nav(1));
+  btnPrev.addEventListener('click', () => nav(-1));
+  lb.addEventListener('click', (e) => { if (e.target === lb) hide(); });
+  window.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('show')) return;
+    if (e.key === 'Escape') hide();
+    if (e.key === 'ArrowRight') nav(1);
+    if (e.key === 'ArrowLeft')  nav(-1);
+  });
+})();
+</script>
+</body>
+</html>
