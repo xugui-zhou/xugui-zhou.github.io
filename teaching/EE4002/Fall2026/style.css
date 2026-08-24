@@ -47,3 +47,44 @@ ul#nav			{position: fixed; top: 0px; width: 98%; text-align: right; margin:0 0 5
 * html .clearfix 	{height:1%; }
 .clearfix 			{display:block;}
 /* End hide from IE-mac */
+
+/* Responsive: phones and narrow viewports */
+@media (max-width: 768px) {
+    body { font-size: 100%; }
+
+    ul#nav {
+        text-align: center;
+        padding: 6px 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    #nav a {
+        display: inline-block;
+        padding: 6px 10px;
+        font-size: 85%;
+    }
+
+    #floatleft {
+        position: static;
+        float: none;
+        width: auto;
+        height: auto;
+        margin: 55px 15px 15px 15px;
+        padding: 15px;
+        border-right: none;
+        border-bottom: 1px solid #191915;
+        text-align: center;
+    }
+    #floatleft img { max-width: 160px; }
+
+    #all {
+        margin: 10px 15px;
+        width: auto;
+    }
+    #intro, #home-news, #news, #pub {
+        margin: 20px 0;
+        padding: 0;
+    }
+
+    img { max-width: 100%; height: auto; }
+}
