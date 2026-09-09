@@ -714,6 +714,7 @@ body[data-module="l1"] .ic-notice{display:block}
 .ic-launch p{margin:8px 0 14px}
 @media(max-width:600px){#icPane{padding:0}}
 </style>
+<script src="lab1/config.js"></script>
 </head>
 <body>
 <div class="shell">
@@ -806,10 +807,10 @@ let state = store.read();
 if (!state.done) state.done = {};
 
 /* ---------------------------------------------------------------- modules -- */
+const normalizeModuleId=id=>id==="m2"?"l1":id;
 const MODULES = [
   { id: "m0", idx: "—",  nm: "Start here",                 sub: "Lab index" },
   { id: "m1", idx: "1A", nm: "Lab 1 · guided experiment",  sub: "Watch → configure → submit" },
-  { id: "m2", idx: "1B", nm: "Instrument & 4–20 mA scaling", sub: "Lab 1 · shared session" },
   { id: "l1", idx: "1C", nm: "IC configuration & evidence", sub: "Lab 1 · shared session" },
   { id: "m3", idx: "M2", nm: "PLC scan & interlocks",      sub: "Labs 2–3" },
   { id: "m4", idx: "M3", nm: "Modbus registers & polling", sub: "Lab 4" },
@@ -1595,8 +1596,8 @@ function drawRig(cv, opts) {
     const items = o.lab1 ? [
       ["LT-201", "0–2 m / 4–20 mA", chn.mA.toFixed(2)+" mA",s2],
       ["R-201", "150 ohm shunt", (chn.mA*.15).toFixed(3)+" V",s1],
-      ["ADC-01", "12-bit / CONFIG "+hexByte((o.signalState||sharedLab).config), (o.signalState||sharedLab).sample?(o.signalState||sharedLab).code+" cts":"No conversion",s3],
-      ["LT-201.PV", "Last CH0 conversion",(o.signalState||sharedLab).sample?.channel===0?((o.signalState||sharedLab).sample.tag_level_m.toFixed(3)+" m"):"N/A",ref]
+      ["ADC-01", "12-bit / CONFIG "+hexByte(o.signalState.config), o.signalState.sample?o.signalState.code+" cts":"No conversion",s3],
+      ["LT-201.PV", "Last CH0 conversion",o.signalState.sample?.channel===0?(o.signalState.sample.tag_level_m.toFixed(3)+" m"):"N/A",ref]
     ] : [
       ["LT-201", "4–20 mA two-wire", chn.mA.toFixed(2) + " mA", ltBad ? bad : s2],
       ["OpenPLC", "%IW100 · scan " + Rig.effScan() + " ms", chn.counts + " cts", s1],
@@ -1668,7 +1669,6 @@ function rigApply(H, p, onChange) {
   const id = H.id.replace(/s$/, "");
   if (H.id === "sp") {
     const pct = (1 - (p.y - H.y - 2) / (H.h - 4)) * 100;
-    if(current==="m1") { labCommand("level",Math.max(0,Math.min(2,Math.round(pct*0.4)/20))); return; }
     Rig.spTarget = Rig.sp = Math.max(2, Math.min(98, Math.round(pct)));
   } else if (id === "fv102" || id === "fv202") {
     const box = rigHit.filter(function (x) { return x.id === id + "s"; })[0] || H;
@@ -1939,7 +1939,7 @@ const LABS = [
 const CYCLES = [
   { id: "ML1", labs: "Labs 1–3", t: "Commission the plant",
     d: "Stand the rig up, put a number on every signal, get closed-loop control working, then prove it does something safe when you break it on purpose.",
-    mods: ["m1", "m2", "m3"] },
+    mods: ["m1", "l1", "m3"] },
   { id: "ML2", labs: "Labs 4–5", t: "Build and measure the path",
     d: "Decode what is actually on the wire, put arithmetic behind the poll rate, and find out what one cut cable costs on four different topologies.",
     mods: ["m4", "m5"] },
@@ -2001,7 +2001,6 @@ const BLIND_POOL = ["drift", "stuck", "spike", "misscale", "pumpdead", "pumpcap"
 
 const MODBLURB = {
   m1: "The reference plant itself: a live P&ID, the clickable signal chain, and the twelve-asset inventory every later lab depends on.",
-  m2: "4–20 mA, ADC counts and engineering-unit scaling end to end, with independent transmitter and PLC ranges so you can build the error on purpose.",
   m3: "OpenPLC scan behaviour, live ladder rungs, timers and latches, and the interlock that overrides control rather than negotiating with it.",
   m4: "A live Modbus register map, real MBAP and PDU bytes, the four float32 word orders, and an RTU poll-budget calculator.",
   m5: "Star, linear, RSTP ring and MRP ring — cut any link in the diagram and watch what the loop does while it waits.",
@@ -2098,19 +2097,6 @@ const OBJ = {
     { t: "Watch TK-101 fill and TK-201 follow it — two lags, not one",
       f: function () { return Rig.h1 > 20 && Rig.h2 > 10; } }
   ],
-  m2: [
-    { t: "Match the PLC scaling to the transmitter and hold the error inside ±0.5 cm",
-      f: function () { return Math.abs(Rig.plcZero - Rig.txZero) < 0.5 &&
-        Math.abs(Rig.plcSpan - Rig.txSpan) < 0.5 && Math.abs(Rig.chain().eu - Rig.h2) < 0.5; } },
-    { t: "Produce a span error and see the proportional signature above 50 cm",
-      f: function () { return Math.abs(Rig.plcSpan - Rig.txSpan) >= 10 && Rig.h2 > 50 &&
-        Math.abs(Rig.chain().eu - Rig.h2) > 4; } },
-    { t: "Produce a zero error and see the constant offset instead",
-      f: function () { return Math.abs(Rig.plcZero - Rig.txZero) >= 5 &&
-        Math.abs(Rig.plcSpan - Rig.txSpan) < 0.5; } },
-    { t: "Cut the loop and let wire-break detection drive P-101 to a safe state",
-      f: function () { return Rig.wireBreak && Rig.wireDetect && Rig.mvApplied < 1; } }
-  ],
   m3: [
     { t: "Hold the level within ±1 cm of setpoint with the scan at 200 ms or faster",
       f: function () { return Rig.scanMs <= 200 && Math.abs(Rig.sp - Rig.h2) < 1; } },
@@ -2195,7 +2181,6 @@ const OBJ = {
 
 const EVQ = {
   m1: "Pick one tag from the inventory and trace it through all six representations. Where does its meaning change hands, and who owns the definition at each step?",
-  m2: "Which single measurement distinguishes a wrong span from a wrong zero? State the measurement, the value you observed, and the level at which the two would look identical.",
   m3: "What is the worst-case time between the level exceeding HIHI and P-101 stopping? Show how you bounded it, and name one thing your bound assumes.",
   m4: "From a capture alone, how would you prove which end has the wrong word order? Give the specific bytes you would point at.",
   m5: "What recovery time did you measure, on which topology, and what does that number not cover?",
@@ -2206,7 +2191,7 @@ const EVQ = {
   m9: "Choose one requirement from the matrix and write it out properly: claim, evidence, limitation."
 };
 
-const LABOF = { m1: "Lab 1", m2: "Lab 1", m3: "Labs 2–3", m4: "Lab 4",
+const LABOF = { m1: "Lab 1", m3: "Labs 2–3", m4: "Lab 4",
                 m5: "Lab 5", m6: "Lab 6", m7: "Lab 7", m8: "Lab 8",
                 m10: "Lab 9", m9: "Lab 10" };
 
@@ -2323,50 +2308,6 @@ m1: function () {
 },
 
 /* --------------------------------------------------- M2 · instrument scaling */
-m2: function () {
-  const c =
-    slider("txz", "Transmitter zero", -20, 20, 1, Rig.txZero, v => v + " cm") +
-    slider("txs", "Transmitter span", 50, 150, 1, Rig.txSpan, v => v + " cm") +
-    '<p class="eyebrow" style="margin-top:2px">Scaling entered in the PLC</p>' +
-    slider("plz", "PLC zero", -20, 20, 1, Rig.plcZero, v => v + " cm") +
-    slider("pls", "PLC span", 50, 150, 1, Rig.plcSpan, v => v + " cm") +
-    '<div class="btnrow"><button class="btn pri" id="bMatch">Match the transmitter</button></div>' +
-    '<div class="btnrow"><button class="btn" data-tog="wireBreak" aria-pressed="false">Cut the loop</button>' +
-    '<button class="btn" data-tog="wireDetect" aria-pressed="true">Wire-break detect</button></div>' +
-    slider("nz", "Sensor noise", 0, 2, .05, Rig.noise, v => "±" + v.toFixed(2) + " cm");
-
-  return head("m2", "MODULE 1", "Lab 1 · instrumentation &amp; scaling",
-    "4–20 mA, and the two numbers that must agree",
-    "The transmitter converts level to current. The analogue card converts current to counts. The PLC converts counts back to engineering units — using a range you type in. If that range does not match the transmitter's, every downstream number is confidently wrong.") +
-
-  '<section class="panel"><div class="panel-head"><span class="eyebrow">Signal chain · LT-201</span>' +
-    '<span class="eyebrow" id="chainVerdict"></span></div>' +
-    '<div class="bench"><div class="bench-main"><div class="wellpad">' +
-      '<div class="grid3" id="chainCells"></div>' +
-      '<div><p class="eyebrow" style="margin-bottom:7px">Loop current</p>' +
-        '<div id="mabar" style="position:relative;height:34px;border:1px solid var(--line);' +
-        'border-radius:2px;background:var(--panel);overflow:hidden"></div>' +
-        '<p class="footnote" style="margin-top:6px">Below 3.8 mA or above 20.5 mA is not a reading — it is a diagnosis.</p></div>' +
-      '<div><p class="eyebrow" style="margin-bottom:9px">Try this before Lab 1</p><div class="steps">' +
-        '<div class="stp"><b>01</b><span>Leave both ranges matched and note the scaling error at a low level, then at a high one. That is your baseline.</span></div>' +
-        '<div class="stp"><b>02</b><span>Set the PLC span to 120 cm. Watch the error grow with level — a <em>proportional</em> signature means a span is wrong.</span></div>' +
-        '<div class="stp"><b>03</b><span>Restore the span and shift the PLC zero by 10 cm instead. A <em>constant</em> offset at every level means a zero is wrong.</span></div>' +
-        '<div class="stp"><b>04</b><span>Cut the loop with detection off, then on. Record what the PLC value does in each case and what the pump does.</span></div>' +
-      '</div></div>' +
-    '</div></div><div class="controls">' + c + '</div></div></section>' +
-
-  '<section class="panel doc"><div class="panel-body"><div class="prose">' +
-    '<h3>Why 4 mA and not 0</h3>' +
-    '<p>The live zero is the whole point. If the bottom of the range were 0 mA, a severed wire and an empty tank would produce the same signal, and no amount of software could tell them apart. Starting at 4 mA makes <strong>zero current an unambiguous fault</strong>, which is why the NAMUR NE 43 convention treats below 3.6 mA and above 21 mA as diagnostic bands rather than measurements.</p>' +
-    '<p>Current also survives the trip from the field. Voltage drops along a few hundred metres of cable in a plant full of VFDs and contactors; the current in a series loop is the same everywhere in it. And two-wire transmitters draw their own power from that same loop, so one twisted pair carries both supply and signal.</p>' +
-    '<h3>Where the error actually enters</h3>' +
-    '<p>Try a mismatch. Set the transmitter span to 100 cm and the PLC span to 120 cm, then watch the reported value drift away from the true level as the tank fills — proportional error, zero at the bottom, worst at the top. Now change the PLC zero instead: a constant offset at every level. <strong>The shape of the error tells you which number is wrong</strong>, which is the diagnostic skill Lab 1 is really testing.</p>' +
-    '<p>A 16-bit card over a 0–25 mA input range gives roughly 0.4 µA per count — about 0.0024 cm of level. Resolution is never your problem here. Configuration is.</p>' +
-    '<div class="callout"><i class="lamp warn"></i><p>Cut the loop with wire-break detection off and watch what the PLC believes: 0 mA scales to −25 cm, the level looks catastrophically low, and a level controller would respond by running the pump flat out. This is Requirement R2 in Module 9.</p></div>' +
-  '</div></div></section>';
-},
-
-/* --------------------------------------------------------- M3 · PLC & logic */
 m3: function () {
   const c =
     slider("scan", "Scan period", 10, 800, 10, Rig.scanMs, v => v + " ms") +
@@ -2873,61 +2814,6 @@ m1: function () {
   for (let i = 0; i < btns.length; i++)
     (function (b) { b.addEventListener("click", function () { show(+b.dataset.sp); used(); }); })(btns[i]);
   show(0);
-},
-
-m2: function () {
-  const cells = document.getElementById("chainCells");
-  cells.innerHTML = [
-    ["True level", "trueL", "cm · TK-201"],
-    ["Loop current", "mAv", "mA · LT-201"],
-    ["ADC counts", "cts", "16-bit · %IW100"],
-    ["PLC value", "euv", "cm · scaled"],
-    ["Scaling error", "errv", "reported − true"]
-  ].map(c => '<div class="rd" id="rd-' + c[1] + '"><span>' + c[0] + '</span><b id="' + c[1] + '">—</b><small>' + c[2] + '</small></div>').join("");
-
-  const bar = document.getElementById("mabar");
-  /* fault thresholds label above the scale, measurement points below, so the
-     two families never collide at the 3.8/4 boundary */
-  const MARKS = [[3.8, "3.8", "bad", 1], [4, "4 mA", "ink-3", 0], [12, "12", "ink-3", 0],
-                 [20, "20 mA", "ink-3", 0], [20.5, "20.5", "bad", 1]];
-  bar.innerHTML = '<i id="mafill" style="position:absolute;left:0;top:0;bottom:0;width:0;background:var(--s2);opacity:.28"></i>' +
-    MARKS.map(function (m) {
-      const L = (m[0] / 24 * 100) + "%";
-      return '<i style="position:absolute;top:0;bottom:0;left:' + L + ';width:1px;background:var(--' + m[2] + ')"></i>' +
-        '<i style="position:absolute;' + (m[3] ? "top:2px" : "bottom:2px") + ';left:' + L +
-        ';transform:translateX(' + (m[0] > 18 ? "-100%" : "3px") + ');font-style:normal;' +
-        'font-family:var(--f-mono);font-size:9px;color:var(--' + m[2] + ')">' + m[1] + '</i>';
-    }).join("") +
-    '<i id="maneedle" style="position:absolute;top:0;bottom:0;left:0;width:2px;background:var(--s1)"></i>';
-
-  bind("txz", v => v + " cm", v => Rig.txZero = v);
-  bind("txs", v => v + " cm", v => Rig.txSpan = v);
-  bind("plz", v => v + " cm", v => Rig.plcZero = v);
-  bind("pls", v => v + " cm", v => Rig.plcSpan = v);
-  bind("nz", v => "±" + v.toFixed(2) + " cm", v => Rig.noise = v);
-  togglers();
-  document.getElementById("bMatch").addEventListener("click", function () {
-    Rig.plcZero = Rig.txZero; Rig.plcSpan = Rig.txSpan;
-    setSlider("plz", Rig.plcZero, v => v + " cm"); setSlider("pls", Rig.plcSpan, v => v + " cm"); used();
-  });
-
-  const V = document.getElementById("chainVerdict");
-  perFrame.push(function () {
-    const ch = Rig.chain();
-    document.getElementById("trueL").textContent = Rig.h2.toFixed(2);
-    document.getElementById("mAv").textContent = ch.mA.toFixed(3);
-    document.getElementById("cts").textContent = ch.counts.toLocaleString();
-    document.getElementById("euv").textContent = ch.eu.toFixed(2);
-    const err = ch.eu - Rig.h2;
-    document.getElementById("errv").textContent = (err >= 0 ? "+" : "") + err.toFixed(2);
-    document.getElementById("rd-errv").className = "rd " + (Math.abs(err) > 0.5 ? "flag" : "good");
-    document.getElementById("rd-mAv").className = "rd " + (ch.fault ? "flag" : "");
-    document.getElementById("mafill").style.width = (Math.min(24, ch.mA) / 24 * 100) + "%";
-    document.getElementById("maneedle").style.left = (Math.min(24, ch.mA) / 24 * 100) + "%";
-    V.textContent = ch.fault ? "SENSOR FAULT — LOOP OUT OF RANGE"
-      : Math.abs(err) > 0.5 ? "SCALING MISMATCH" : "WITHIN ±0.5 cm";
-    V.style.color = ch.fault || Math.abs(err) > 0.5 ? "var(--bad)" : "var(--ok)";
-  });
 },
 
 m3: function () {
@@ -3656,7 +3542,7 @@ document.addEventListener("keydown", function (e) {
    8 · ROUTER, RAIL, LOOP
    ========================================================================== */
 const nav = document.getElementById("nav");
-MODULES.filter(m=>!["m2","l1"].includes(m.id)).forEach(function (m) {
+MODULES.filter(m=>m.id!=="l1").forEach(function (m) {
   const b = document.createElement("button");
   b.type = "button"; b.dataset.id = m.id;
   b.innerHTML = '<span class="idx">' + m.idx + '</span><span class="nm">' + m.nm +
@@ -3677,24 +3563,20 @@ function paintNav() {
   document.getElementById("progBar").style.width = (n / MODULES.length * 100) + "%";
 }
 
-let icPane = null, icPreviousRun = false, sharedLab = null;
-const isLabView=id=>["m1","m2","l1"].includes(id);
+let icPane = null, icPreviousRun = false;
+const isLabView=id=>["m1","l1"].includes(id);
 let teachingPlant = new Lab1Plant();
 const hexByte=n=>"0x"+Number(n).toString(16).toUpperCase().padStart(2,"0");
-function labCommand(action,value){document.getElementById("icFrame")?.contentWindow.postMessage({type:"ee4002-shared-command",action,value},"*");}
-function labNav(){return '<nav class="unified-nav" aria-label="Lab 1 views"><button class="btn" data-labview="m1">Plant demonstration</button><button class="btn" data-labview="l1">Student lab · step-by-step</button><span>Practice, independent tasks and submission are all inside the student lab.</span></nav>';}
-function wireLabNav(host){host.querySelectorAll('[data-labview]').forEach(b=>{b.setAttribute('aria-current',String(b.dataset.labview===current));b.onclick=()=>go(b.dataset.labview);});host.querySelectorAll('[data-submit]').forEach(b=>b.onclick=()=>{go('l1');labCommand('task','Submit');});}
-function ensureLab(){if(icPane)return;icPane=document.createElement('section');icPane.id='icPane';icPane.hidden=true;icPane.innerHTML=labNav()+'<iframe id="icFrame" src="lab1/index.html?embedded=1&v=8" title="Step-by-step Lab 1 practice and independent work"></iframe>';stage.after(icPane);}
+function labNav(){return '<nav class="unified-nav" aria-label="Lab 1 views"><button class="btn" data-labview="m1">Plant demonstration</button><button class="btn" data-labview="l1">Student lab · step-by-step</button><span>Practice, independent tasks and local downloads are inside the student lab. Upload your work to Moodle yourself.</span></nav>';}
+function wireLabNav(host){host.querySelectorAll('[data-labview]').forEach(b=>{b.setAttribute('aria-current',String(b.dataset.labview===current));b.onclick=()=>go(b.dataset.labview);});}
+function ensureLab(){if(icPane)return;icPane=document.createElement('section');icPane.id='icPane';icPane.hidden=true;icPane.innerHTML=labNav()+'<iframe id="icFrame" src="lab1/index.html?embedded=1&v='+LabConfig.appVersion+'" title="Step-by-step Lab 1 practice and independent work"></iframe>';stage.after(icPane);}
 const originalPlantBuild=build.m1;
 build.m1=function(){const original=originalPlantBuild(),at=original.indexOf('<section class="panel"><div class="panel-head"><span class="eyebrow">The course spine');return labNav()+head('m1','INSTRUCTOR DEMO','Watch first · about 5 minutes','Watch the plant, then configure a measurement','Start the plant. Change pump speed or the outlet valve. Observe both tank levels and current. Students do not configure registers on this screen.')+'<div class="unified-note"><strong>DISPLAY ONLY:</strong> level, current, voltage and ideal ADC preview. <strong>INSTRUCTOR CONTROLS:</strong> Play/Pause, pump and outlet. Demo data never enters student evidence.</div><div class="unified-controls"><button class="btn pri" id="teacherPlay">Play plant</button><label>Pump speed (%)<input id="teacherPump" type="range" min="0" max="100" value="'+teachingPlant.pump+'"></label><label>Outlet valve (%)<input id="teacherValve" type="range" min="0" max="100" value="'+teachingPlant.valve+'"></label><strong id="teacherState">Paused</strong></div><section class="panel"><div class="panel-head"><span>Dynamic two-tank demonstration · 0–2 m</span><span>Ideal preview, not register evidence</span></div><div class="rigwrap"><canvas id="rig" aria-label="Dynamic two-tank plant and signal preview"></canvas></div></section><div class="unified-note"><strong>Watch:</strong> The pump changes inflow. The upper tank responds first; the lower tank responds later. Current follows the lower tank. Then use Practice to learn the sequence, then Independent work to solve changed cases.</div><button class="btn pri" id="beginPractice">Start student experiment →</button><details><summary>Optional instructor background: architecture and assets</summary>'+original.slice(at)+'</details>';};
 const originalPlantWire=wire.m1;
 wire.m1=function(){originalPlantWire();perFrame.shift();let last=performance.now();perFrame.unshift(()=>{const now=performance.now();teachingPlant.step((now-last)/1000);last=now;const s=teachingPlant.snapshot;const snapshot=Object.assign(Object.create(Rig),{auto:false,mvMan:teachingPlant.pump,t:teachingPlant.t,h1:teachingPlant.h1*100,h2:s.level*100,sp:s.level*100,qin:teachingPlant.qin*1e6,q1:teachingPlant.q12*1e6,q2:teachingPlant.qout*1e6,mvApplied:teachingPlant.running?teachingPlant.pump:0,fv202:teachingPlant.valve,HIHI:170,HI:150,LO:50,LOLO:20,F:{},wireBreak:false,hihiLatched:false,loloLatched:false,chain:()=>({mA:s.current,counts:s.code,eu:s.sample.tag_level_m*100,fault:false})});drawRig(cvRig,{chain:true,lab1:true,demo:true,signalState:s,rig:snapshot});document.getElementById('teacherPump').value=teachingPlant.pump;document.getElementById('teacherValve').value=teachingPlant.valve;document.getElementById('teacherPlay').textContent=teachingPlant.running?'Pause plant':'Play plant';document.getElementById('teacherState').textContent=(teachingPlant.running?'Playing':'Paused')+' · pump '+teachingPlant.pump+'% · valve '+teachingPlant.valve+'% · '+teachingPlant.t.toFixed(1)+' s';});document.getElementById('teacherPlay').onclick=()=>teachingPlant.running=!teachingPlant.running;document.getElementById('teacherPump').oninput=e=>teachingPlant.pump=+e.target.value;document.getElementById('teacherValve').oninput=e=>teachingPlant.valve=+e.target.value;document.getElementById('beginPractice').onclick=()=>go('l1');wireLabNav(stage);};
-build.m2=function(){return labNav()+head('m2','LAB 1 / 2','Shared measurement chain','Physical input, conversion and scaling','The same TK-201 source and ADC registers appear in all three views. Live current changes with the input; ADC DATA and the software tag change only after sampling.')+'<section class="panel"><div class="panel-body"><div class="grid3" id="mergedValues"></div><label>Shared physical level (m)<input id="mergedLevel" type="range" min="0" max="2" step="0.05" value="1"></label><p>Loop current · 0–24 mA scale (normal signal: 4–20 mA)</p><meter id="mergedMeter" min="0" max="24" low="4" high="20" optimum="12" value="12" style="width:100%;height:32px"></meter><div class="unified-controls"><button class="btn" id="mergedWrite">Write proposed CONFIG</button><button class="btn" id="mergedRead">Read CONFIG</button><button class="btn pri" id="mergedSample">Sample + read</button><button class="btn" id="mergedSettle">3 conversions + read</button></div><p id="mergedStatus" role="status">Loading shared session…</p><div class="unified-controls"><label>Software reference assumption<select id="mergedReference"><option value="3.3">3.3 V · nominal</option><option value="2.5">2.5 V · mismatch test</option></select></label><label>Shared fault<select id="mergedFault"><option value="none">None</option><option value="freeze">Frozen transmitter</option><option value="reference">ADC reference becomes 2.5 V</option><option value="drop">Configuration writes disappear</option><option value="open">DAC loopback opens</option></select></label></div></div></section><section class="panel doc"><div class="panel-body"><h3>One scale throughout Lab 1</h3><p>I = 4 + 8h mA; V = 0.15I V; C = floor(4096 × gain × V / Vref), clipped to 0–4095.</p><p>At 1.00 m, gain 1 and Vref 3.3 V: 12 mA, 1.800 V, settled code 2234. Compare the physical input with the last recorded conversion. A moving input does not rewrite DATA.</p><p>Change the software reference assumption to create a scaling error without changing the physical ADC reference. Freeze the transmitter to separate tank motion from loop current. Restore nominal settings before collecting core evidence.</p><p>The former 16-bit / 0–25 mA example is no longer the Lab 1 converter. Later system-control modules retain their separate analogue-card model.</p></div></section>';};
-wire.m2=function(){const defs=[['Physical level','m'],['Current now','mA'],['Shunt now','V'],['ADC DATA','count'],['Last CH0 tag','m'],['CONFIG','accepted']];document.getElementById('mergedValues').innerHTML=defs.map((d,i)=>'<div class="rd"><span>'+d[0]+'</span><b id="mergedV'+i+'">—</b><small>'+d[1]+'</small></div>').join('');document.getElementById('mergedLevel').oninput=e=>labCommand('level',+e.target.value);for(const[id,action]of [['mergedWrite','write'],['mergedRead','read'],['mergedSample','sample'],['mergedSettle','settle']])document.getElementById(id).onclick=()=>labCommand(action);document.getElementById('mergedReference').onchange=e=>labCommand('reference',e.target.value);document.getElementById('mergedFault').onchange=e=>labCommand('fault',e.target.value);wireLabNav(stage);perFrame.push(()=>{if(!sharedLab)return;const s=sharedLab;[s.level.toFixed(2),s.current.toFixed(3),s.voltage.toFixed(3),s.sample?s.code:'No sample',s.sample?.channel===0?s.sample.tag_level_m.toFixed(4):'N/A',hexByte(s.config)].forEach((v,i)=>document.getElementById('mergedV'+i).textContent=v);for(const[id,value]of [['mergedLevel',s.level],['mergedReference',s.assumed],['mergedFault',s.fault]])if(document.activeElement!==document.getElementById(id))document.getElementById(id).value=value;document.getElementById('mergedMeter').value=s.current;document.getElementById('mergedStatus').textContent=s.readback+' · '+s.time+' ms · STATUS '+hexByte(s.status)+' · '+s.saved+' checkpoints. '+(s.sample?.settled?'Last output settled; inspect faults and channel.':'No settled output yet.');});};
 window.addEventListener("message", function (event) {
   const frame = document.getElementById("icFrame");
   if (!frame || event.source !== frame.contentWindow) return;
-  if(event.data?.type==='ee4002-shared-state'){sharedLab=event.data;return;}
   if (event.data?.type === "ee4002-tour-open") {
     frame.scrollIntoView({block:"start",behavior:"instant"});
     document.body.style.overflow="hidden";
@@ -3706,14 +3588,14 @@ window.addEventListener("message", function (event) {
   if (Number.isFinite(h) && h > 100 && h < 50000) frame.style.height = Math.ceil(h) + "px";
 });
 window.addEventListener("resize",function(){const frame=document.getElementById("icFrame");if(frame)frame.contentWindow.postMessage({type:"ee4002-host-viewport",height:innerHeight},"*");});
-window.addEventListener("hashchange", function(){const id=location.hash.slice(1);if(MODULES.some(m=>m.id===id)&&id!==current)go(id);});
+window.addEventListener("hashchange", function(){const raw=location.hash.slice(1),id=normalizeModuleId(raw);if(MODULES.some(m=>m.id===id)&&(id!==current||raw!==id))go(raw);});
 function go(id) {
-  if(id==="m2")id="l1";
+  if(id==="m2"){id="l1";if(location.hash==="#m2")history.replaceState(null,"","#l1");}
   if(id!=="m1")teachingPlant.running=false;
   document.body.style.overflow="";
   document.body.dataset.module = id;
   document.body.classList.toggle('unified-lab',isLabView(id));
-  if(isLabView(id)){ensureLab();if(!isLabView(current))icPreviousRun=Rig.running;Rig.running=false;labCommand('show');}
+  if(isLabView(id)){ensureLab();if(!isLabView(current))icPreviousRun=Rig.running;Rig.running=false;}
   if (id === "l1") {
     Rig.running = false;
     current = id;
@@ -3782,7 +3664,7 @@ function frame(now) {
 }
 
 paintRun();
-go(MODULES.some(m => m.id === location.hash.slice(1)) ? location.hash.slice(1) : MODULES.some(m => m.id === state.last) ? state.last : "m0");
+go(MODULES.some(m => m.id === normalizeModuleId(location.hash.slice(1))) ? location.hash.slice(1) : MODULES.some(m => m.id === normalizeModuleId(state.last)) ? normalizeModuleId(state.last) : "m0");
 requestAnimationFrame(frame);
 
 })();

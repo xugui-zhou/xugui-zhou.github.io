@@ -1,18 +1,18 @@
-'use strict';
 if(!isTour){
  document.body.classList.add('step-workflow');
  const main=document.querySelector('main'), plans=LabSteps.plans;
  // Evidence remains intact when upgrading an older local draft.
- if(lab.workflow?.version!==8)lab.workflow={version:8,seq:0,actions:[],tasks:{}};
+ if(lab.workflow?.version!==LabConfig.workflowSchema)lab.workflow={version:LabConfig.workflowSchema,seq:0,actions:[],tasks:{}};
  lab.responses=lab.responses||[];
  const state=lab.workflow;
  const toolbar=$('group').closest('.toolbar');toolbar.id='sessionTools';
+ const downloadNote=document.createElement('p');downloadNote.className='notice';downloadNote.textContent='Download report (HTML) for reading and Download evidence (JSON) for the original records. Open the HTML report; use Print → Save as PDF if preferred. Upload the report (HTML or PDF) and JSON to Moodle yourself. Nothing is submitted by this page. Download both again after making changes.';toolbar.prepend(downloadNote);
  const taskOverview=document.createElement('details');taskOverview.id='taskOverview';taskOverview.innerHTML='<summary>Learning goal and task overview</summary>';
  for(const id of ['taskGoal','taskSteps','taskPass'])taskOverview.append($(id));
  $('taskTitle').after(taskOverview);
  $('guided').querySelector('.section-title').hidden=true;
  $('guided').querySelector('.section-title').nextElementSibling.hidden=true;
- $('jumpTask').hidden=true;
+ 
  const coach=document.createElement('section');coach.id='stepCoach';coach.innerHTML='<div class="step-heading"><span id="stepNumber"></span><h2 id="stepName" tabindex="-1"></h2></div><p id="stepDo"></p><p class="step-observe"><strong>LOOK HERE</strong><br><span id="stepLook"></span></p><details><summary>Why this step matters</summary><p id="stepWhy"></p></details><button id="stepPrepare" class="primary" hidden>Prepare fields for this practice</button><p id="stepPrepared" role="status"></p>';
  const workspace=document.createElement('div');workspace.id='stepWorkspace';
  const bottom=document.createElement('section');bottom.id='stepNavigation';bottom.innerHTML='<p id="stepFeedback" role="status" aria-live="polite"></p><div class="toolbar"><button id="previousStep">← Previous step</button><button id="continueStep" class="primary">Next step →</button></div><p class="small">Step checks verify procedure, not the correctness of your explanation or an assignment grade. References and earlier tasks remain available.</p>';
@@ -74,9 +74,9 @@ if(!isTour){
   document.body.dataset.stepGate=s?.gate||'submit';
   $('extraVisual').hidden=submit||s?.area==='prediction';
   $('predictionBox').hidden=true;
-  if(submit){$('records').classList.remove('step-inactive');workspace.append($('records'));$('records').querySelector('[data-inventory]').open=true;$('nextLessonTask').hidden=true;updateSubmission();return;}
+  if(submit){$('records').classList.remove('step-inactive');workspace.append($('records'));$('records').querySelector('[data-inventory]').open=true;updateSubmission();return;}
   entry();
-  $('stepNumber').textContent=(['E','F','G','H'].includes(activeTask)?'INDEPENDENT':'PRACTICE')+' · STEP '+(position()+1)+' / '+plans[activeTask].steps.length;
+  $('stepNumber').textContent=(plans[activeTask]?.phase==='independent'?'INDEPENDENT':'PRACTICE')+' · STEP '+(position()+1)+' / '+plans[activeTask].steps.length;
   $('stepName').textContent=s.name;$('stepDo').textContent=s.instruction;$('stepLook').textContent=s.observe;$('stepWhy').textContent=s.reason;
   $('stepPrepare').hidden=!s.prepare;$('stepPrepared').textContent='';
   $('previousStep').disabled=position()===0;
@@ -87,36 +87,30 @@ if(!isTour){
   else if(s.area==='response'){
    $('responsePrompt').textContent=s.responsePrompt;$('responseText').value=taskState().drafts?.[s.responseKey]??lab.responses.filter(r=>r.task===activeTask&&r.key===s.responseKey).at(-1)?.text??'';$('responseSaved').textContent='';
    const sample=lab.samples.at(-1);$('responseEvidence').textContent='Latest read-back: '+$('readback').textContent+'\n'+(sample?'Last sample #'+sample.sample_id+' · '+sample.config+' · CH'+sample.channel+' · gain ×'+sample.gain+'\nRaw '+sample.raw_code+' · STATUS '+sample.status+' · '+(sample.settled?'settled':'transient')+'\nReconstructed voltage '+sample.reconstructed_voltage_V+' V'+(sample.channel===0?' · level '+sample.tag_level_m+' m':''):'No measurement yet.');
-  }else{keepOnly(node,s.allow);for(const d of node.querySelectorAll('details'))if(!d.classList.contains('step-pruned'))d.open=true;}
+  }else{if(s.gate==='save'&&!entry().labelPrepared){$('label').value=s.label;entry().labelPrepared=true;}keepOnly(node,s.allow);for(const d of node.querySelectorAll('details'))if(!d.classList.contains('step-pruned'))d.open=true;}
   refresh();render();
   if(focus){$('stepName').focus({preventScroll:true});$('stepCoach').scrollIntoView({block:'start',behavior:'instant'});}
  }
- for(const id of ['prepare','copy','write','configRead','idRead','three','dacWrite','dacRead','save']){const old=$(id).onclick;$(id).onclick=function(...args){old?.apply(this,args);logAction(id);refresh();update();};}
- const oldPrediction=$('recordPrediction').onclick;$('recordPrediction').onclick=function(){const count=lab.predictions.length;oldPrediction();if(lab.predictions.length>count){logAction('prediction');lab.predictions.at(-1).action_seq=state.seq;}refresh();update();};
- $('saveResponse').onclick=()=>{const text=$('responseText').value.trim();if(!text){$('responseSaved').textContent='Write an explanation first.';return;}logAction('response');lab.responses.push({task:activeTask,key:current().responseKey,text,action_seq:state.seq,event_count:lab.events.length,sample_id:lab.samples.at(-1)?.sample_id||null,recorded_at:new Date().toISOString()});$('responseSaved').textContent='Explanation saved for export.';refresh();update();};
- $('stepPrepare').onclick=()=>$('prepare').click();
- // Refresh directly after field handlers as well as through the general evidence updater.
- // A failed render elsewhere must not leave a correct input step's button disabled.
- for(const id of ['level','fault','assumed','pot'])for(const event of ['input','change'])$(id).addEventListener(event,()=>queueMicrotask(refresh));
- const checkInputs=document.createElement('button');checkInputs.id='checkInputSettings';checkInputs.textContent='Check input settings';bottom.querySelector('.toolbar').prepend(checkInputs);
- checkInputs.onclick=()=>{
-  const level=Number($('level').value),reference=Number($('assumed').value);
-  if(Number.isFinite(level)&&level>=0&&level<=2)lab.level=level;
-  if([3.3,2.5].includes(reference))lab.assumedRef=reference;
-  if(lab.fault!==$('fault').value)lab.setFault($('fault').value);
-  refresh();render();update();
- };
+ hooks.action.push(id=>{
+  if(!['prepare','copy','write','configRead','idRead','three','dacWrite','dacRead','save','recordPrediction','saveResponse'].includes(id))return;
+  logAction(id);
+  if(id==='recordPrediction'&&lab.predictions.at(-1)?.task===activeTask)lab.predictions.at(-1).action_seq=state.seq;
+  if(id==='saveResponse'&&lab.responses.at(-1)?.task===activeTask)lab.responses.at(-1).action_seq=state.seq;
+  refresh();
+ });
+ $('saveResponse').onclick=safe(()=>{if(!current()?.responseKey)return;const text=$('responseText').value.trim();if(!text){$('responseSaved').textContent='Write an explanation first.';throw Error('Write an explanation first.');}lab.responses.push({task:activeTask,key:current().responseKey,text,action_seq:state.seq,event_count:lab.events.length,sample_id:lab.samples.at(-1)?.sample_id||null,recorded_at:new Date().toISOString()});$('responseSaved').textContent='Explanation saved for export.';});
+ $('stepPrepare').onclick=()=>runAction('prepare',()=>prepare(activeTask));
  $('previousStep').onclick=()=>{taskState().index=Math.max(0,position()-1);paint(true);update();};
- $('continueStep').onclick=()=>{if(!check()){refresh();return;}if(position()<plans[activeTask].steps.length-1){taskState().index++;paint(true);}else{taskState().finished=true;const order=['A','B','C','D','E','F','G','H','Submit'];showTask(order[order.indexOf(activeTask)+1]);}update();};
+ $('continueStep').onclick=()=>{if(!check()){refresh();return;}if(position()<plans[activeTask].steps.length-1){taskState().index++;paint(true);}else{taskState().finished=true;const order=[...LabSteps.taskKeys(),'Submit'];showTask(order[order.indexOf(activeTask)+1]);}update();};
  function updateSubmission(){
-  const lines=['E','F','G','H'].map(key=>{const n=lab.saved.filter(s=>s.assignment===key&&s.learning_phase==='independent').length;const rs=lab.responses.filter(r=>r.task===key).length;const ps=lab.predictions.filter(p=>p.task===key).length;return taskData[key].title+': '+n+' checkpoint(s), '+rs+' explanation(s)'+(key==='H'?'':', '+ps+' prediction(s)');});
+  const lines=LabSteps.taskKeys('independent').map(key=>{const n=lab.saved.filter(s=>s.assignment===key&&s.learning_phase==='independent').length;const rs=lab.responses.filter(r=>r.task===key).length;const ps=lab.predictions.filter(p=>p.task===key).length;return taskData[key].title+': '+n+' checkpoint(s), '+rs+' explanation(s)'+(!LabSteps.expectations()[key].prediction_required?'':', '+ps+' prediction(s)');});
   let report=$('submissionReview');if(!report){report=document.createElement('pre');report.id='submissionReview';$('records').prepend(report);}report.textContent=lines.join('\n')+'\nCounts indicate presence, not correctness. Check names, explanations, two assets, one flow and a limitation before exporting.';
  }
  let initialShow=true;
- const previousShow=showTask;showTask=function(key){previousShow(key);$('prepare').hidden=true;$('jumpTask').hidden=true;$('taskGoal').textContent=plans[key]?.learn||taskData[key].goal;const phase=key==='Submit'?2:['E','F','G','H'].includes(key)?1:0;$('guided').querySelectorAll('.task-nav button').forEach((b,i)=>b.setAttribute('aria-pressed',String(i===phase)));paint(!initialShow);if(key==='Submit'&&!initialShow)$('guided').scrollIntoView({block:'start'});initialShow=false;};
- const previousUpdate=update;update=function(){previousUpdate();refresh();if(activeTask==='Submit')updateSubmission();};
+ hooks.task.push(function(key){$('taskGoal').textContent=plans[key]?.learn||taskData[key].goal;const phase=key==='Submit'?2:plans[key]?.phase==='independent'?1:0;$('guided').querySelectorAll('.task-nav button').forEach((b,i)=>b.setAttribute('aria-pressed',String(i===phase)));paint(!initialShow);if(key==='Submit'&&!initialShow)$('guided').scrollIntoView({block:'start'});initialShow=false;});
+ hooks.update.push(()=>{refresh();if(activeTask==='Submit')updateSubmission();});
  // Keep incomplete writing across reloads without counting it as submitted evidence.
- $('responseText').addEventListener('input',()=>{taskState().drafts=taskState().drafts||{};taskState().drafts[current().responseKey]=$('responseText').value;});
- showTask(activeTask);
- document.querySelector('footer').textContent='EE4002 · Lab 1 · Step-by-step v8.1 · Offline simulation';
+ $('responseText').addEventListener('input',()=>{const s=current();if(!s?.responseKey)return;taskState().drafts=taskState().drafts||{};taskState().drafts[s.responseKey]=$('responseText').value;});
+ 
+ document.querySelector('footer').textContent='EE4002 · Lab 1 · v'+LabConfig.appVersion+' · Offline simulation';
 }

@@ -1,7 +1,6 @@
 /* A single active working area; all measurements and writes use the original controls. */
 .step-workflow .step-pruned,.step-workflow .step-inactive{display:none!important}
-.step-workflow #prepare,.step-workflow #jumpTask,.step-workflow main>nav,.step-workflow #nextLessonTask{display:none!important}
-.step-workflow #guided>.toolbar:has(#prepare){display:none!important}
+
 .step-workflow #pairDiscussion{border-left:5px solid #b76526;background:#fff5e7;font-size:17px;line-height:1.5;padding:16px 20px}
 .step-workflow #guided{margin-bottom:16px;padding:18px}
 .step-workflow>header{padding:12px 24px}.step-workflow>header h1{font-size:24px}.step-workflow>header .notice{display:none}
@@ -24,7 +23,6 @@
 .step-workflow #stepFeedback{padding:12px;margin:0 0 12px;font-size:16px}
 .step-pass{background:#e0f2e8;color:#175339}.step-wait{background:#f3f5f7;color:#41566a}
 .step-workflow button:disabled{opacity:.55;cursor:not-allowed}
-.step-workflow #checkInputSettings{display:none}.step-workflow[data-step-gate=input] #checkInputSettings,.step-workflow[data-step-gate=nominal] #checkInputSettings{display:inline-block}
 .step-workflow #stepWorkspace pre,.step-workflow #submissionReview{white-space:pre-wrap;overflow-wrap:anywhere;background:#edf2f5;padding:12px;font-size:15px;line-height:1.5}
 .step-workflow .read-only-visual .tank-input,.step-workflow .read-only-visual .visual-fields,.step-workflow .read-only-visual .signal-panel>.toolbar,.step-workflow .visual-guide-link{display:none!important}
 .step-workflow .read-only-visual #tankTouch{pointer-events:none}

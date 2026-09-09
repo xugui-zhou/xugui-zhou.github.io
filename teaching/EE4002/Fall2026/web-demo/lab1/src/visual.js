@@ -1,4 +1,3 @@
-'use strict';
 // Presentation layer only: all conversions and register transactions use Workbench.
 if(!isTour){
 const visual=document.createElement('section');visual.id='liveBench';
@@ -23,7 +22,7 @@ $('tankTouch').onpointerup=$('tankTouch').onpointercancel=()=>{$('tankTouch').on
 for(const [proxy,source]of [['vMux','mux'],['vGain','gain'],['vRate','rate'],['vFault','fault']])$(proxy).onchange=()=>{$(source).value=$(proxy).value;$(source).dispatchEvent(new Event('change',{bubbles:true}));};
 $('vWrite').onclick=()=>{$('copy').click();$('write').click();};$('vRead').onclick=()=>$('configRead').click();$('vStep').onclick=()=>{stop();sample();};$('vPlay').onclick=()=>{if(timer){stop();return;}if(!lab.enabled){sample();return;}set('vPlay','Pause');set('liveClock','Slow playback');timer=setInterval(sample,500);};
 // Keep checkpoints deterministic and stop unattended playback on navigation.
-for(const id of ['save','export','csv','reset','newSession','watchTour','prepare','write','dacWrite','step','three'])$(id).addEventListener('click',stop,true);
+for(const id of ['save','export','csv','reset','newSession','watchTour','prepare','write','dacWrite','step','three'])$(id)?.addEventListener('click',stop,true);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
 window.addEventListener('message',e=>{if(e.source===parent&&e.data?.type==='ee4002-lab-hidden')stop();});
 function bits(id,value,kind){const host=$(id);if(!host.children.length)for(let i=7;i>=0;i--){const b=document.createElement('span');b.className='bit';b.dataset.bit=i;host.append(b);}for(const b of host.children){const i=+b.dataset.bit,v=(value>>i)&1,old=b.dataset.value;b.dataset.value=v;b.classList.toggle('on',!!v);b.classList.toggle('changed',old!==undefined&&old!==String(v));b.textContent=i+': '+v;b.title=kind==='status'?['DRDY','OVERRANGE','SETTLING','REF_ERROR (reserved)','SPI_ERROR','OVERRUN','reserved','reserved'][i]:['RATE0','RATE1','MUX0','MUX1','GAIN0','GAIN1','reserved','EN'][i];}}
@@ -45,5 +44,5 @@ function drawSignals(){const cv=$('signalChart'),w=cv.clientWidth;if(w<50)return
 lanes.forEach((a,k)=>{const top=25+k*96,bottom=top+65;c.fillStyle=ink;c.fillText(a.name,l,top-8);c.fillText(String(a.max),5,top+5);c.fillText('0',28,bottom+3);c.strokeStyle=grid;c.beginPath();c.moveTo(l,top);c.lineTo(r,top);c.moveTo(l,bottom);c.lineTo(r,bottom);c.stroke();let prev=null;c.strokeStyle=a.color;c.lineWidth=2;for(const s of ss){const val=s[a.key];if(!Number.isFinite(val)){prev=null;continue;}const x=l+(s.sim_time_ms-min)/(max-min)*(r-l),y=bottom-val/a.max*(bottom-top);if(prev&&(k!==2||prev.s.config===s.config)){c.beginPath();c.moveTo(prev.x,prev.y);c.lineTo(x,y);c.stroke();}c.fillStyle=k===2&&!s.settled?'#b85a20':a.color;c.beginPath();c.arc(x,y,3,0,Math.PI*2);c.fill();prev={x,y,s};}});
 c.fillStyle=ink;c.fillText(Math.round(min)+' ms',l,318);c.textAlign='right';c.fillText(Math.round(max)+' ms',r,318);c.textAlign='left';if(!ss.length)c.fillText('Sample to begin the history',l,152);
 }
-const originalRender=render;render=function(){originalRender();paintSignals();};new ResizeObserver(drawSignals).observe($('signalChart'));paintSignals();
+hooks.render.push(()=>{if($('liveBench').getClientRects().length)paintSignals();});new ResizeObserver(()=>render()).observe($('signalChart'));document.addEventListener('toggle',e=>{if(e.target.id==='extraVisual'||e.target.id==='signalHistory')render();},true);
 }
