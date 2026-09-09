@@ -1,0 +1,37 @@
+/* A single active working area; all measurements and writes use the original controls. */
+.step-workflow .step-pruned,.step-workflow .step-inactive{display:none!important}
+.step-workflow #prepare,.step-workflow #jumpTask,.step-workflow main>nav,.step-workflow #nextLessonTask{display:none!important}
+.step-workflow #guided>.toolbar:has(#prepare){display:none!important}
+.step-workflow #pairDiscussion{border-left:5px solid #b76526;background:#fff5e7;font-size:17px;line-height:1.5;padding:16px 20px}
+.step-workflow #guided{margin-bottom:16px;padding:18px}
+.step-workflow>header{padding:12px 24px}.step-workflow>header h1{font-size:24px}.step-workflow>header .notice{display:none}
+.step-workflow #guided .workflow-instruction{font-size:16px;margin:0 0 12px;padding:10px}
+.step-workflow #guided #taskTitle{font-size:20px;margin:8px 0}
+.step-workflow #taskOverview,.step-workflow #learningMap{margin:8px 0}
+.step-workflow #stepCoach{border-left:5px solid #175e76;margin:12px 0 0;padding:20px 24px;border-radius:10px 10px 0 0}
+.step-workflow #stepNumber{font-size:14px;font-weight:700;letter-spacing:.06em;color:#175e76}
+.step-workflow #stepName{font-size:26px;margin:8px 0 12px}
+.step-workflow #stepDo,.step-workflow #stepLook{font-size:18px;line-height:1.55}
+.step-workflow .step-observe{padding:14px;background:#e9f2f6;border-radius:6px}
+.step-workflow .step-observe strong{font-size:14px;color:#175e76}
+.step-workflow #stepWorkspace>section{display:block!important;margin:0;border-radius:0;padding:20px 24px;border-left:5px solid #b76526}
+.step-workflow #stepWorkspace>section[hidden]{display:none!important}
+.step-workflow #stepWorkspace>section>.section-title{display:none}
+.step-workflow #stepWorkspace .grid{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.step-workflow #stepWorkspace label,.step-workflow #stepWorkspace button{font-size:16px}
+.step-workflow #stepWorkspace .readout{font-size:18px}
+.step-workflow #stepNavigation{margin:0 0 18px;border-radius:0 0 10px 10px;padding:16px 24px}
+.step-workflow #stepFeedback{padding:12px;margin:0 0 12px;font-size:16px}
+.step-pass{background:#e0f2e8;color:#175339}.step-wait{background:#f3f5f7;color:#41566a}
+.step-workflow button:disabled{opacity:.55;cursor:not-allowed}
+.step-workflow #checkInputSettings{display:none}.step-workflow[data-step-gate=input] #checkInputSettings,.step-workflow[data-step-gate=nominal] #checkInputSettings{display:inline-block}
+.step-workflow #stepWorkspace pre,.step-workflow #submissionReview{white-space:pre-wrap;overflow-wrap:anywhere;background:#edf2f5;padding:12px;font-size:15px;line-height:1.5}
+.step-workflow .read-only-visual .tank-input,.step-workflow .read-only-visual .visual-fields,.step-workflow .read-only-visual .signal-panel>.toolbar,.step-workflow .visual-guide-link{display:none!important}
+.step-workflow .read-only-visual #tankTouch{pointer-events:none}
+.step-workflow.shared-embedded .tank-vessel{display:block;cursor:default}.step-workflow.shared-embedded .tank-scale{display:flex}.step-workflow.shared-embedded .tank-panel>.visual-small{display:block}
+.step-workflow.shared-embedded .live-layout{grid-template-columns:200px minmax(0,1fr)}.step-workflow.shared-embedded .tank-panel{padding-left:45px}
+.step-workflow[data-task=G] #stepWorkspace #bench{display:block!important}
+.step-workflow #stepWorkspace #measurement table caption{font-size:14px}
+.step-workflow [hidden]{display:none!important}
+@media(max-width:650px){.step-workflow #stepCoach,.step-workflow #stepWorkspace>section,.step-workflow #stepNavigation{padding:16px}.step-workflow #stepName{font-size:23px}.step-workflow #stepWorkspace .toolbar{align-items:stretch}.step-workflow #stepWorkspace .toolbar button{flex:1 1 180px}}
+@media(max-width:650px){.step-workflow.shared-embedded .live-layout{grid-template-columns:1fr}.step-workflow.shared-embedded .tank-panel{max-width:220px;margin:auto}}

@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="EE 4002 Industrial Cyber-Physical Systems &amp; Control Networks — laboratory demonstrations. An operable two-tank plant mimic with PLC scan, Modbus registers, network topology, SCADA alarms, OT security and a seventeen-fault injection bench.">
-<meta property="og:title" content="The Two-Tank Bench — EE 4002 laboratory demonstrations">
+<meta name="description" content="EE4002 offline laboratory: linked tank, current, ADC and register visualization for Lab 1, plus industrial CPS and two-tank demonstrations.">
+<meta property="og:title" content="EE4002 — IC and Industrial CPS Laboratory">
 <meta property="og:description" content="One simulated two-tank rig across nine benches: 4–20 mA scaling, OpenPLC scan and interlocks, Modbus registers and polling, network recovery, networked control timing, SCADA alarms, OT security, fault injection and a requirement-to-evidence matrix.">
 <meta property="og:type" content="website">
-<link rel="icon" href='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9B%A2%3C/text%3E%3C/svg%3E'>
-<title>The Two-Tank Bench</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="icon" href="data:,">
+<title>EE4002 · Industrial CPS Laboratory</title>
+<!-- Local system fonts keep the classroom demo fully offline. -->
+
+<link rel="stylesheet" href="polish.css">
 <style>
 /* ============================================================
    THE NETWORKED LOOP — tokens
@@ -703,6 +703,17 @@ tbody tr:hover{background:var(--raise)}
   .blindbar select{min-width:0;width:100%}
 }
 </style>
+<style>
+[hidden]{display:none!important}
+body[data-module="l1"] .rail .readout,body[data-module="l1"] .runpanel{display:none}
+.ic-notice{display:none;padding:16px 20px;color:var(--ink-2);font-size:13px}
+body[data-module="l1"] .ic-notice{display:block}
+#icPane{padding:18px;min-width:0;flex:1}
+#icFrame{display:block;width:100%;border:0;min-height:900px;background:#f5f7f9}
+.ic-launch{padding:22px;border-left:4px solid var(--accent);margin:20px 0;background:var(--panel)}
+.ic-launch p{margin:8px 0 14px}
+@media(max-width:600px){#icPane{padding:0}}
+</style>
 </head>
 <body>
 <div class="shell">
@@ -741,6 +752,7 @@ tbody tr:hover{background:var(--raise)}
       <p class="eyebrow" id="recInfo">Recorder idle</p>
     </div>
 
+    <p class="ic-notice">Lab 1: watch the instructor demonstration, then complete student tasks A–D and submit. Demo controls do not change your evidence. Student measurements use a fixed known input.</p>
     <nav class="nav" id="nav" aria-label="Course modules">
       <p class="eyebrow nav-label">Modules &amp; laboratories</p>
     </nav>
@@ -773,6 +785,7 @@ tbody tr:hover{background:var(--raise)}
     </div>
   </div>
 </div>
+<script src="lab1/plant-demo.js"></script>
 <script>
 (function () {
 "use strict";
@@ -795,8 +808,9 @@ if (!state.done) state.done = {};
 /* ---------------------------------------------------------------- modules -- */
 const MODULES = [
   { id: "m0", idx: "—",  nm: "Start here",                 sub: "Lab index" },
-  { id: "m1", idx: "M1", nm: "Plant, assets & data flow",  sub: "Lab 1" },
-  { id: "m2", idx: "M1", nm: "Instrument & 4–20 mA scaling", sub: "Lab 1" },
+  { id: "m1", idx: "1A", nm: "Lab 1 · guided experiment",  sub: "Watch → configure → submit" },
+  { id: "m2", idx: "1B", nm: "Instrument & 4–20 mA scaling", sub: "Lab 1 · shared session" },
+  { id: "l1", idx: "1C", nm: "IC configuration & evidence", sub: "Lab 1 · shared session" },
   { id: "m3", idx: "M2", nm: "PLC scan & interlocks",      sub: "Labs 2–3" },
   { id: "m4", idx: "M3", nm: "Modbus registers & polling", sub: "Lab 4" },
   { id: "m5", idx: "M4", nm: "Network & recovery",         sub: "Lab 5" },
@@ -1422,8 +1436,11 @@ function vslider(ctx, x, y, h, pct, live, colOn, colOff) {
   ctx.fillRect(x - 3, hy - 2, w + 6, 4);
 }
 
+const courseRig = Rig;
 function drawRig(cv, opts) {
   const o = opts || {};
+  const Rig = o.rig || courseRig;
+  const fullScale = o.lab1 ? 200 : 100;
   const g = fit(cv), ctx = g.ctx, w = g.w, h = g.h;
   ctx.clearRect(0, 0, w, h);
   const ink = css("--ink"), ink2 = css("--ink-2"), ink3 = css("--ink-3"), line = css("--line");
@@ -1450,7 +1467,7 @@ function drawRig(cv, opts) {
     if (hot(id)) { ctx.fillStyle = css("--accent-wash"); ctx.fillRect(x - 3, y - 3, tw + 6, th + 6); }
     ctx.strokeStyle = line; ctx.lineWidth = 1.5;
     ctx.strokeRect(x + .5, y + .5, tw, th);
-    const fh = (Math.max(0, Math.min(100, level)) / 100) * (th - 4);
+    const fh = (Math.max(0, Math.min(fullScale, level)) / fullScale) * (th - 4);
     ctx.fillStyle = s2; ctx.globalAlpha = .22;
     ctx.fillRect(x + 2, y + th - 2 - fh, tw - 4, fh); ctx.globalAlpha = 1;
     ctx.fillStyle = s2; ctx.fillRect(x + 2, y + th - 2 - fh, tw - 4, 2);
@@ -1463,7 +1480,7 @@ function drawRig(cv, opts) {
   tank(t2x, t2y, Rig.h2, "TK-201", "sp");
 
   /* ---------- alarm limits on the TK-201 wall ---------- */
-  const LY = function (v) { return t2y + th - 2 - (Math.max(0, Math.min(100, v)) / 100) * (th - 4); };
+  const LY = function (v) { return t2y + th - 2 - (Math.max(0, Math.min(fullScale, v)) / fullScale) * (th - 4); };
   [[Rig.HIHI, bad, "HIHI"], [Rig.HI, warn, "HI"], [Rig.LO, warn, "LO"], [Rig.LOLO, bad, "LOLO"]]
     .forEach(function (L) {
       const y = LY(L[0]);
@@ -1482,7 +1499,7 @@ function drawRig(cv, opts) {
   ctx.beginPath(); ctx.moveTo(t2x + tw + 2, spy); ctx.lineTo(t2x + tw + 11, spy - 5);
   ctx.lineTo(t2x + tw + 11, spy + 5); ctx.closePath(); ctx.fill();
   mono(ctx, 10, 600); ctx.textAlign = "left";
-  ctx.fillText("SP " + Rig.sp.toFixed(0), t2x + tw + 15, spy);
+  ctx.fillText((o.demo ? "PV " : o.lab1 ? "TEST " : "SP ") + Rig.sp.toFixed(0), t2x + tw + 15, spy);
   reg("sp", t2x, t2y, tw, th, "drag");
 
   /* ---------- P-101 with its output handwheel ---------- */
@@ -1575,7 +1592,12 @@ function drawRig(cv, opts) {
   /* ---------- signal chain column (Module 1 only) ---------- */
   if (o.chain) {
     const cx = w * 0.66, cw = Math.min(210, w - cx - 10);
-    const items = [
+    const items = o.lab1 ? [
+      ["LT-201", "0–2 m / 4–20 mA", chn.mA.toFixed(2)+" mA",s2],
+      ["R-201", "150 ohm shunt", (chn.mA*.15).toFixed(3)+" V",s1],
+      ["ADC-01", "12-bit / CONFIG "+hexByte((o.signalState||sharedLab).config), (o.signalState||sharedLab).sample?(o.signalState||sharedLab).code+" cts":"No conversion",s3],
+      ["LT-201.PV", "Last CH0 conversion",(o.signalState||sharedLab).sample?.channel===0?((o.signalState||sharedLab).sample.tag_level_m.toFixed(3)+" m"):"N/A",ref]
+    ] : [
       ["LT-201", "4–20 mA two-wire", chn.mA.toFixed(2) + " mA", ltBad ? bad : s2],
       ["OpenPLC", "%IW100 · scan " + Rig.effScan() + " ms", chn.counts + " cts", s1],
       ["Modbus/TCP", "40011 · " + (Rig.Ts * 1000).toFixed(0) + " ms poll", Rig.yHmi.toFixed(1) + " cm", s3],
@@ -1621,7 +1643,8 @@ function drawRig(cv, opts) {
     : rigHover === "lt" ? "Click to break or restore the 4–20 mA loop"
     : rigHover === "lshh" ? "Click to arm or bypass the high-high trip"
     : "Drag inside TK-201 for the setpoint · drag a valve · click the pump, LT-201 or LSHH-201";
-  ctx.fillText(hint, 2, h - 7);
+  ctx.fillText(o.demo ? "Click pump to toggle flow. Drag outlet FV-202 or pump slider. Demo does not change student evidence." : o.lab1 ? "Known-level calibration" : hint, 2, h - 7);
+  if(o.lab1)rigHit=o.demo?rigHit.filter(x=>['pump','mv','fv202','fv202s'].includes(x.id)):rigHit.filter(x=>x.id==="sp");
 }
 
 /* ---- mimic interaction ------------------------------------------------------ */
@@ -1637,9 +1660,15 @@ function rigFind(p) {
   return null;
 }
 function rigApply(H, p, onChange) {
+  if(current==='m1'){
+    if(H.id==='mv')teachingPlant.pump=Math.max(0,Math.min(100,Math.round((1-(p.y-H.y-6)/(H.h-12))*100)));
+    if(H.id==='fv202'||H.id==='fv202s'){const box=rigHit.find(x=>x.id==='fv202s')||H;teachingPlant.valve=Math.max(0,Math.min(100,Math.round((1-(p.y-box.y-4)/(box.h-8))*100)));}
+    if(onChange)onChange(H.id);return;
+  }
   const id = H.id.replace(/s$/, "");
   if (H.id === "sp") {
     const pct = (1 - (p.y - H.y - 2) / (H.h - 4)) * 100;
+    if(current==="m1") { labCommand("level",Math.max(0,Math.min(2,Math.round(pct*0.4)/20))); return; }
     Rig.spTarget = Rig.sp = Math.max(2, Math.min(98, Math.round(pct)));
   } else if (id === "fv102" || id === "fv202") {
     const box = rigHit.filter(function (x) { return x.id === id + "s"; })[0] || H;
@@ -1677,6 +1706,7 @@ function wireMimic(cv, onChange) {
     const p = rigPos(cv, e), H = rigFind(p);
     if (rigDrag) { rigDrag = null; return; }
     if (!H || H.k !== "click") return;
+    if(current==='m1'&&H.id==='pump'){if(teachingPlant.pump>0){teachingPlant.lastPump=teachingPlant.pump;teachingPlant.pump=0;}else teachingPlant.pump=teachingPlant.lastPump||70;if(onChange)onChange(H.id);return;}
     if (H.id === "pump") { Rig.setAuto(!Rig.auto); }
     else if (H.id === "lt") {
       Rig.wireBreak = !Rig.wireBreak;
@@ -1894,7 +1924,7 @@ const ASSETS = [
 ];
 
 const LABS = [
-  ["ML1 / Lab 1", "m2", "Environment, 4–20 mA and ADC scaling, plant boundary, assets, tags, and the data-flow baseline."],
+  ["ML1 / Lab 1", "l1", "IC configuration, ADC scaling, DAC loopback and fault recovery. 60-minute core plus 15-minute buffer."],
   ["ML1 / Lab 2", "m3", "OpenPLC scan behaviour, timers, feedback, and baseline level control."],
   ["ML1 / Lab 3", "m3", "Control requirements, interlocks, controlled faults, reliability evidence, and safe response."],
   ["ML2 / Lab 4", "m4", "Modbus RTU/TCP register mapping, endianness, polling, and packet capture."],
@@ -2206,7 +2236,7 @@ const build = {
 /* --------------------------------------------------------- M0 · lab index */
 m0: function () {
   const cycles = CYCLES.map(function (cy) {
-    const cards = cy.mods.map(function (id) {
+    const cards = cy.mods.filter(id=>!isLabView(id)).map(function (id) {
       const m = MODULES.filter(function (x) { return x.id === id; })[0];
       return '<div class="labcard"><div class="lh"><span class="lid">' + m.sub + '</span>' +
         '<span class="ml">' + m.idx + '</span></div>' +
@@ -2231,10 +2261,11 @@ m0: function () {
   }).join("");
 
   return head("m0", "THE BENCH", "Supplement to the course site",
-    "Ten labs, one rig, one running simulation",
-    "This is a pre-lab bench, not the course page. Everything here drives the same simulated two-tank plant the labs use, so you can produce a fault, watch what it does, and rehearse the evidence before the session starts.") +
+    "Course laboratory workbenches",
+    "Lab 1 follows one sequence: watch a moving plant, configure and test a measurement, then submit evidence. Later modules cover closed-loop control, networking and supervision.") +
+  '<section class="ic-launch"><h3>Lab 1: plant, signals and IC configuration</h3><p>60-minute core plus 15 minutes of buffer. Watch the instructor demonstration, then practice first, then solve four changed assignments independently. Watch the walkthrough, then complete Tasks A–D. No hardware or installation required.</p><button class="btn" data-goto="m1">Open Lab 1</button> <a class="btn" href="lab1/student-guide.html" target="_blank">Student guide</a></section>' +
 
-  '<section class="panel"><div class="panel-head"><span class="eyebrow">Lab progress · this browser</span>' +
+  '<section class="panel"><div class="panel-head"><span class="eyebrow">Later-lab progress · this browser</span>' +
     '<span class="eyebrow" id="allProg">—</span></div>' +
     '<div class="proglist" id="progList"></div></section>' +
 
@@ -2803,7 +2834,7 @@ m0: function () {
   /* progress across every bench, read from what the objectives actually saw */
   const host = document.getElementById("progList"), all = document.getElementById("allProg");
   let totDone = 0, totAll = 0;
-  const rows = MODULES.filter(function (m) { return OBJ[m.id]; }).map(function (m) {
+  const rows = MODULES.filter(function (m) { return OBJ[m.id] && !isLabView(m.id); }).map(function (m) {
     const objs = OBJ[m.id], done = (state.obj[m.id] || []).filter(Boolean).length;
     totDone += done; totAll += objs.length;
     const ev = state.ev[m.id] || {};
@@ -2831,7 +2862,7 @@ m1: function () {
   const btns = document.querySelectorAll("[data-sp]");
   function show(i) {
     const s = SPINE[i];
-    det.innerHTML = '<div class="prose"><h3>' + s.sn + '</h3><p>' + s.d + '</p>' +
+    det.innerHTML = '<div class="prose"><h3>' + s.sn + '</h3><p>' + (current==='m1'?s.d.replaceAll('0–100 cm','0–200 cm'):s.d) + '</p>' +
       '<div class="taglist">' + s.tags.map(t => '<span class="tag">' + t + '</span>').join("") + '</div></div>';
     labEl.textContent = "Covered in " + s.lab;
     if (!Rig.f.spineSet) Rig.f.spineSet = {};
@@ -3618,14 +3649,14 @@ document.addEventListener("keydown", function (e) {
   const t = e.target && e.target.tagName;
   if (t === "TEXTAREA" || t === "INPUT") return;
   if (e.key === "Escape" && !modal.hidden) { modal.hidden = true; return; }
-  if (e.code === "Space") { e.preventDefault(); Rig.running = !Rig.running; paintRun(); }
+  if (e.code === "Space" && !isLabView(current)) { e.preventDefault(); Rig.running = !Rig.running; paintRun(); }
 });
 
 /* ============================================================================
    8 · ROUTER, RAIL, LOOP
    ========================================================================== */
 const nav = document.getElementById("nav");
-MODULES.forEach(function (m) {
+MODULES.filter(m=>!["m2","l1"].includes(m.id)).forEach(function (m) {
   const b = document.createElement("button");
   b.type = "button"; b.dataset.id = m.id;
   b.innerHTML = '<span class="idx">' + m.idx + '</span><span class="nm">' + m.nm +
@@ -3638,7 +3669,7 @@ MODULES.forEach(function (m) {
 function paintNav() {
   const bs = nav.querySelectorAll("button");
   for (let i = 0; i < bs.length; i++) {
-    bs[i].setAttribute("aria-current", String(bs[i].dataset.id === current));
+    bs[i].setAttribute("aria-current", String(bs[i].dataset.id === current || (bs[i].dataset.id==="m1" && isLabView(current))));
     bs[i].querySelector(".lamp").className = "lamp" + (state.done[bs[i].dataset.id] ? " on" : "");
   }
   const n = MODULES.filter(m => state.done[m.id]).length;
@@ -3646,7 +3677,56 @@ function paintNav() {
   document.getElementById("progBar").style.width = (n / MODULES.length * 100) + "%";
 }
 
+let icPane = null, icPreviousRun = false, sharedLab = null;
+const isLabView=id=>["m1","m2","l1"].includes(id);
+let teachingPlant = new Lab1Plant();
+const hexByte=n=>"0x"+Number(n).toString(16).toUpperCase().padStart(2,"0");
+function labCommand(action,value){document.getElementById("icFrame")?.contentWindow.postMessage({type:"ee4002-shared-command",action,value},"*");}
+function labNav(){return '<nav class="unified-nav" aria-label="Lab 1 views"><button class="btn" data-labview="m1">Plant demonstration</button><button class="btn" data-labview="l1">Student lab · step-by-step</button><span>Practice, independent tasks and submission are all inside the student lab.</span></nav>';}
+function wireLabNav(host){host.querySelectorAll('[data-labview]').forEach(b=>{b.setAttribute('aria-current',String(b.dataset.labview===current));b.onclick=()=>go(b.dataset.labview);});host.querySelectorAll('[data-submit]').forEach(b=>b.onclick=()=>{go('l1');labCommand('task','Submit');});}
+function ensureLab(){if(icPane)return;icPane=document.createElement('section');icPane.id='icPane';icPane.hidden=true;icPane.innerHTML=labNav()+'<iframe id="icFrame" src="lab1/index.html?embedded=1&v=8" title="Step-by-step Lab 1 practice and independent work"></iframe>';stage.after(icPane);}
+const originalPlantBuild=build.m1;
+build.m1=function(){const original=originalPlantBuild(),at=original.indexOf('<section class="panel"><div class="panel-head"><span class="eyebrow">The course spine');return labNav()+head('m1','INSTRUCTOR DEMO','Watch first · about 5 minutes','Watch the plant, then configure a measurement','Start the plant. Change pump speed or the outlet valve. Observe both tank levels and current. Students do not configure registers on this screen.')+'<div class="unified-note"><strong>DISPLAY ONLY:</strong> level, current, voltage and ideal ADC preview. <strong>INSTRUCTOR CONTROLS:</strong> Play/Pause, pump and outlet. Demo data never enters student evidence.</div><div class="unified-controls"><button class="btn pri" id="teacherPlay">Play plant</button><label>Pump speed (%)<input id="teacherPump" type="range" min="0" max="100" value="'+teachingPlant.pump+'"></label><label>Outlet valve (%)<input id="teacherValve" type="range" min="0" max="100" value="'+teachingPlant.valve+'"></label><strong id="teacherState">Paused</strong></div><section class="panel"><div class="panel-head"><span>Dynamic two-tank demonstration · 0–2 m</span><span>Ideal preview, not register evidence</span></div><div class="rigwrap"><canvas id="rig" aria-label="Dynamic two-tank plant and signal preview"></canvas></div></section><div class="unified-note"><strong>Watch:</strong> The pump changes inflow. The upper tank responds first; the lower tank responds later. Current follows the lower tank. Then use Practice to learn the sequence, then Independent work to solve changed cases.</div><button class="btn pri" id="beginPractice">Start student experiment →</button><details><summary>Optional instructor background: architecture and assets</summary>'+original.slice(at)+'</details>';};
+const originalPlantWire=wire.m1;
+wire.m1=function(){originalPlantWire();perFrame.shift();let last=performance.now();perFrame.unshift(()=>{const now=performance.now();teachingPlant.step((now-last)/1000);last=now;const s=teachingPlant.snapshot;const snapshot=Object.assign(Object.create(Rig),{auto:false,mvMan:teachingPlant.pump,t:teachingPlant.t,h1:teachingPlant.h1*100,h2:s.level*100,sp:s.level*100,qin:teachingPlant.qin*1e6,q1:teachingPlant.q12*1e6,q2:teachingPlant.qout*1e6,mvApplied:teachingPlant.running?teachingPlant.pump:0,fv202:teachingPlant.valve,HIHI:170,HI:150,LO:50,LOLO:20,F:{},wireBreak:false,hihiLatched:false,loloLatched:false,chain:()=>({mA:s.current,counts:s.code,eu:s.sample.tag_level_m*100,fault:false})});drawRig(cvRig,{chain:true,lab1:true,demo:true,signalState:s,rig:snapshot});document.getElementById('teacherPump').value=teachingPlant.pump;document.getElementById('teacherValve').value=teachingPlant.valve;document.getElementById('teacherPlay').textContent=teachingPlant.running?'Pause plant':'Play plant';document.getElementById('teacherState').textContent=(teachingPlant.running?'Playing':'Paused')+' · pump '+teachingPlant.pump+'% · valve '+teachingPlant.valve+'% · '+teachingPlant.t.toFixed(1)+' s';});document.getElementById('teacherPlay').onclick=()=>teachingPlant.running=!teachingPlant.running;document.getElementById('teacherPump').oninput=e=>teachingPlant.pump=+e.target.value;document.getElementById('teacherValve').oninput=e=>teachingPlant.valve=+e.target.value;document.getElementById('beginPractice').onclick=()=>go('l1');wireLabNav(stage);};
+build.m2=function(){return labNav()+head('m2','LAB 1 / 2','Shared measurement chain','Physical input, conversion and scaling','The same TK-201 source and ADC registers appear in all three views. Live current changes with the input; ADC DATA and the software tag change only after sampling.')+'<section class="panel"><div class="panel-body"><div class="grid3" id="mergedValues"></div><label>Shared physical level (m)<input id="mergedLevel" type="range" min="0" max="2" step="0.05" value="1"></label><p>Loop current · 0–24 mA scale (normal signal: 4–20 mA)</p><meter id="mergedMeter" min="0" max="24" low="4" high="20" optimum="12" value="12" style="width:100%;height:32px"></meter><div class="unified-controls"><button class="btn" id="mergedWrite">Write proposed CONFIG</button><button class="btn" id="mergedRead">Read CONFIG</button><button class="btn pri" id="mergedSample">Sample + read</button><button class="btn" id="mergedSettle">3 conversions + read</button></div><p id="mergedStatus" role="status">Loading shared session…</p><div class="unified-controls"><label>Software reference assumption<select id="mergedReference"><option value="3.3">3.3 V · nominal</option><option value="2.5">2.5 V · mismatch test</option></select></label><label>Shared fault<select id="mergedFault"><option value="none">None</option><option value="freeze">Frozen transmitter</option><option value="reference">ADC reference becomes 2.5 V</option><option value="drop">Configuration writes disappear</option><option value="open">DAC loopback opens</option></select></label></div></div></section><section class="panel doc"><div class="panel-body"><h3>One scale throughout Lab 1</h3><p>I = 4 + 8h mA; V = 0.15I V; C = floor(4096 × gain × V / Vref), clipped to 0–4095.</p><p>At 1.00 m, gain 1 and Vref 3.3 V: 12 mA, 1.800 V, settled code 2234. Compare the physical input with the last recorded conversion. A moving input does not rewrite DATA.</p><p>Change the software reference assumption to create a scaling error without changing the physical ADC reference. Freeze the transmitter to separate tank motion from loop current. Restore nominal settings before collecting core evidence.</p><p>The former 16-bit / 0–25 mA example is no longer the Lab 1 converter. Later system-control modules retain their separate analogue-card model.</p></div></section>';};
+wire.m2=function(){const defs=[['Physical level','m'],['Current now','mA'],['Shunt now','V'],['ADC DATA','count'],['Last CH0 tag','m'],['CONFIG','accepted']];document.getElementById('mergedValues').innerHTML=defs.map((d,i)=>'<div class="rd"><span>'+d[0]+'</span><b id="mergedV'+i+'">—</b><small>'+d[1]+'</small></div>').join('');document.getElementById('mergedLevel').oninput=e=>labCommand('level',+e.target.value);for(const[id,action]of [['mergedWrite','write'],['mergedRead','read'],['mergedSample','sample'],['mergedSettle','settle']])document.getElementById(id).onclick=()=>labCommand(action);document.getElementById('mergedReference').onchange=e=>labCommand('reference',e.target.value);document.getElementById('mergedFault').onchange=e=>labCommand('fault',e.target.value);wireLabNav(stage);perFrame.push(()=>{if(!sharedLab)return;const s=sharedLab;[s.level.toFixed(2),s.current.toFixed(3),s.voltage.toFixed(3),s.sample?s.code:'No sample',s.sample?.channel===0?s.sample.tag_level_m.toFixed(4):'N/A',hexByte(s.config)].forEach((v,i)=>document.getElementById('mergedV'+i).textContent=v);for(const[id,value]of [['mergedLevel',s.level],['mergedReference',s.assumed],['mergedFault',s.fault]])if(document.activeElement!==document.getElementById(id))document.getElementById(id).value=value;document.getElementById('mergedMeter').value=s.current;document.getElementById('mergedStatus').textContent=s.readback+' · '+s.time+' ms · STATUS '+hexByte(s.status)+' · '+s.saved+' checkpoints. '+(s.sample?.settled?'Last output settled; inspect faults and channel.':'No settled output yet.');});};
+window.addEventListener("message", function (event) {
+  const frame = document.getElementById("icFrame");
+  if (!frame || event.source !== frame.contentWindow) return;
+  if(event.data?.type==='ee4002-shared-state'){sharedLab=event.data;return;}
+  if (event.data?.type === "ee4002-tour-open") {
+    frame.scrollIntoView({block:"start",behavior:"instant"});
+    document.body.style.overflow="hidden";
+    frame.contentWindow.postMessage({type:"ee4002-host-viewport",height:innerHeight},"*");return;
+  }
+  if (event.data?.type === "ee4002-tour-close") { document.body.style.overflow="";return; }
+  if (event.data?.type !== "ee4002-lab1-height") return;
+  const h = Number(event.data.height);
+  if (Number.isFinite(h) && h > 100 && h < 50000) frame.style.height = Math.ceil(h) + "px";
+});
+window.addEventListener("resize",function(){const frame=document.getElementById("icFrame");if(frame)frame.contentWindow.postMessage({type:"ee4002-host-viewport",height:innerHeight},"*");});
+window.addEventListener("hashchange", function(){const id=location.hash.slice(1);if(MODULES.some(m=>m.id===id)&&id!==current)go(id);});
 function go(id) {
+  if(id==="m2")id="l1";
+  if(id!=="m1")teachingPlant.running=false;
+  document.body.style.overflow="";
+  document.body.dataset.module = id;
+  document.body.classList.toggle('unified-lab',isLabView(id));
+  if(isLabView(id)){ensureLab();if(!isLabView(current))icPreviousRun=Rig.running;Rig.running=false;labCommand('show');}
+  if (id === "l1") {
+    Rig.running = false;
+    current = id;
+    perFrame = [];
+    stage.hidden = true;
+    icPane.hidden = false;
+    wireLabNav(icPane);
+    state.done.l1 = true;state.last = id;store.write(state);paintNav();
+    history.replaceState(null,"","#l1");window.scrollTo(0,0);return;
+  }
+  if (isLabView(current)&&!isLabView(id)) Rig.running = icPreviousRun;
+  if (icPane) { document.getElementById("icFrame").contentWindow.postMessage({type:"ee4002-lab-hidden"},"*"); icPane.hidden = true; }
+  stage.hidden = false;
   /* leave the bench in a sensible state for the module being opened: faults
      that belong to another module should not masquerade as this one's lesson */
   if (id !== "m5") { Rig.failedLink = -1; Rig.linkDownAt = -999; }
@@ -3663,12 +3743,13 @@ function go(id) {
   stage.innerHTML = "";
   const sec = document.createElement("section");
   sec.className = "module";
-  sec.innerHTML = build[id]() + labFooter(id);
+  sec.innerHTML = build[id]() + (isLabView(id)?'':labFooter(id));
   stage.appendChild(sec);
   wire[id]();
   wireEvidence();
   paintNav();
   state.last = id; store.write(state);
+  history.replaceState(null,"","#"+id);
   window.scrollTo(0, 0);
 }
 
@@ -3679,7 +3760,7 @@ const railPV = document.getElementById("railPV"), railSP = document.getElementBy
 let acc = 0, prev = performance.now();
 function frame(now) {
   const dtR = Math.min(0.1, (now - prev) / 1000); prev = now;
-  if (Rig.running) {
+  if (Rig.running && !isLabView(current)) {
     acc += dtR * Rig.speed;
     let n = 0;
     const cap = 12 * Rig.speed;
@@ -3701,7 +3782,7 @@ function frame(now) {
 }
 
 paintRun();
-go(MODULES.some(m => m.id === state.last) ? state.last : "m0");
+go(MODULES.some(m => m.id === location.hash.slice(1)) ? location.hash.slice(1) : MODULES.some(m => m.id === state.last) ? state.last : "m0");
 requestAnimationFrame(frame);
 
 })();
