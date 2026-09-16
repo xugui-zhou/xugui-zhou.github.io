@@ -812,7 +812,8 @@ const MODULES = [
   { id: "m0", idx: "—",  nm: "Start here",                 sub: "Lab index" },
   { id: "m1", idx: "1A", nm: "Lab 1 · guided experiment",  sub: "Watch → configure → submit" },
   { id: "l1", idx: "1C", nm: "IC configuration & evidence", sub: "Lab 1 · shared session" },
-  { id: "m3", idx: "M2", nm: "PLC scan & interlocks",      sub: "Labs 2–3" },
+  { id: "l2", idx: "L2", nm: "Lab 2 · Control foundations", sub: "Browser only · practice, verification & design" },
+  { id: "m3", idx: "M2", nm: "PLC scan & interlocks",      sub: "Lab 3 · background demonstration" },
   { id: "m4", idx: "M3", nm: "Modbus registers & polling", sub: "Lab 4" },
   { id: "m5", idx: "M4", nm: "Network & recovery",         sub: "Lab 5" },
   { id: "m6", idx: "M5", nm: "Networked control & timing", sub: "Lab 6" },
@@ -1893,7 +1894,7 @@ const SPINE = [
     tags: ["LT-201", "AI card", "EU scaling"], lab: "Lab 1" },
   { st: "CONTROL", sn: "OpenPLC · IEC 61131-3",
     d: "A scan-based controller: read the input image, execute the logic, write the output image. Interlocks, timers and latches live here, and the scan period bounds how fast any of it can respond.",
-    tags: ["Ladder", "ST", "TON", "Interlock"], lab: "Labs 2–3" },
+    tags: ["Ladder", "ST", "TON", "Interlock"], lab: "Lab 3" },
   { st: "PROTOCOL", sn: "Modbus/TCP",
     d: "Registers and coils, no semantics. Address 40011 is a float only because both ends agreed it is — and only if they agree on byte order too.",
     tags: ["FC03", "FC06", "40011", "Byte order"], lab: "Lab 4" },
@@ -1925,7 +1926,7 @@ const ASSETS = [
 
 const LABS = [
   ["ML1 / Lab 1", "l1", "IC configuration, ADC scaling, DAC loopback and fault recovery. 60-minute core plus 15-minute buffer."],
-  ["ML1 / Lab 2", "m3", "OpenPLC scan behaviour, timers, feedback, and baseline level control."],
+  ["ML1 / Lab 2", "l2", "Predict tank dynamics, verify hysteresis and test controlled restart. Core: P1–P3 practice and I1–I2 verification. Optional: I3 control-band design and X1 P/PI. No PLC programming or installation."],
   ["ML1 / Lab 3", "m3", "Control requirements, interlocks, controlled faults, reliability evidence, and safe response."],
   ["ML2 / Lab 4", "m4", "Modbus RTU/TCP register mapping, endianness, polling, and packet capture."],
   ["ML2 / Lab 5", "m5", "Industrial Ethernet topology, latency, load, link failure, redundancy, and recovery."],
@@ -1939,7 +1940,7 @@ const LABS = [
 const CYCLES = [
   { id: "ML1", labs: "Labs 1–3", t: "Commission the plant",
     d: "Stand the rig up, put a number on every signal, get closed-loop control working, then prove it does something safe when you break it on purpose.",
-    mods: ["m1", "l1", "m3"] },
+    mods: ["m1", "l1", "l2", "m3"] },
   { id: "ML2", labs: "Labs 4–5", t: "Build and measure the path",
     d: "Decode what is actually on the wire, put arithmetic behind the poll rate, and find out what one cut cable costs on four different topologies.",
     mods: ["m4", "m5"] },
@@ -2000,6 +2001,7 @@ const BLIND_POOL = ["drift", "stuck", "spike", "misscale", "pumpdead", "pumpcap"
                     "valvestick", "scanoverrun", "latency", "burstloss", "leak", "fouling"];
 
 const MODBLURB = {
+  l2: "A separate single-tank experiment: mass balance, hysteresis memory, trip recovery, independent boundary tests and optional P/PI exploration.",
   m1: "The reference plant itself: a live P&ID, the clickable signal chain, and the twelve-asset inventory every later lab depends on.",
   m3: "OpenPLC scan behaviour, live ladder rungs, timers and latches, and the interlock that overrides control rather than negotiating with it.",
   m4: "A live Modbus register map, real MBAP and PDU bytes, the four float32 word orders, and an RTU poll-budget calculator.",
@@ -2012,7 +2014,8 @@ const MODBLURB = {
 };
 
 const TOOLS = [
-  ["OpenPLC", "IEC 61131-3 soft controller", "Labs 2–3"],
+  ["Browser simulation", "Supplied controller; no installation or PLC coding", "Lab 2"],
+  ["OpenPLC", "IEC 61131-3 soft controller", "Lab 3"],
   ["Modbus/TCP", "Register map on port 502", "Lab 4"],
   ["Wireshark", "Frame capture and hand decoding", "Labs 4–5"],
   ["Node-RED", "HMI, alarms, edge flows", "Lab 7"],
@@ -2043,7 +2046,7 @@ const REQS = [
     fix: function () { Rig.wireDetect = true; }, brk: function () { Rig.wireDetect = false; } },
   { id: "R3", r: "PLC scan time does not exceed 200 ms",
     m: "Read the OpenPLC scan-time diagnostic under worst-case logic load",
-    lab: "Lab 2",
+    lab: "Lab 3",
     test: function () { return Rig.scanMs <= 200; },
     fix: function () { Rig.scanMs = 100; }, brk: function () { Rig.scanMs = 600; } },
   { id: "R4", r: "High-high level stops the pump independently of the network and the HMI",
@@ -2191,7 +2194,7 @@ const EVQ = {
   m9: "Choose one requirement from the matrix and write it out properly: claim, evidence, limitation."
 };
 
-const LABOF = { m1: "Lab 1", m3: "Labs 2–3", m4: "Lab 4",
+const LABOF = { m1: "Lab 1", m3: "Lab 3", m4: "Lab 4",
                 m5: "Lab 5", m6: "Lab 6", m7: "Lab 7", m8: "Lab 8",
                 m10: "Lab 9", m9: "Lab 10" };
 
@@ -2247,16 +2250,16 @@ m0: function () {
 
   return head("m0", "THE BENCH", "Supplement to the course site",
     "Course laboratory workbenches",
-    "Lab 1 follows one sequence: watch a moving plant, configure and test a measurement, then submit evidence. Later modules cover closed-loop control, networking and supervision.") +
-  '<section class="ic-launch"><h3>Lab 1: plant, signals and IC configuration</h3><p>60-minute core plus 15 minutes of buffer. Watch the instructor demonstration, then practice first, then solve four changed assignments independently. Watch the walkthrough, then complete Tasks A–D. No hardware or installation required.</p><button class="btn" data-goto="m1">Open Lab 1</button> <a class="btn" href="lab1/student-guide.html" target="_blank">Student guide</a></section>' +
+    "Choose your laboratory below. Complete the guided practice and independent work, then download your files and upload them to Moodle. Both labs run in your browser.") +
+  '<style>.lab-launch-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:24px 0}.lab-launch-grid .ic-launch{margin:0;display:flex;flex-direction:column}.lab-launch-grid .launch-actions{margin-top:auto;padding-top:16px}@media(max-width:850px){.lab-launch-grid{grid-template-columns:1fr}}</style><div class="lab-launch-grid"><section class="ic-launch"><h3>Lab 1 · Signals and IC configuration</h3><p>Watch the plant demonstration, practise configuring measurements, then complete the independent assignments.</p><p>ADC scaling · configuration · fault recovery</p><div class="launch-actions"><button class="btn" data-goto="l1">Open Lab 1</button> <a class="btn" href="lab1/student-guide.html" target="_blank" rel="noopener">Student guide</a></div></section><section class="ic-launch"><h3>Lab 2 · Control foundations</h3><p>Predict tank behavior, test hysteresis and verify fault recovery. Finish with Review &amp; Download.</p><p>Core: P1–P3 and I1–I2 · Optional: I3 and X1</p><div class="launch-actions"><button class="btn" data-goto="l2">Open Lab 2</button> <a class="btn" href="lab2/index.html" target="_blank" rel="noopener">Full window</a></div></section></div>' +
 
-  '<section class="panel"><div class="panel-head"><span class="eyebrow">Later-lab progress · this browser</span>' +
+  '<section class="panel"><div class="panel-head"><span class="eyebrow">Labs 3–10 · demonstration checkpoints</span>' +
     '<span class="eyebrow" id="allProg">—</span></div>' +
     '<div class="proglist" id="progList"></div></section>' +
 
   '<section class="panel"><div class="panel-head">' +
     '<span class="eyebrow">Four cumulative evidence cycles</span>' +
-    '<span class="eyebrow">One plant, carried forward</span></div>' +
+    '<span class="eyebrow">Course topics and demonstrations</span></div>' +
     '<div class="cycles">' + cycles + '</div></section>' +
 
   '<section class="panel doc"><div class="panel-head"><span class="eyebrow">How the bench works</span></div>' +
@@ -2301,7 +2304,7 @@ m1: function () {
 
   '<section class="panel doc"><div class="panel-body"><div class="prose">' +
     '<h3>Why the inventory is the first deliverable</h3>' +
-    '<p>An asset you have not written down is an asset nobody is defending, tuning, or replacing on schedule. The inventory is also what makes the rest of the course tractable: the tag <span class="term">LT-201</span> appears as a physical instrument in Lab 1, as <span class="term">%IW100</span> in Lab 2, as holding register <span class="term">40011</span> in Lab 4, as a point on a VLAN in Lab 5, as a historian series in Lab 7, and as an object inside a security zone in Lab 8. One name, six representations.</p>' +
+    '<p>An asset you have not written down is an asset nobody is defending, tuning, or replacing on schedule. The inventory is also what makes the rest of the course tractable: the tag <span class="term">LT-201</span> appears as a physical instrument in Lab 1, as <span class="term">%IW100</span> in Lab 3, as holding register <span class="term">40011</span> in Lab 4, as a point on a VLAN in Lab 5, as a historian series in Lab 7, and as an object inside a security zone in Lab 8. One name, six representations.</p>' +
     '<p><strong>ISA-95 / Purdue</strong> gives those representations a place to live. Level 0 is the process and its field devices; Level 1 is basic and safety control; Level 2 is area supervisory — HMI, SCADA, local historian; Level 3 is site operations, including the engineering workstation; Levels 4 and 5 are business and enterprise, separated from Level 3 by an industrial DMZ whose entire value is that no session crosses it end to end.</p>' +
     '<p>Note what is deliberately <em>not</em> on the network in the table above: <span class="term">LSHH-201</span>. The hardwired high-high switch answers to physics and a relay, not to a protocol. Module 7 shows why that matters.</p>' +
   '</div></div></section>';
@@ -2327,7 +2330,7 @@ m3: function () {
     '<div class="btnrow"><button class="btn" id="bFill">Force fill to HIHI</button>' +
     '<button class="btn" id="bReset">Reset rig</button></div>';
 
-  return head("m3", "MODULE 2", "Labs 2–3 · PLC control, requirements &amp; reliability",
+  return head("m3", "MODULE 2", "Lab 3 background · PLC control, requirements &amp; reliability",
     "Read inputs, execute logic, write outputs",
     "A PLC is not an interrupt-driven computer. It freezes its inputs, runs the whole program top to bottom, then writes its outputs — over and over. Everything about response time, latching, and interlock behaviour follows from that loop.") +
 
@@ -3535,7 +3538,7 @@ document.addEventListener("keydown", function (e) {
   const t = e.target && e.target.tagName;
   if (t === "TEXTAREA" || t === "INPUT") return;
   if (e.key === "Escape" && !modal.hidden) { modal.hidden = true; return; }
-  if (e.code === "Space" && !isLabView(current)) { e.preventDefault(); Rig.running = !Rig.running; paintRun(); }
+  if (e.code === "Space" && !isLabView(current) && current!=="l2") { e.preventDefault(); Rig.running = !Rig.running; paintRun(); }
 });
 
 /* ============================================================================
@@ -3565,6 +3568,8 @@ function paintNav() {
 
 let icPane = null, icPreviousRun = false;
 const isLabView=id=>["m1","l1"].includes(id);
+build.l2=function(){return '<style>body[data-module="l2"] .readout,body[data-module="l2"] .runpanel,body[data-module="l2"] .ic-notice{display:none}</style><p class="unified-note">Lab 2 · browser only, supplied controller, no PLC programming required. Core: P1–P3 and I1–I2 (50–55 min). Optional/homework: I3 design challenge and X1 P/PI. Uses a separate single-tank simulation and local evidence. <a href="lab2/index.html" target="_blank" rel="noopener">Open Lab 2 in a full window</a>.</p><iframe src="lab2/index.html" title="Lab 2 guided control experiment" style="width:100%;height:1500px;border:0;background:#f3f6f7"></iframe>';};
+wire.l2=function(){Rig.running=false;};
 let teachingPlant = new Lab1Plant();
 const hexByte=n=>"0x"+Number(n).toString(16).toUpperCase().padStart(2,"0");
 function labNav(){return '<nav class="unified-nav" aria-label="Lab 1 views"><button class="btn" data-labview="m1">Plant demonstration</button><button class="btn" data-labview="l1">Student lab · step-by-step</button><span>Practice, independent tasks and local downloads are inside the student lab. Upload your work to Moodle yourself.</span></nav>';}
@@ -3642,7 +3647,7 @@ const railPV = document.getElementById("railPV"), railSP = document.getElementBy
 let acc = 0, prev = performance.now();
 function frame(now) {
   const dtR = Math.min(0.1, (now - prev) / 1000); prev = now;
-  if (Rig.running && !isLabView(current)) {
+  if (Rig.running && !isLabView(current) && current!=="l2") {
     acc += dtR * Rig.speed;
     let n = 0;
     const cap = 12 * Rig.speed;

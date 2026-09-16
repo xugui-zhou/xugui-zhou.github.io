@@ -1,16 +1,26 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 const root=path.resolve(__dirname,'..'),lab=path.join(root,'lab1');
 require('node:child_process').execFileSync(process.execPath,[path.join(__dirname,'build-lab1.cjs'),'--check'],{stdio:'inherit'});
-for(const dir of [root,lab])for(const name of fs.readdirSync(dir)){
- const file=path.join(dir,name);
- if(name.endsWith('.js'))new vm.Script(fs.readFileSync(file,'utf8'),{filename:file});
- if(!name.endsWith('.html'))continue;
- const html=fs.readFileSync(file,'utf8');
- for(const m of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g))if(m[1].trim())new vm.Script(m[1],{filename:file});
- for(const m of html.matchAll(/(?:href|src)="([^"<>]+)"/g)){
+function activeHtml(html){return html.replace(/<!--[\s\S]*?-->/g,'');}
+function checkReferences(html,dir,file){
+ for(const m of activeHtml(html).matchAll(/(?:href|src)="([^"<>]+)"/g)){
   if(/^(?:https?:|data:|#|about:)/.test(m[1])||m[1].includes("'+"))continue;
   const ref=decodeURIComponent(m[1].split(/[?#]/)[0]);if(ref)assert(fs.existsSync(path.resolve(dir,ref)),'Missing reference: '+file+' '+ref);
  }
+}
+// Comments are not dependencies, but a genuinely missing active link must still fail.
+const commented='<!-- <link href="images/__missing_test_favicon__.ico"> -->\n<!-- <a href="__missing_test_presentation__.html">Presentation</a> -->';
+assert.doesNotThrow(()=>checkReferences(commented,root,'comment regression'));
+assert.throws(()=>checkReferences(commented+'<a href="__missing_test_active__.html">Active</a>',root,'active regression'),/Missing reference/);
+for(const dir of [root,lab])for(const name of fs.readdirSync(dir)){
+ // The parent can be the complete course site after deployment. Do not audit unrelated course pages.
+ if(dir===root&&name!=='demo.html')continue;
+ const file=path.join(dir,name);
+ if(name.endsWith('.js'))new vm.Script(fs.readFileSync(file,'utf8'),{filename:file});
+ if(!name.endsWith('.html'))continue;
+ const html=activeHtml(fs.readFileSync(file,'utf8'));
+ for(const m of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g))if(m[1].trim())new vm.Script(m[1],{filename:file});
+ checkReferences(html,dir,file);
 }
 const steps=require(path.join(lab,'step-plan.js')),report=require(path.join(lab,'report.js'));
 assert.deepEqual(steps.taskKeys('practice'),['A','B','C','D']);
