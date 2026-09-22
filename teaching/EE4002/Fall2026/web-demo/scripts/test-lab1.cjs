@@ -1,13 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 const root=path.resolve(__dirname,'..'),lab=path.join(root,'lab1');
 require('node:child_process').execFileSync(process.execPath,[path.join(__dirname,'build-lab1.cjs'),'--check'],{stdio:'inherit'});
-function activeHtml(html){return html.replace(/<!--[\s\S]*?-->/g,'');}
-function checkReferences(html,dir,file){
- for(const m of activeHtml(html).matchAll(/(?:href|src)="([^"<>]+)"/g)){
-  if(/^(?:https?:|data:|#|about:)/.test(m[1])||m[1].includes("'+"))continue;
-  const ref=decodeURIComponent(m[1].split(/[?#]/)[0]);if(ref)assert(fs.existsSync(path.resolve(dir,ref)),'Missing reference: '+file+' '+ref);
- }
-}
+const {activeHtml,checkReferences}=require('./lib/check-refs.cjs');
 // Comments are not dependencies, but a genuinely missing active link must still fail.
 const commented='<!-- <link href="images/__missing_test_favicon__.ico"> -->\n<!-- <a href="__missing_test_presentation__.html">Presentation</a> -->';
 assert.doesNotThrow(()=>checkReferences(commented,root,'comment regression'));
@@ -43,7 +37,7 @@ assert(report.build({}).includes('completeness cannot be assessed'));
 const runtime=fs.readFileSync(path.join(lab,'runtime.js'),'utf8');
 assert.equal((runtime.match(/'use strict';/g)||[]).length,1);
 assert(!/previousUpdate|previousShow|originalRender|priorRender|checkInputSettings|jumpTask|nextLessonTask/.test(runtime));
-const demo=fs.readFileSync(path.join(root,'demo.html'),'utf8');assert(!/id: "m2"|\bm2:|build\.m2|wire\.m2|labCommand/.test(demo));
+const demo=fs.readFileSync(path.join(root,'demo.html'),'utf8');assert(!/id: "m2"|\bm2:\s*function|build\.m2|wire\.m2|labCommand/.test(demo));
 assert(!fs.readFileSync(path.join(lab,'index.html'),'utf8').includes('Workbench sections'));
 assert(!fs.readFileSync(path.join(lab,'steps.css'),'utf8').includes('main>nav'));
 console.log('PASS: syntax, local references, source parity, explicit phases, future report requirements, escaped content, legacy route cleanup.');

@@ -1,0 +1,74 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
+const root=path.resolve(__dirname,'..'),M=require('../lab4/model.js');
+const c={baud:9600,parity:'E',stop:1};
+let trials=0;
+for(const baud of M.BAUDS)for(const parity of ['N','E','O'])for(const stop of [1,2])for(let b=0;b<256;b++){
+ const conf={baud,parity,stop},r=M.serial([b,b^255,85],conf,conf);assert(r.equal,JSON.stringify({conf,b}));trials++;
+}
+assert.equal(M.encode([3],c).bits[10],0);assert.equal(M.serial([3],c,c).charMs,11/9600*1000);
+assert(!M.serial([65],c,{...c,baud:19200}).equal);assert(!M.serial([3],c,c,'flip').frames[0].parityOK);assert.equal(M.serial([3],c,c,'disconnect').received.length,0);
+assert.deepEqual(M.parse('41','hex'),M.parse('A','ascii'));assert.throws(()=>M.parse('G1','hex'));
+const base={transport:'rtu',unit:1,fc:3,address:0,quantity:1,scale:.001,level:750,fault:'none'};
+let r=M.transaction(base,c,c);assert.equal(M.hex(r.request),'01 03 00 00 00 01 84 0A');assert.equal(M.hex(r.response),'01 03 02 02 EE 39 68');assert.equal(r.display,.75);assert.equal(M.crc(r.response),0);
+r=M.transaction({...base,address:3},c,c);assert.equal(r.outcome,'exception');assert.equal(M.hex(r.response),'01 83 02 C0 F1');
+assert.equal(M.transaction({...base,unit:2},c,c).outcome,'timeout');assert.equal(M.transaction({...base,fc:4},c,c).exception,1);
+assert.equal(M.transaction({...base,scale:.01},c,c).display,7.5);assert.equal(M.transaction({...base,level:1000},c,c).display,1);
+assert.equal(M.transaction(base,c,{...c,baud:19200}).outcome,'timeout');assert.equal(M.transaction({...base,fault:'flip'},c,c).outcome,'timeout');
+r=M.transaction({...base,transport:'tcp'},c,c);assert.equal(M.hex(r.request),'00 2A 00 00 00 06 01 03 00 00 00 01');assert.equal(M.hex(r.response),'00 2A 00 00 00 05 01 03 02 02 EE');
+const bytes=[1,3,0,0,0,1];
+assert.equal(M.crc(M.parse('123456789','ascii')),0x4B37);
+assert(M.integrity(bytes,bytes).crcOK);
+let damaged=bytes.slice();damaged[0]^=1;assert(!M.integrity(bytes,damaged).parityOK);assert(!M.integrity(bytes,damaged).crcOK);
+damaged=bytes.slice();damaged[0]^=3;assert(M.integrity(bytes,damaged).parityOK);assert(!M.integrity(bytes,damaged).crcOK);
+damaged=[0,4,0,0,0,1];assert(M.integrity(bytes,damaged).sumOK);assert(!M.integrity(bytes,damaged).crcOK);assert.notEqual(M.integrity(bytes,damaged).residue,0);
+for(const file of ['model.js','tasks.js','app.js','integrity.js','learning.js'])new vm.Script(fs.readFileSync(path.join(root,'lab4',file),'utf8'));
+const html=fs.readFileSync(path.join(root,'lab4/index.html'),'utf8');require('./lib/check-refs.cjs').checkReferences(html,path.join(root,'lab4'));
+// Minimal DOM contract exercises task changes, capture guards and report downloads.
+const realIds=new Set([...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]));for(const side of ['tx','rx'])for(const part of ['Baud','Parity','Stop'])realIds.add(side+part);
+const nodes=new Map(),get=id=>{assert(realIds.has(id),'Missing element '+id);if(!nodes.has(id))nodes.set(id,{value:'',textContent:'',innerHTML:'',hidden:false,disabled:false,dataset:{},setAttribute(){},addEventListener(type,fn){this[type]=fn;},click(){this.onclick?.();}});return nodes.get(id);};
+let store={},downloads=[];const context=vm.createContext({Lab4:M,document:{getElementById:get,querySelectorAll:()=>[],addEventListener(){},createElement:()=>({click(){}})},localStorage:{getItem:k=>store[k]||null,setItem:(k,v)=>store[k]=v},URL:{createObjectURL:b=>{downloads.push(b);return 'blob:test';},revokeObjectURL(){}},Blob,setTimeout:()=>0,setInterval:()=>1,clearInterval(){},console});
+for(const f of ['tasks.js','integrity.js','learning.js','app.js'])vm.runInContext(fs.readFileSync(path.join(root,'lab4',f),'utf8'),context);
+assert(get('capture').disabled);get('send').onclick();assert(!get('capture').disabled);get('label').value='baseline';get('capture').onclick();assert.equal(JSON.parse(store['ee4002-lab4-v1']).work.P1.captures.length,1);
+get('payload').input();assert(get('capture').disabled);
+vm.runInContext('select(1)',context);get('read').onclick();assert(get('responseBytes').textContent.includes('39 68'));
+vm.runInContext('select(2)',context);get('send').onclick();assert(get('receive').textContent.includes('do not match'));get('rxBaud').value='9600';get('send').onclick();assert(get('receive').textContent.includes('Bytes match'));
+vm.runInContext('select(3)',context);get('read').onclick();assert(get('transactionResult').textContent.includes('Exception 2'));get('address').value='0';get('read').onclick();assert(get('transactionResult').textContent.includes('7.500'));get('scale').value='.001';get('read').onclick();assert(get('transactionResult').textContent.includes('0.750'));
+get('checkPreset').value='double';get('checkPreset').onchange();assert(get('checkResult').innerHTML.includes('Parity missed'));get('label').value='CRC detects two-bit change';get('capture').onclick();assert.equal(JSON.parse(store['ee4002-lab4-v1']).work.I2.captures[0].kind,'integrity');
+vm.runInContext('select(4)',context);get('json').onclick();get('report').onclick();assert.equal(downloads.length,2);
+const demo=fs.readFileSync(path.join(root,'demo.html'),'utf8');for(const m of demo.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g))if(m[1].trim())new vm.Script(m[1]);assert(demo.includes('build.l4='));
+get('fault').value='flip';get('fault').input();assert.match(get('linkSettings').textContent,/Wire condition: flip/);
+assert.equal(JSON.parse(store['ee4002-lab4-v1']).schema,1);
+// Lecture 8 alignment: per-byte inspection, staged TCP reads and typed evidence.
+vm.runInContext('select(1)',context);get('read').onclick();
+assert(get('byteButtons').innerHTML.includes('data-byte="7"'));
+get('byteButtons').onclick({target:{closest:()=>({dataset:{direction:'response',byte:'3'}})}});
+assert.match(get('byteMeaning').textContent,/02.*Register data/);assert(get('byteWave').innerHTML.includes('parity'));
+get('byteButtons').onclick({target:{closest:()=>({dataset:{direction:'request',byte:'6'}})}});
+assert.match(get('byteMeaning').textContent,/84.*CRC: low byte first/);
+get('address').input();assert.equal(get('byteButtons').innerHTML,'');
+for(let i=0;i<3;i++)get('tcpNext').onclick();assert.match(get('tcpEvents').textContent,/Connected/);assert(!get('tcpBuffer').textContent.includes('Decoded'));
+get('tcpNext').onclick();assert.match(get('tcpBuffer').textContent,/Waiting for the first six/);assert(get('tcpCapture').disabled);
+get('tcpNext').onclick();assert.match(get('tcpBuffer').textContent,/raw 750/);
+get('tcpAnswer').value='bytes';get('tcpAnswer').onchange();assert(!get('tcpCapture').disabled);get('tcpCapture').onclick();
+get('label').value='TCP chunks';get('capture').onclick();assert.equal(JSON.parse(store['ee4002-lab4-v1']).work.P2.captures.at(-1).kind,'tcp');
+get('report').onclick();downloads.at(-1).text().then(text=>{assert(text.includes('TCP walkthrough'));assert(text.includes('ackAnswer'));});
+get('tcpReset').onclick();assert(get('capture').disabled);assert.match(get('tcpBuffer').textContent,/empty/);
+vm.runInContext('select(2)',context);assert(get('tcpLesson').hidden);assert(get('framing').hidden);
+const tcpReply=M.transaction({...base,transport:'tcp'},c,c).response;
+for(let cut=0;cut<tcpReply.length;cut++)assert(!M.tcpBuffer(tcpReply.slice(0,cut)).complete);
+assert(M.tcpBuffer(tcpReply).complete);assert.equal(M.tcpBuffer([...tcpReply,...tcpReply]).remaining.length,11);
+assert(M.tcpBuffer([0,42,0,0,255,255]).error);
+const captures=[{kind:'modbus',data:M.transaction({...base,address:3},c,c)},{kind:'modbus',data:M.transaction({...base,scale:.01},c,c)},... [750,1000].map(level=>({kind:'modbus',data:M.transaction({...base,level},c,c)}))];
+assert(M.evidenceChecks('I2',captures).every(([,ok])=>ok));assert(!M.evidenceChecks('I2',captures.filter((_,i)=>i!==1)).every(([,ok])=>ok));
+// ACK review checks completion/presence, not which answer the student chose.
+for(const ackAnswer of ['bytes','physical','other-choice'])assert(M.evidenceChecks('P2',[{kind:'tcp',data:{complete:true,ackAnswer}}]).at(-1)[1]);
+for(const ackAnswer of ['', '   ', undefined, null])assert(!M.evidenceChecks('P2',[{kind:'tcp',data:{complete:true,ackAnswer}}]).at(-1)[1]);
+assert(!M.evidenceChecks('P2',[{kind:'tcp',data:{complete:false,ackAnswer:'bytes'}}]).at(-1)[1]);
+get('json').onclick();downloads.at(-1).text().then(text=>assert.equal(JSON.parse(text).schema,1));
+const legacyCaptures=Array.from({length:14},(_,i)=>({kind:'serial',data:{},label:'capture '+i}));
+store['ee4002-lab4-v1']=JSON.stringify({student:'legacy',work:{P1:{captures:legacyCaptures}}});
+const restore=vm.createContext({...context,Lab4:M,Lab4Tasks:vm.runInContext('Lab4Tasks',context),Lab4Integrity:vm.runInContext('Lab4Integrity',context)});
+// Isolate the restore block so malformed mock sample payloads never enter rendering.
+const restoreCode=fs.readFileSync(path.join(root,'lab4/app.js'),'utf8').split('function work()')[0];
+vm.runInContext(restoreCode,restore);assert.equal(vm.runInContext('saved.work.P1.captures[0].label',restore),'capture 2');
+console.log(`PASS: ${trials} UART combinations; parity/disconnect/mismatch; RTU/TCP reference frames; fault recovery; task/capture/download workflow; local links and host syntax.`);

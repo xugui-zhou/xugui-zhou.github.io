@@ -807,16 +807,20 @@ let state = store.read();
 if (!state.done) state.done = {};
 
 /* ---------------------------------------------------------------- modules -- */
-const normalizeModuleId=id=>id==="m2"?"l1":id;
+const normalizeModuleId=id=>({m2:"l1",m3:"l3",m4:"l4",m5:"l5",m6:"l6"}[id]||id);
 const MODULES = [
   { id: "m0", idx: "—",  nm: "Start here",                 sub: "Lab index" },
   { id: "m1", idx: "1A", nm: "Lab 1 · guided experiment",  sub: "Watch → configure → submit" },
   { id: "l1", idx: "1C", nm: "IC configuration & evidence", sub: "Lab 1 · shared session" },
   { id: "l2", idx: "L2", nm: "Lab 2 · Control foundations", sub: "Browser only · practice, verification & design" },
-  { id: "m3", idx: "M2", nm: "PLC scan & interlocks",      sub: "Lab 3 · background demonstration" },
-  { id: "m4", idx: "M3", nm: "Modbus registers & polling", sub: "Lab 4" },
-  { id: "m5", idx: "M4", nm: "Network & recovery",         sub: "Lab 5" },
-  { id: "m6", idx: "M5", nm: "Networked control & timing", sub: "Lab 6" },
+  { id: "l3", idx: "L3", nm: "Lab 3 · Virtual PLC Studio", sub: "Graphical LAD · PID tuning · online diagnosis" },
+  { id: "archive-plc", idx: "Archive", nm: "PLC scan & interlocks", sub: "Archived demonstration", archived: true },
+  { id: "l4", idx: "L4", nm: "Lab 4 · Serial & Modbus", sub: "Sender / Receiver · register diagnosis" },
+  { id: "archive-protocol", idx: "Archive", nm: "Registers & polling", sub: "Archived demonstration · different register map", archived: true },
+  { id: "l5", idx: "L5", nm: "Lab 5 · Network delivery & recovery", sub: "CAN · queues · freshness" },
+  { id: "l6", idx: "L6", nm: "Lab 6 · Networked control & timing", sub: "Delay · loss · recovery policies" },
+  { id: "archive-network", idx: "Archive", nm: "Network topology", sub: "Archived shared-plant demonstration", archived: true },
+  { id: "archive-control", idx: "Archive", nm: "Networked control", sub: "Archived shared-plant demonstration", archived: true },
   { id: "m7", idx: "M6", nm: "SCADA, alarms & data quality", sub: "Lab 7" },
   { id: "m8", idx: "M7", nm: "OT security & recovery",     sub: "Lab 8" },
   { id: "m10", idx: "M8", nm: "Operate & inject faults",   sub: "Lab 9" },
@@ -1927,10 +1931,10 @@ const ASSETS = [
 const LABS = [
   ["ML1 / Lab 1", "l1", "IC configuration, ADC scaling, DAC loopback and fault recovery. 60-minute core plus 15-minute buffer."],
   ["ML1 / Lab 2", "l2", "Predict tank dynamics, verify hysteresis and test controlled restart. Core: P1–P3 practice and I1–I2 verification. Optional: I3 control-band design and X1 P/PI. No PLC programming or installation."],
-  ["ML1 / Lab 3", "m3", "Control requirements, interlocks, controlled faults, reliability evidence, and safe response."],
-  ["ML2 / Lab 4", "m4", "Modbus RTU/TCP register mapping, endianness, polling, and packet capture."],
-  ["ML2 / Lab 5", "m5", "Industrial Ethernet topology, latency, load, link failure, redundancy, and recovery."],
-  ["ML3 / Lab 6", "m6", "Control performance and freshness under delay, jitter, packet loss, and stale data."],
+  ["ML1 / Lab 3", "l3", "Commission the virtual PLC, compare P/PI, tune a disturbance response and repair an interlock. Optional cascade-control extension."],
+  ["ML2 / Lab 4", "l4", "UART byte inspection, CRC, TCP buffering, address and scaling diagnosis. Offline simulation."],
+  ["ML2 / Lab 5", "l5", "CAN arbitration, Ethernet queueing, deadline design and fresh-data recovery. Offline simulation; no physical redundancy protocol implementation."],
+  ["ML3 / Lab 6", "l6", "Control performance and freshness under delay, jitter, packet loss, and stale data."],
   ["ML3 / Lab 7", "m7", "Node-RED HMI, historian, alarm behaviour, timestamps, scaling, and data quality."],
   ["ML4 / Lab 8", "m8", "Zones and conduits, filtering, anomalous-write evidence, logging, containment, restoration."],
   ["ML4 / Lab 9", "m9", "Unknown-fault diagnosis across sensor, PLC, protocol, network, and SCADA layers."],
@@ -1940,13 +1944,13 @@ const LABS = [
 const CYCLES = [
   { id: "ML1", labs: "Labs 1–3", t: "Commission the plant",
     d: "Stand the rig up, put a number on every signal, get closed-loop control working, then prove it does something safe when you break it on purpose.",
-    mods: ["m1", "l1", "l2", "m3"] },
+    mods: ["m1", "l1", "l2", "l3"] },
   { id: "ML2", labs: "Labs 4–5", t: "Build and measure the path",
     d: "Decode what is actually on the wire, put arithmetic behind the poll rate, and find out what one cut cable costs on four different topologies.",
-    mods: ["m4", "m5"] },
+    mods: ["l4", "l5"] },
   { id: "ML3", labs: "Labs 6–7", t: "Tie transport to physics",
     d: "Connect delay, jitter, loss and freshness to how the loop performs — and to what the operator ends up believing on the screen.",
-    mods: ["m6", "m7"] },
+    mods: ["l6", "m7"] },
   { id: "ML4", labs: "Labs 8–10", t: "Segment, diagnose, validate",
     d: "Defend the zone, read the evidence an attack leaves behind, localise an unknown fault across five layers, and map every requirement to a test.",
     mods: ["m8", "m10", "m9"] }
@@ -2002,11 +2006,13 @@ const BLIND_POOL = ["drift", "stuck", "spike", "misscale", "pumpdead", "pumpcap"
 
 const MODBLURB = {
   l2: "A separate single-tank experiment: mass balance, hysteresis memory, trip recovery, independent boundary tests and optional P/PI exploration.",
+  l3: "Build and download ladder networks, tune P/PI control, observe online power flow and repair a permission defect. Optional cascade comparison.",
   m1: "The reference plant itself: a live P&ID, the clickable signal chain, and the twelve-asset inventory every later lab depends on.",
+  l4: "Configure UART endpoints, inspect bit sampling, compare error checks, and diagnose Modbus address and scaling faults.",
   m3: "OpenPLC scan behaviour, live ladder rungs, timers and latches, and the interlock that overrides control rather than negotiating with it.",
   m4: "A live Modbus register map, real MBAP and PDU bytes, the four float32 word orders, and an RTU poll-budget calculator.",
-  m5: "Star, linear, RSTP ring and MRP ring — cut any link in the diagram and watch what the loop does while it waits.",
-  m6: "The timing lab: poll interval, latency, jitter, loss and staleness against the same tuning, with the held value drawn as its own staircase.",
+  l5: "Predict CAN arbitration and Ethernet waiting times, meet a delivery deadline, then distinguish link restoration from fresh-data recovery.",
+  l6: "Compare identical tank trials under delay and loss, tune gains under fixed network conditions, and defend a stale-data policy.",
   m7: "Alarm limits, deadband and on-delay against a noisy signal, a live alarm list, and what a stalled poll does to the trend and the historian.",
   m8: "Four attacks against the same rig, four controls, a running event log, and the hardwired switch that trips when everything digital is lying.",
   m10: "The operator's station — auto/manual, setpoint ramp, both valve stations — plus seventeen injectable faults and a blind-diagnosis drill.",
@@ -2194,8 +2200,8 @@ const EVQ = {
   m9: "Choose one requirement from the matrix and write it out properly: claim, evidence, limitation."
 };
 
-const LABOF = { m1: "Lab 1", m3: "Lab 3", m4: "Lab 4",
-                m5: "Lab 5", m6: "Lab 6", m7: "Lab 7", m8: "Lab 8",
+const LABOF = { m1: "Lab 1", l3: "Lab 3", l4: "Lab 4",
+                l5: "Lab 5", l6: "Lab 6", m7: "Lab 7", m8: "Lab 8",
                 m10: "Lab 9", m9: "Lab 10" };
 
 /* ============================================================================
@@ -2250,8 +2256,9 @@ m0: function () {
 
   return head("m0", "THE BENCH", "Supplement to the course site",
     "Course laboratory workbenches",
-    "Choose your laboratory below. Complete the guided practice and independent work, then download your files and upload them to Moodle. Both labs run in your browser.") +
-  '<style>.lab-launch-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:24px 0}.lab-launch-grid .ic-launch{margin:0;display:flex;flex-direction:column}.lab-launch-grid .launch-actions{margin-top:auto;padding-top:16px}@media(max-width:850px){.lab-launch-grid{grid-template-columns:1fr}}</style><div class="lab-launch-grid"><section class="ic-launch"><h3>Lab 1 · Signals and IC configuration</h3><p>Watch the plant demonstration, practise configuring measurements, then complete the independent assignments.</p><p>ADC scaling · configuration · fault recovery</p><div class="launch-actions"><button class="btn" data-goto="l1">Open Lab 1</button> <a class="btn" href="lab1/student-guide.html" target="_blank" rel="noopener">Student guide</a></div></section><section class="ic-launch"><h3>Lab 2 · Control foundations</h3><p>Predict tank behavior, test hysteresis and verify fault recovery. Finish with Review &amp; Download.</p><p>Core: P1–P3 and I1–I2 · Optional: I3 and X1</p><div class="launch-actions"><button class="btn" data-goto="l2">Open Lab 2</button> <a class="btn" href="lab2/index.html" target="_blank" rel="noopener">Full window</a></div></section></div>' +
+    "Choose your laboratory below. Complete the guided practice and independent work, then download your files and upload them to Moodle. These labs run in your browser.") +
+  '<details class="panel"><summary>Archived demonstrations</summary><p>Older shared-plant examples are retained for reference only. Their models and settings differ from the current labs; they are not submission tasks.</p><button class="btn" data-goto="archive-plc">PLC scan demonstration</button> <button class="btn" data-goto="archive-protocol">Float registers and polling</button> <button class="btn" data-goto="archive-network">Network topology</button> <button class="btn" data-goto="archive-control">Networked control</button></details>' +
+  '<style>.lab-launch-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:24px 0}.lab-launch-grid .ic-launch{margin:0;display:flex;flex-direction:column}.lab-launch-grid .launch-actions{margin-top:auto;padding-top:16px}@media(max-width:850px){.lab-launch-grid{grid-template-columns:1fr}}</style><div class="lab-launch-grid"><section class="ic-launch"><h3>Lab 1 · Signals and IC configuration</h3><p>Watch the plant demonstration, practise configuring measurements, then complete the independent assignments.</p><p>ADC scaling · configuration · fault recovery</p><div class="launch-actions"><button class="btn" data-goto="l1">Open Lab 1</button> <a class="btn" href="lab1/student-guide.html" target="_blank" rel="noopener">Student guide</a></div></section><section class="ic-launch"><h3>Lab 2 · Control foundations</h3><p>Predict tank behavior, test hysteresis and verify fault recovery. Finish with Review &amp; Download.</p><p>Core: P1–P3 and I1–I2 · Optional: I3 and X1</p><div class="launch-actions"><button class="btn" data-goto="l2">Open Lab 2</button> <a class="btn" href="lab2/index.html" target="_blank" rel="noopener">Full window</a></div></section><section class="ic-launch"><h3>Lab 3 · Virtual PLC Studio</h3><p>Add contacts, branches, coils and timers. Download the ladder program, compare control responses and repair a permission defect.</p><p>P1–P2 practice · I1–I2 independent work · Optional cascade</p><div class="launch-actions"><button class="btn" data-goto="l3">Open Lab 3</button> <a class="btn" href="lab3/index.html" target="_blank" rel="noopener">Full window</a></div></section><section class="ic-launch"><h3>Lab 4 · Serial &amp; Modbus</h3><p>Inspect UART bytes, compare CRC checks and follow TCP buffering. Diagnose address and scaling faults.</p><p>P1–P2 practice · I1–I2 independent work · Review &amp; Download</p><div class="launch-actions"><button class="btn" data-goto="l4">Open Lab 4</button> <a class="btn" href="lab4/index.html" target="_blank" rel="noopener">Full window</a></div></section></div>' +
 
   '<section class="panel"><div class="panel-head"><span class="eyebrow">Labs 3–10 · demonstration checkpoints</span>' +
     '<span class="eyebrow" id="allProg">—</span></div>' +
@@ -2366,7 +2373,7 @@ m4: function () {
     slider("pollms", "Requested poll interval", 20, 2000, 10, 200, v => v + " ms") +
     '<div class="btnrow"><button class="btn pri" id="bApplyPoll">Apply to the loop</button></div>';
 
-  return head("m4", "MODULE 3", "Lab 4 · industrial communication protocols",
+  return head("m4", "MODULE 3", "Optional protocol sandbox · legacy register map",
     "Registers carry numbers, not meaning",
     "Modbus has no data types, no units, and no self-description. Address 40011 holds a 32-bit float because a document somewhere says so — and only decodes correctly if both ends also agree on which word comes first.") +
 
@@ -2406,7 +2413,7 @@ m5: function () {
     slider("lat5", "Per-hop latency", 0, 100, 1, Rig.lat * 1000, v => v + " ms") +
     slider("jit5", "Jitter under load", 0, 300, 5, Rig.jit * 1000, v => v + " ms");
 
-  return head("m5", "MODULE 4", "Lab 5 · industrial networking &amp; resilient architecture",
+  return head("archive-network", "ARCHIVE", "Shared-plant topology demonstration",
     "One cable, cut on purpose",
     "Topology is a reliability decision disguised as a wiring decision. Cut the same link in four architectures and the loop notices for 60 ms, 1.6 s, or forever — and the difference is bounded, published, and testable.") +
 
@@ -2450,7 +2457,7 @@ m6: function () {
       .map(p => '<button class="btn" data-net="' + p[0] + '">' + p[1] + '</button>').join("") +
     '</div>';
 
-  return head("m6", "MODULE 5", "Lab 6 · networked control systems &amp; timing",
+  return head("archive-control", "ARCHIVE", "Shared-plant timing demonstration",
     "The network is inside the loop",
     "Same tanks, same tuning. The only thing changing here is how the level reading reaches the controller and how the command gets back. Every millisecond you add lands on the same pile as the process dead time.") +
 
@@ -2778,7 +2785,7 @@ m0: function () {
   /* progress across every bench, read from what the objectives actually saw */
   const host = document.getElementById("progList"), all = document.getElementById("allProg");
   let totDone = 0, totAll = 0;
-  const rows = MODULES.filter(function (m) { return OBJ[m.id] && !isLabView(m.id); }).map(function (m) {
+  const rows = MODULES.filter(function (m) { return OBJ[m.id] && !isLabView(m.id) && !isEmbeddedLab(m.id); }).map(function (m) {
     const objs = OBJ[m.id], done = (state.obj[m.id] || []).filter(Boolean).length;
     totDone += done; totAll += objs.length;
     const ev = state.ev[m.id] || {};
@@ -3538,14 +3545,14 @@ document.addEventListener("keydown", function (e) {
   const t = e.target && e.target.tagName;
   if (t === "TEXTAREA" || t === "INPUT") return;
   if (e.key === "Escape" && !modal.hidden) { modal.hidden = true; return; }
-  if (e.code === "Space" && !isLabView(current) && current!=="l2") { e.preventDefault(); Rig.running = !Rig.running; paintRun(); }
+  if (e.code === "Space" && !isLabView(current) && !isEmbeddedLab(current)) { e.preventDefault(); Rig.running = !Rig.running; paintRun(); }
 });
 
 /* ============================================================================
    8 · ROUTER, RAIL, LOOP
    ========================================================================== */
 const nav = document.getElementById("nav");
-MODULES.filter(m=>m.id!=="l1").forEach(function (m) {
+MODULES.filter(m=>m.id!=="l1"&&!m.archived).forEach(function (m) {
   const b = document.createElement("button");
   b.type = "button"; b.dataset.id = m.id;
   b.innerHTML = '<span class="idx">' + m.idx + '</span><span class="nm">' + m.nm +
@@ -3561,15 +3568,37 @@ function paintNav() {
     bs[i].setAttribute("aria-current", String(bs[i].dataset.id === current || (bs[i].dataset.id==="m1" && isLabView(current))));
     bs[i].querySelector(".lamp").className = "lamp" + (state.done[bs[i].dataset.id] ? " on" : "");
   }
-  const n = MODULES.filter(m => state.done[m.id]).length;
-  document.getElementById("progLabel").textContent = n + " of " + MODULES.length + " visited";
-  document.getElementById("progBar").style.width = (n / MODULES.length * 100) + "%";
+  const active = MODULES.filter(m=>!m.archived&&m.id!=="l1");
+  const n = active.filter(m => state.done[m.id]||(m.id==="m1"&&state.done.l1)).length;
+  document.getElementById("progLabel").textContent = n + " of " + active.length + " visited";
+  document.getElementById("progBar").style.width = (n / active.length * 100) + "%";
 }
 
 let icPane = null, icPreviousRun = false;
+const EMBEDDED_LABS=["l2","l3","l4","l5","l6"];
+const isEmbeddedLab=id=>EMBEDDED_LABS.includes(id);
 const isLabView=id=>["m1","l1"].includes(id);
-build.l2=function(){return '<style>body[data-module="l2"] .readout,body[data-module="l2"] .runpanel,body[data-module="l2"] .ic-notice{display:none}</style><p class="unified-note">Lab 2 · browser only, supplied controller, no PLC programming required. Core: P1–P3 and I1–I2 (50–55 min). Optional/homework: I3 design challenge and X1 P/PI. Uses a separate single-tank simulation and local evidence. <a href="lab2/index.html" target="_blank" rel="noopener">Open Lab 2 in a full window</a>.</p><iframe src="lab2/index.html" title="Lab 2 guided control experiment" style="width:100%;height:1500px;border:0;background:#f3f6f7"></iframe>';};
+build.l2=function(){return '<style>body[data-module="l2"] .readout,body[data-module="l2"] .runpanel,body[data-module="l2"] .ic-notice{display:none}</style><p class="unified-note">Lab 2 · browser only, supplied controller, no PLC programming required. Core: P1–P3 and I1–I2 (50–55 min). Optional/homework: I3 design challenge and X1 P/PI. Uses a separate single-tank simulation and local evidence. <a href="lab2/index.html" target="_blank" rel="noopener">Open Lab 2 in a full window</a>.</p><iframe src="lab2/index.html" title="Lab 2 guided control experiment" style="width:100%;height:800px;border:0;background:#f3f6f7"></iframe>';};
 wire.l2=function(){Rig.running=false;};
+build.l3=function(){return '<style>body[data-module="l3"] .readout,body[data-module="l3"] .runpanel,body[data-module="l3"] .ic-notice{display:none}</style><p class="unified-note"><a href="lab3/index.html" target="_blank" rel="noopener">Open Lab 3 Virtual PLC Studio in a full window</a></p><iframe src="lab3/index.html" title="Lab 3 Virtual PLC Studio" style="width:100%;height:800px;border:0;background:#f3f6f7"></iframe>';};
+wire.l3=function(){Rig.running=false;};
+build.l4=function(){return '<style>body[data-module="l4"] .readout,body[data-module="l4"] .runpanel,body[data-module="l4"] .ic-notice{display:none}</style><p class="unified-note"><a href="lab4/index.html" target="_blank" rel="noopener">Open Lab 4 Serial &amp; Modbus Workbench in a full window</a></p><iframe src="lab4/index.html" title="Lab 4 Serial and Modbus Workbench" style="width:100%;height:800px;border:0;background:#f2f5f7"></iframe>';};
+wire.l4=function(){Rig.running=false;};
+// Standalone workbenches replace the earlier shared-plant network demonstrations.
+for (const [id,number,title] of [["l5",5,"Network Timing and Recovery"],["l6",6,"Networked Control"]]) {
+  build[id]=()=>`<style>body[data-module="${id}"] .readout,body[data-module="${id}"] .runpanel,body[data-module="${id}"] .ic-notice{display:none}</style><p class="unified-note"><a href="lab${number}/index.html" target="_blank" rel="noopener">Open Lab ${number}: ${title} in a full window</a></p><iframe src="lab${number}/index.html" title="Lab ${number}: ${title}" style="width:100%;height:800px;border:0;background:#f2f5f7"></iframe>`;
+  wire[id]=()=>{Rig.running=false;};
+}
+const buildCourseHome=build.m0;
+build.m0=function(){const html=buildCourseHome();const cards=[[5,"l5","Network timing and recovery","CAN arbitration, Ethernet queues, delivery deadlines and fresh-data recovery."],[6,"l6","Networked control","Compare level responses under delay, burst loss and fallback strategies."]].map(([n,id,title,description])=>`<section class="ic-launch"><h3>Lab ${n} · ${title}</h3><p>${description}</p><p>P1–P2 practice · I1–I2 independent work · Review &amp; Download</p><div class="launch-actions"><button class="btn" data-goto="${id}">Open Lab ${n}</button> <a class="btn" href="lab${n}/index.html" target="_blank" rel="noopener">Full window</a></div></section>`).join('');return html.replace('<section class="panel"><div class="panel-head"><span class="eyebrow">Labs 3–10', '<div class="lab-launch-grid">'+cards+'</div><section class="panel"><div class="panel-head"><span class="eyebrow">Labs 3–10');};
+build['archive-plc']=()=>'<p class="unified-note">Archived demonstration — not the current Lab 3. <a href="#l3">Open Lab 3 Virtual PLC Studio</a></p>'+build.m3();
+wire['archive-plc']=wire.m3;
+build['archive-protocol']=()=>'<p class="unified-note">Archived demonstration — uses a different register map. <a href="#l4">Open Lab 4 Serial &amp; Modbus</a></p>'+build.m4();
+wire['archive-protocol']=wire.m4;
+build['archive-network']=()=>'<p class="unified-note">Archived shared-plant demonstration — not the current Lab 5. Recovery times are illustrative model settings, not measured protocol guarantees. <a href="#l5">Open Lab 5</a></p>'+build.m5();
+wire['archive-network']=wire.m5;
+build['archive-control']=()=>'<p class="unified-note">Archived shared-plant demonstration — not the current Lab 6. <a href="#l6">Open Lab 6</a></p>'+build.m6();
+wire['archive-control']=wire.m6;
 let teachingPlant = new Lab1Plant();
 const hexByte=n=>"0x"+Number(n).toString(16).toUpperCase().padStart(2,"0");
 function labNav(){return '<nav class="unified-nav" aria-label="Lab 1 views"><button class="btn" data-labview="m1">Plant demonstration</button><button class="btn" data-labview="l1">Student lab · step-by-step</button><span>Practice, independent tasks and local downloads are inside the student lab. Upload your work to Moodle yourself.</span></nav>';}
@@ -3580,6 +3609,12 @@ build.m1=function(){const original=originalPlantBuild(),at=original.indexOf('<se
 const originalPlantWire=wire.m1;
 wire.m1=function(){originalPlantWire();perFrame.shift();let last=performance.now();perFrame.unshift(()=>{const now=performance.now();teachingPlant.step((now-last)/1000);last=now;const s=teachingPlant.snapshot;const snapshot=Object.assign(Object.create(Rig),{auto:false,mvMan:teachingPlant.pump,t:teachingPlant.t,h1:teachingPlant.h1*100,h2:s.level*100,sp:s.level*100,qin:teachingPlant.qin*1e6,q1:teachingPlant.q12*1e6,q2:teachingPlant.qout*1e6,mvApplied:teachingPlant.running?teachingPlant.pump:0,fv202:teachingPlant.valve,HIHI:170,HI:150,LO:50,LOLO:20,F:{},wireBreak:false,hihiLatched:false,loloLatched:false,chain:()=>({mA:s.current,counts:s.code,eu:s.sample.tag_level_m*100,fault:false})});drawRig(cvRig,{chain:true,lab1:true,demo:true,signalState:s,rig:snapshot});document.getElementById('teacherPump').value=teachingPlant.pump;document.getElementById('teacherValve').value=teachingPlant.valve;document.getElementById('teacherPlay').textContent=teachingPlant.running?'Pause plant':'Play plant';document.getElementById('teacherState').textContent=(teachingPlant.running?'Playing':'Paused')+' · pump '+teachingPlant.pump+'% · valve '+teachingPlant.valve+'% · '+teachingPlant.t.toFixed(1)+' s';});document.getElementById('teacherPlay').onclick=()=>teachingPlant.running=!teachingPlant.running;document.getElementById('teacherPump').oninput=e=>teachingPlant.pump=+e.target.value;document.getElementById('teacherValve').oninput=e=>teachingPlant.valve=+e.target.value;document.getElementById('beginPractice').onclick=()=>go('l1');wireLabNav(stage);};
 window.addEventListener("message", function (event) {
+  if(event.data?.type==="ee4002-lab-height"){
+    const frame=[...document.querySelectorAll('iframe')].find(f=>f.contentWindow===event.source && /lab[23456]\/index\.html/.test(f.getAttribute('src')||''));
+    const h=Number(event.data.height);
+    if(frame && (event.origin===location.origin || (location.protocol==='file:' && event.origin==='null')) && Number.isFinite(h) && h>=100 && h<=50000)frame.style.height=Math.ceil(h)+'px';
+    return;
+  }
   const frame = document.getElementById("icFrame");
   if (!frame || event.source !== frame.contentWindow) return;
   if (event.data?.type === "ee4002-tour-open") {
@@ -3595,7 +3630,7 @@ window.addEventListener("message", function (event) {
 window.addEventListener("resize",function(){const frame=document.getElementById("icFrame");if(frame)frame.contentWindow.postMessage({type:"ee4002-host-viewport",height:innerHeight},"*");});
 window.addEventListener("hashchange", function(){const raw=location.hash.slice(1),id=normalizeModuleId(raw);if(MODULES.some(m=>m.id===id)&&(id!==current||raw!==id))go(raw);});
 function go(id) {
-  if(id==="m2"){id="l1";if(location.hash==="#m2")history.replaceState(null,"","#l1");}
+  id=normalizeModuleId(id);
   if(id!=="m1")teachingPlant.running=false;
   document.body.style.overflow="";
   document.body.dataset.module = id;
@@ -3616,14 +3651,14 @@ function go(id) {
   stage.hidden = false;
   /* leave the bench in a sensible state for the module being opened: faults
      that belong to another module should not masquerade as this one's lesson */
-  if (id !== "m5") { Rig.failedLink = -1; Rig.linkDownAt = -999; }
+  if (id !== "archive-network") { Rig.failedLink = -1; Rig.linkDownAt = -999; }
   if (id !== "m8") { Rig.atk = null; Rig.frozenVal = null; }
   if (id !== "m10") {
     if (Object.keys(Rig.F).length) Rig.logLine("ok", "Injected faults cleared on leaving the operations bench");
     Rig.F = {}; Rig.blind = null; Rig.driftAcc = 0; Rig.stuckVal = null;
     Rig.auto = true; Rig.spRate = 0;
   }
-  if (id === "m6" || id === "m7" || id === "m8") { Rig.drops = 0; Rig.sent = 0; Rig.packets = []; }
+  if (id === "archive-control" || id === "m7" || id === "m8") { Rig.drops = 0; Rig.sent = 0; Rig.packets = []; }
   current = id;
   perFrame = [];
   cvPlot = cvLadder = cvRig = cvTopo = cvScan = tileHost = null;
@@ -3647,7 +3682,7 @@ const railPV = document.getElementById("railPV"), railSP = document.getElementBy
 let acc = 0, prev = performance.now();
 function frame(now) {
   const dtR = Math.min(0.1, (now - prev) / 1000); prev = now;
-  if (Rig.running && !isLabView(current) && current!=="l2") {
+  if (Rig.running && !isLabView(current) && !isEmbeddedLab(current)) {
     acc += dtR * Rig.speed;
     let n = 0;
     const cap = 12 * Rig.speed;
