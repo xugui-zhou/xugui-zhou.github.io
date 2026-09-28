@@ -13,6 +13,12 @@ const document={getElementById:get,createElement:()=>new Element(),addEventListe
 const ctx=vm.createContext({document,console,localStorage:{getItem:()=>null,setItem(){}},performance:{now:()=>0},requestAnimationFrame(){},setTimeout(){return 1;},clearTimeout(){},Blob:class{constructor(a){this.text=a.join('');}},URL:{createObjectURL(b){downloads.push(b.text);return 'test:download';},revokeObjectURL(){}}});
 for(const f of ['ladder.js','engine.js','ladder-editor.js','task-guide.js','evidence-storage.js','studio.js'])vm.runInContext(fs.readFileSync(path.join(root,f),'utf8'),ctx,{filename:f});
 const click=id=>get(id).click(),check=(id,v)=>{get(id).checked=v;get(id).onchange({target:get(id)});};
+click('report');
+assert.match(downloads.at(-1),/Evidence self-check/);
+assert.match(downloads.at(-1),/Missing saved items: 13/);
+assert.match(downloads.at(-1),/I2 · Captures: 0 \/ 6 minimum/);
+assert(!downloads.at(-1).split('</aside>')[0].includes('X1 · Captures'));
+assert(downloads.at(-1).indexOf('Evidence self-check')<downloads.at(-1).indexOf('<section>'));
 function data(){click('evidence');return JSON.parse(downloads.at(-1));}
 function start(){click('compile');click('download');click('run');click('start');}
 assert.equal(get('tasknav').children.length,6);click('run');assert.match(get('message').textContent,/Download/);

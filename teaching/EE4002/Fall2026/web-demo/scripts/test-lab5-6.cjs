@@ -26,19 +26,25 @@ assert.equal(control({fallback:'bad',ts:99}).config.fallback,'hold');
 // Execute the real UI against HTML-derived IDs. Unknown IDs must fail, not auto-create.
 for(const lab of [5,6]){
  const html=fs.readFileSync(path.join(root,`lab${lab}/index.html`),'utf8');checkReferences(html,path.join(root,`lab${lab}`));
- const elements=new Map(),saved=new Map();const ctx=new Proxy({}, {get:()=>()=>{},set:()=>true});
+ const elements=new Map(),saved=new Map(),downloads=[];const ctx=new Proxy({}, {get:()=>()=>{},set:()=>true});
  function add(id){if(elements.has(id))return;let markup='';elements.set(id,{value:'',checked:false,disabled:false,dataset:{},textContent:'',focus(){},setAttribute(){},getContext(){return ctx;},get innerHTML(){return markup;},set innerHTML(v){markup=v;for(const m of v.matchAll(/id="([^"]+)"/g))add(m[1]);}});}
  for(const m of html.matchAll(/id="([^"]+)"/g))add(m[1]);
  const $=id=>{assert(elements.has(id),'Unknown DOM ID '+id);return elements.get(id);};
  const sandbox={console,document:{body:{dataset:{lab:String(lab)}},getElementById:$,querySelectorAll:()=>[],createElement:()=>({click(){}})},localStorage:{getItem:k=>saved.get(k),setItem:(k,v)=>saved.set(k,v)},cancelAnimationFrame(){},requestAnimationFrame(){return 1;},confirm:()=>true,Blob,URL:{createObjectURL:()=>'',revokeObjectURL(){}},setTimeout(){},Date};sandbox.window=sandbox;vm.createContext(sandbox);
  for(const file of ['timing-model.js','timing-tasks.js','timing-workbench.js'])vm.runInContext(fs.readFileSync(path.join(root,'shared',file),'utf8'),sandbox,{filename:file});
+ sandbox.Blob=class{constructor(parts){this.text=parts.join('');}};sandbox.URL.createObjectURL=b=>{downloads.push(b.text);return '';};
+ $('report').onclick();assert(downloads.at(-1).includes('Missing / check items: 21'));
+ assert(downloads.at(-1).indexOf('Evidence self-check')<downloads.at(-1).indexOf('<h2>P1'));
  $('overlay').value='';$('run').onclick();assert.equal($('capture').disabled,false);
  $('capture').onclick();assert($('status').textContent.includes('prediction'));
  $('prediction').value='My prediction';$('prediction').oninput();$('label').value='Baseline';$('capture').onclick();
  const setting=lab===5?'id':'delay';$('c-'+setting).value=lab===5?'768':'4';$('settings').oninput();assert.equal($('capture').disabled,true);
  $('overlay').value='';$('run').onclick();$('label').value='Comparison';$('capture').onclick();
  $('explanation').value='Evidence and interpretation';$('explanation').oninput();$('reviewButton').onclick();assert($('summary').innerHTML.includes('Required comparison and writing present'));
- $('report').onclick();$('json').onclick();
+ $('report').onclick();assert(downloads.at(-1).includes('Missing / check items: 16'));
+ assert(downloads.at(-1).includes('Recorded:</strong> P1 · Baseline'));
+ assert(downloads.at(-1).includes('Recorded:</strong> P1 · Controlled comparison'));
+ $('json').onclick();
  const data=JSON.parse(saved.values().next().value);assert.equal(data.tasks.P1.captures.length,2);assert(data.tasks.P1.captures.every(c=>c.samples.length<=241));
  $('nav').onclick({target:{dataset:{task:'P2'}}});assert.equal($('capture').disabled,true);assert($('readout').textContent.includes('No run yet'));
 }

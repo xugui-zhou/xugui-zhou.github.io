@@ -51,7 +51,7 @@ get('tcpNext').onclick();assert.match(get('tcpBuffer').textContent,/Waiting for 
 get('tcpNext').onclick();assert.match(get('tcpBuffer').textContent,/raw 750/);
 get('tcpAnswer').value='bytes';get('tcpAnswer').onchange();assert(!get('tcpCapture').disabled);get('tcpCapture').onclick();
 get('label').value='TCP chunks';get('capture').onclick();assert.equal(JSON.parse(store['ee4002-lab4-v1']).work.P2.captures.at(-1).kind,'tcp');
-get('report').onclick();downloads.at(-1).text().then(text=>{assert(text.includes('TCP walkthrough'));assert(text.includes('ackAnswer'));});
+get('report').onclick();downloads.at(-1).text().then(text=>{assert(text.includes('TCP walkthrough'));assert(text.includes('ackAnswer'));assert(text.includes('Evidence self-check'));assert(text.includes('Missing / check items:'));assert(text.indexOf('Evidence self-check')<text.indexOf('<section>'));});
 get('tcpReset').onclick();assert(get('capture').disabled);assert.match(get('tcpBuffer').textContent,/empty/);
 vm.runInContext('select(2)',context);assert(get('tcpLesson').hidden);assert(get('framing').hidden);
 const tcpReply=M.transaction({...base,transport:'tcp'},c,c).response;
