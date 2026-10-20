@@ -807,7 +807,7 @@ let state = store.read();
 if (!state.done) state.done = {};
 
 /* ---------------------------------------------------------------- modules -- */
-const normalizeModuleId=id=>({m2:"l1",m3:"l3",m4:"l4",m5:"l5",m6:"l6"}[id]||id);
+const normalizeModuleId=id=>({m2:"l1",m3:"l3",m4:"l4",m5:"l5",m6:"l6",m7:"l7",m8:"l8",m9:"l9",m10:"l9"}[id]||id);
 const MODULES = [
   { id: "m0", idx: "—",  nm: "Start here",                 sub: "Lab index" },
   { id: "m1", idx: "1A", nm: "Lab 1 · guided experiment",  sub: "Watch → configure → submit" },
@@ -821,10 +821,13 @@ const MODULES = [
   { id: "l6", idx: "L6", nm: "Lab 6 · Networked control & timing", sub: "Delay · loss · recovery policies" },
   { id: "archive-network", idx: "Archive", nm: "Network topology", sub: "Archived shared-plant demonstration", archived: true },
   { id: "archive-control", idx: "Archive", nm: "Networked control", sub: "Archived shared-plant demonstration", archived: true },
-  { id: "m7", idx: "M6", nm: "SCADA, alarms & data quality", sub: "Lab 7" },
-  { id: "m8", idx: "M7", nm: "OT security & recovery",     sub: "Lab 8" },
-  { id: "m10", idx: "M8", nm: "Operate & inject faults",   sub: "Lab 9" },
-  { id: "m9", idx: "M8", nm: "Requirements & validation",  sub: "Lab 10" }
+  { id: "l7", idx: "L7", nm: "Lab 7 · SCADA and alarms", sub: "Screen editor · runtime · data quality" },
+  { id: "l8", idx: "L8", nm: "Lab 8 · OT security", sub: "Access policy · logging" },
+  { id: "l9", idx: "L9", nm: "Lab 9 · Diagnosis and validation", sub: "Evidence · recovery · acceptance" },
+  { id: "archive-scada", idx: "Archive", nm: "SCADA", sub: "Legacy demo", archived: true },
+  { id: "archive-security", idx: "Archive", nm: "Security", sub: "Legacy demo", archived: true },
+  { id: "archive-operations", idx: "Archive", nm: "Operations", sub: "Legacy demo", archived: true },
+  { id: "archive-validation", idx: "Archive", nm: "Validation", sub: "Legacy demo", archived: true }
 ];
 
 /* ============================================================================
@@ -1935,10 +1938,9 @@ const LABS = [
   ["ML2 / Lab 4", "l4", "UART byte inspection, CRC, TCP buffering, address and scaling diagnosis. Offline simulation."],
   ["ML2 / Lab 5", "l5", "CAN arbitration, Ethernet queueing, deadline design and fresh-data recovery. Offline simulation; no physical redundancy protocol implementation."],
   ["ML3 / Lab 6", "l6", "Control performance and freshness under delay, jitter, packet loss, and stale data."],
-  ["ML3 / Lab 7", "m7", "Node-RED HMI, historian, alarm behaviour, timestamps, scaling, and data quality."],
-  ["ML4 / Lab 8", "m8", "Zones and conduits, filtering, anomalous-write evidence, logging, containment, restoration."],
-  ["ML4 / Lab 9", "m9", "Unknown-fault diagnosis across sensor, PLC, protocol, network, and SCADA layers."],
-  ["ML4 / Lab 10", "m9", "Requirement-to-test mapping, integrated recovery validation, and project rehearsal."]
+  ["ML3 / Lab 7", "l7", "SCADA screen editing, tag binding, moving-tank runtime, timestamps, alarm delay and acknowledgement. No installation."],
+  ["ML4 / Lab 8", "l8", "Fictional access-policy comparisons, maintenance authorization and logging evidence."],
+  ["ML4 / Lab 9", "l9", "Diagnose measurement, freshness and permission fixtures. Verify repairs and justify acceptance."]
 ];
 
 const CYCLES = [
@@ -1946,14 +1948,14 @@ const CYCLES = [
     d: "Stand the rig up, put a number on every signal, get closed-loop control working, then prove it does something safe when you break it on purpose.",
     mods: ["m1", "l1", "l2", "l3"] },
   { id: "ML2", labs: "Labs 4–5", t: "Build and measure the path",
-    d: "Decode what is actually on the wire, put arithmetic behind the poll rate, and find out what one cut cable costs on four different topologies.",
+    d: "Decode serial messages, compare queueing and arbitration, and distinguish link restoration from fresh-data recovery.",
     mods: ["l4", "l5"] },
   { id: "ML3", labs: "Labs 6–7", t: "Tie transport to physics",
     d: "Connect delay, jitter, loss and freshness to how the loop performs — and to what the operator ends up believing on the screen.",
-    mods: ["l6", "m7"] },
-  { id: "ML4", labs: "Labs 8–10", t: "Segment, diagnose, validate",
-    d: "Defend the zone, read the evidence an attack leaves behind, localise an unknown fault across five layers, and map every requirement to a test.",
-    mods: ["m8", "m10", "m9"] }
+    mods: ["l6", "l7"] },
+  { id: "ML4", labs: "Labs 8–9", t: "Access, diagnosis and validation",
+    d: "Test permitted actions, interpret event logs, diagnose a supplied fault and support an acceptance decision with evidence.",
+    mods: ["l8", "l9"] }
 ];
 
 /* ============================================================================
@@ -2013,8 +2015,9 @@ const MODBLURB = {
   m4: "A live Modbus register map, real MBAP and PDU bytes, the four float32 word orders, and an RTU poll-budget calculator.",
   l5: "Predict CAN arbitration and Ethernet waiting times, meet a delivery deadline, then distinguish link restoration from fresh-data recovery.",
   l6: "Compare identical tank trials under delay and loss, tune gains under fixed network conditions, and defend a stale-data policy.",
-  m7: "Alarm limits, deadband and on-delay against a noisy signal, a live alarm list, and what a stalled poll does to the trend and the historian.",
-  m8: "Four attacks against the same rig, four controls, a running event log, and the hardwired switch that trips when everything digital is lying.",
+  l7: "Build and deploy a SCADA screen, then investigate timestamp quality, alarm states and controlled scaling/chatter repairs.",
+  l8: "Compare fictional access policies and logging. Defend allowed monitoring and maintenance flows.",
+  l9: "Use two-point measurements, timestamps and permissions to diagnose fixtures and verify recovery.",
   m10: "The operator's station — auto/manual, setpoint ramp, both valve stations — plus seventeen injectable faults and a blind-diagnosis drill.",
   m9: "Ten requirements, each with a test and a live PASS/FAIL read from the configuration you are carrying from the earlier benches."
 };
@@ -2201,8 +2204,7 @@ const EVQ = {
 };
 
 const LABOF = { m1: "Lab 1", l3: "Lab 3", l4: "Lab 4",
-                l5: "Lab 5", l6: "Lab 6", m7: "Lab 7", m8: "Lab 8",
-                m10: "Lab 9", m9: "Lab 10" };
+                l5: "Lab 5", l6: "Lab 6", l7: "Lab 7", l8: "Lab 8", l9: "Lab 9" };
 
 /* ============================================================================
    6 · MODULES
@@ -2230,7 +2232,7 @@ const build = {
 /* --------------------------------------------------------- M0 · lab index */
 m0: function () {
   const cycles = CYCLES.map(function (cy) {
-    const cards = cy.mods.filter(id=>!isLabView(id)).map(function (id) {
+    const cards = [...new Set(cy.mods.map(normalizeModuleId))].filter(id=>!isLabView(id)).map(function (id) {
       const m = MODULES.filter(function (x) { return x.id === id; })[0];
       return '<div class="labcard"><div class="lh"><span class="lid">' + m.sub + '</span>' +
         '<span class="ml">' + m.idx + '</span></div>' +
@@ -3575,7 +3577,7 @@ function paintNav() {
 }
 
 let icPane = null, icPreviousRun = false;
-const EMBEDDED_LABS=["l2","l3","l4","l5","l6"];
+const EMBEDDED_LABS=["l2","l3","l4","l5","l6","l7","l8","l9"];
 const isEmbeddedLab=id=>EMBEDDED_LABS.includes(id);
 const isLabView=id=>["m1","l1"].includes(id);
 build.l2=function(){return '<style>body[data-module="l2"] .readout,body[data-module="l2"] .runpanel,body[data-module="l2"] .ic-notice{display:none}</style><p class="unified-note">Lab 2 · browser only, supplied controller, no PLC programming required. Core: P1–P3 and I1–I2 (50–55 min). Optional/homework: I3 design challenge and X1 P/PI. Uses a separate single-tank simulation and local evidence. <a href="lab2/index.html" target="_blank" rel="noopener">Open Lab 2 in a full window</a>.</p><iframe src="lab2/index.html" title="Lab 2 guided control experiment" style="width:100%;height:800px;border:0;background:#f3f6f7"></iframe>';};
@@ -3599,6 +3601,10 @@ build['archive-network']=()=>'<p class="unified-note">Archived shared-plant demo
 wire['archive-network']=wire.m5;
 build['archive-control']=()=>'<p class="unified-note">Archived shared-plant demonstration — not the current Lab 6. <a href="#l6">Open Lab 6</a></p>'+build.m6();
 wire['archive-control']=wire.m6;
+for(const [id,legacy,title] of [['archive-scada','m7','SCADA'],['archive-security','m8','Security'],['archive-operations','m10','Operations'],['archive-validation','m9','Validation']]){build[id]=()=>'<p class="unified-note">Archived '+title+' demonstration. Different fixtures, not current submission tasks.</p>'+build[legacy]();wire[id]=wire[legacy];}
+for(const [n,title] of [[7,'SCADA and alarms'],[8,'OT security'],[9,'Diagnosis and validation']]){const id='l'+n;build[id]=()=>`<style>body[data-module="${id}"] .readout,body[data-module="${id}"] .runpanel,body[data-module="${id}"] .ic-notice{display:none}</style><p class="unified-note"><a href="lab${n}/${n===7?'studio':'index'}.html" target="_blank" rel="noopener">Open Lab ${n}: ${title} in a full window</a></p><iframe src="lab${n}/${n===7?'studio':'index'}.html" title="Lab ${n}: ${title}" style="width:100%;height:800px;border:0"></iframe>`;wire[id]=()=>{Rig.running=false;};}
+const buildHomeBeforeOperations=build.m0;
+build.m0=()=>{const cards='<div class="lab-launch-grid">'+[[7,'SCADA and alarms','Guided introduction replaces the skipped SCADA lecture.'],[8,'OT security','Permission policies and event evidence.'],[9,'Diagnosis and validation','Controlled repair trials and acceptance arguments.']].map(([n,title,detail])=>`<section class="ic-launch"><h3>Lab ${n} · ${title}</h3><p>${detail}</p><button class="btn" data-goto="l${n}">Open Lab ${n}</button></section>`).join('')+'</div>';return buildHomeBeforeOperations().replace('<section class="panel"><div class="panel-head"><span class="eyebrow">Labs 3–10',cards+'<section class="panel" hidden><div class="panel-head"><span class="eyebrow">Legacy demonstration checkpoints')+'<details class="panel"><summary>Additional archived demonstrations</summary>'+['scada','security','operations','validation'].map(id=>`<button class="btn" data-goto="archive-${id}">${id}</button>`).join('')+'</details>';};
 let teachingPlant = new Lab1Plant();
 const hexByte=n=>"0x"+Number(n).toString(16).toUpperCase().padStart(2,"0");
 function labNav(){return '<nav class="unified-nav" aria-label="Lab 1 views"><button class="btn" data-labview="m1">Plant demonstration</button><button class="btn" data-labview="l1">Student lab · step-by-step</button><span>Practice, independent tasks and local downloads are inside the student lab. Upload your work to Moodle yourself.</span></nav>';}
@@ -3610,7 +3616,7 @@ const originalPlantWire=wire.m1;
 wire.m1=function(){originalPlantWire();perFrame.shift();let last=performance.now();perFrame.unshift(()=>{const now=performance.now();teachingPlant.step((now-last)/1000);last=now;const s=teachingPlant.snapshot;const snapshot=Object.assign(Object.create(Rig),{auto:false,mvMan:teachingPlant.pump,t:teachingPlant.t,h1:teachingPlant.h1*100,h2:s.level*100,sp:s.level*100,qin:teachingPlant.qin*1e6,q1:teachingPlant.q12*1e6,q2:teachingPlant.qout*1e6,mvApplied:teachingPlant.running?teachingPlant.pump:0,fv202:teachingPlant.valve,HIHI:170,HI:150,LO:50,LOLO:20,F:{},wireBreak:false,hihiLatched:false,loloLatched:false,chain:()=>({mA:s.current,counts:s.code,eu:s.sample.tag_level_m*100,fault:false})});drawRig(cvRig,{chain:true,lab1:true,demo:true,signalState:s,rig:snapshot});document.getElementById('teacherPump').value=teachingPlant.pump;document.getElementById('teacherValve').value=teachingPlant.valve;document.getElementById('teacherPlay').textContent=teachingPlant.running?'Pause plant':'Play plant';document.getElementById('teacherState').textContent=(teachingPlant.running?'Playing':'Paused')+' · pump '+teachingPlant.pump+'% · valve '+teachingPlant.valve+'% · '+teachingPlant.t.toFixed(1)+' s';});document.getElementById('teacherPlay').onclick=()=>teachingPlant.running=!teachingPlant.running;document.getElementById('teacherPump').oninput=e=>teachingPlant.pump=+e.target.value;document.getElementById('teacherValve').oninput=e=>teachingPlant.valve=+e.target.value;document.getElementById('beginPractice').onclick=()=>go('l1');wireLabNav(stage);};
 window.addEventListener("message", function (event) {
   if(event.data?.type==="ee4002-lab-height"){
-    const frame=[...document.querySelectorAll('iframe')].find(f=>f.contentWindow===event.source && /lab[23456]\/index\.html/.test(f.getAttribute('src')||''));
+    const frame=[...document.querySelectorAll('iframe')].find(f=>f.contentWindow===event.source && /lab[23456789]\/(?:index|studio)\.html/.test(f.getAttribute('src')||''));
     const h=Number(event.data.height);
     if(frame && (event.origin===location.origin || (location.protocol==='file:' && event.origin==='null')) && Number.isFinite(h) && h>=100 && h<=50000)frame.style.height=Math.ceil(h)+'px';
     return;
@@ -3652,13 +3658,13 @@ function go(id) {
   /* leave the bench in a sensible state for the module being opened: faults
      that belong to another module should not masquerade as this one's lesson */
   if (id !== "archive-network") { Rig.failedLink = -1; Rig.linkDownAt = -999; }
-  if (id !== "m8") { Rig.atk = null; Rig.frozenVal = null; }
-  if (id !== "m10") {
+  if (id !== "archive-security") { Rig.atk = null; Rig.frozenVal = null; }
+  if (id !== "archive-operations") {
     if (Object.keys(Rig.F).length) Rig.logLine("ok", "Injected faults cleared on leaving the operations bench");
     Rig.F = {}; Rig.blind = null; Rig.driftAcc = 0; Rig.stuckVal = null;
     Rig.auto = true; Rig.spRate = 0;
   }
-  if (id === "archive-control" || id === "m7" || id === "m8") { Rig.drops = 0; Rig.sent = 0; Rig.packets = []; }
+  if (id === "archive-control" || id === "archive-scada" || id === "archive-security") { Rig.drops = 0; Rig.sent = 0; Rig.packets = []; }
   current = id;
   perFrame = [];
   cvPlot = cvLadder = cvRig = cvTopo = cvScan = tileHost = null;

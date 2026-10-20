@@ -14,7 +14,17 @@ No installation, hardware or network connection is required.
 
 Students predict → run the supplied baseline → capture → change only the specified inputs → compare → explain. Task changes reset the experiment, not saved evidence. Independent tasks check presence of a controlled comparison, not correctness of the reasoning.
 
-## Boundaries
+Comparison controls are highlighted in green; other settings remain visible but locked for the task. CAN-only and Ethernet-only controls are explicitly identified when unused. Integer fields reject fractional values, and blank numeric inputs are not silently treated as zero. Review shows the same itemized completeness checklist as the exported report, with return buttons for each task. Existing saved evidence is preserved.
+
+## Lecture 9 alignment (revision 1.1.0)
+
+P1 includes an 11-bit sensor-versus-0x200 arbitration table after each CAN run. It highlights the first differing bit and shows the loser releasing the bus thereafter. The timeline still models every background frame. Equal IDs are explicitly identified as an unsupported arbitration tie, not a CAN winner.
+
+Each task has an always-visible Before you run reference. P2 explicitly changes the lecture example to eight 12,000-bit background frames, one 1,200-bit sensor frame and 2 ms downstream delay. Results separate first-frame queue waiting, serialization and downstream delay; this first-frame result is not claimed as the worst case.
+
+I2 uses an imposed 40 ms outage, not the lecture's Siemens 200 ms MRP specification. It does not implement ring reconfiguration. The age-window warning appears beside the metrics and in exported reports. All prior task settings and saved evidence remain compatible. Independent tasks still check evidence presence and controlled comparisons, not correctness.
+
+## Model boundaries
 
 One ideal non-preemptive bus/output queue. CAN uses an assumed 130-bit on-wire frame; Ethernet background/sensor lengths are 12,000/1,200 bits. This is not a CAN bit-stuffing simulator or an Ethernet protocol implementation. All traffic at each acquisition time is ready before arbitration. Priority does not interrupt a frame already transmitting.
 

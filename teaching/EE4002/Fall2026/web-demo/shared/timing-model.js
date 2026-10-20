@@ -2,6 +2,13 @@
 (function(root){
  const clamp=(x,a,b)=>Math.min(b,Math.max(a,x));
  const finite=(x,d,a,b)=>Number.isFinite(+x)?clamp(+x,a,b):d;
+ function arbitration(sensorId,backgroundId=512){
+  const sensor=Math.round(finite(sensorId,384,0,2047)),background=Math.round(finite(backgroundId,512,0,2047));
+  const firstDifferentBit=Array.from({length:11},(_,i)=>10-i).find(bit=>((sensor>>bit)&1)!==((background>>bit)&1))??null;
+  const winner=sensor===background?'tie':sensor<background?'sensor':'background';
+  const bits=Array.from({length:11},(_,i)=>{const bit=10-i,a=(sensor>>bit)&1,b=(background>>bit)&1,after=firstDifferentBit!==null&&bit<firstDifferentBit;return {bit,sensor:a,background:b,sensorReleased:after&&winner==='background',backgroundReleased:after&&winner==='sensor',bus:after?(winner==='sensor'?a:b):a&b};});
+  return {sensor,background,firstDifferentBit,winner,bits};
+ }
  function network(input={}){
   const c={mode:input.mode==='can'?'can':'ethernet',rate:finite(input.rate,100,0.1,1000),bg:Math.round(finite(input.bg,8,0,30)),qos:!!input.qos,id:Math.round(finite(input.id,384,1,2047)),period:finite(input.period,10,2,50),base:finite(input.base,2,0,20),outage:finite(input.outage,0,0,50),deadline:finite(input.deadline,5,.1,50)};
   // CAN rate is kbit/s. Ethernet rate is Mbit/s. Frame lengths are explicit teaching assumptions.
@@ -54,5 +61,5 @@
   const recovery=lastOutside===samples.length-1?null:lastOutside<0?0:samples[lastOutside+1].t-60;
   return {kind:'control',config:c,samples,metrics:{peakLevelM:peak,iaeMS:iae,finalErrorM:1-h,maxAgeS:maxAge,staleSeconds,saturatedSeconds,losses,rejectedOldPackets:rejected,recoveryAfterLoadS:recovery},scope:'Euler step 0.02 s. A=1 m², inlet=0.04u m³/s, outlet=0.02h m³/s plus 0.008 m³/s after 60 s. SP=1 m. Bias=0.5 balances nominal outlet at SP. Initial h=PV=0.6 m at t=0. P/PI output 0–1, conditional anti-windup. Receiver rejects older source timestamps. Local fallback assumes an additional available local sensor/control path. No actual network or PLC hardware.'};
  }
- const api={network,control};if(typeof module!=='undefined'&&module.exports)module.exports=api;root.TimingModel=api;
+ const api={network,control,arbitration};if(typeof module!=='undefined'&&module.exports)module.exports=api;root.TimingModel=api;
 })(typeof window==='undefined'?globalThis:window);

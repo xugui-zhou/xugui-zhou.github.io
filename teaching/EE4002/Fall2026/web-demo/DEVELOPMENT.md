@@ -96,3 +96,13 @@ isolated `?v=` to an iframe: it does not invalidate the page's JS/CSS dependenci
 deployment, verify the host's cache revalidation behavior; use a hard refresh when checking
 an update. This source change does not configure hosting headers or guarantee cache eviction.
 Application/evidence schema versions remain separate from cache policy.
+
+Labs 7–9 use shared/operations-model.js, operations-tasks.js and operations-workbench.js.
+Each lab has a standalone index.html and README. Lab 7 contains an expanded prerequisite
+introduction because Lecture 11 is now a guest seminar. The canonical routes are #l7–#l9;
+#m7/#m8/#m9/#m10 remain aliases. Legacy models remain accessible through archive-scada,
+archive-security, archive-operations and archive-validation. Current assessment ends at Lab 9.
+Keep fixtures and policy models distinct from real SCADA/security tools: no network or
+hardware operations are implemented. test-lab7-9.cjs runs model and DOM-contract checks.
+Reports begin with completeness checks. Lab 7 I2 requires a sustained-high verification
+in addition to its chatter comparison. Four captures/task and 400k characters/lab bound drafts.
