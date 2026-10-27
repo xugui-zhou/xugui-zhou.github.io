@@ -24,10 +24,11 @@ function validate(p){
  const ids=new Set();for(const c of p.components){if(!Number.isInteger(c.id)||ids.has(c.id)||!types.includes(c.type)||typeof c.label!=='string'||c.label.length>100||!tags[c.tag]||(c.tag.endsWith('102')&&!p.second))throw Error('Invalid component or tag binding.');ids.add(c.id);if(![c.x,c.y,c.w,c.h].every(Number.isFinite)||c.x<0||c.y<0||c.w<100||c.h<70||c.x+c.w>size.w||c.y+c.h>size.h)throw Error('Components must fit the canvas (minimum 100 × 70). Enlarge the canvas or move/resize components before shrinking it.');if(c.type==='button'&&!['P101','P102'].includes(c.tag))throw Error('Pump command buttons must bind to a pump tag.');if(['tank','trend','alarms'].includes(c.type)&&!['LT101','LT102'].includes(c.tag))throw Error('Tank, trend and alarm components must bind to a level tag.');}return clone(p);
 }
 function initial(p){const h=p?.input?.profile==='scale'?.75:p?.input?.profile==='chatter'?1.18:.8;return {t:0,h,pv:h*(p?.input?.scale??.001)/.001,raw:Math.round(h/.001),source:0,pump:false,freeze:false,active:false,acked:false,pending:0,firstAlarm:null,activations:0,history:[],events:[],...(p?.second?{second:initial(p.second)}:{})};}
+function freshness(s){const age=Math.max(0,+(s.t-s.source).toFixed(6));return {age,stale:age>2};}
 function event(s,message){s.events.push({t:+s.t.toFixed(1),message});s.events=s.events.slice(-80);}
 function step(s,p,dt=.1){
  if(p.second&&s.second)step(s.second,p.second,dt);
- if(!(dt>0&&dt<=1))throw Error('Invalid time step');s.t=+(s.t+dt).toFixed(6);const profile=p.input?.profile||'manual';
+ if(!(dt>0&&dt<=1))throw Error('Invalid time step');const wasStale=freshness(s).stale;s.t=+(s.t+dt).toFixed(6);const profile=p.input?.profile||'manual';
  // A=1 m²; inlet=0.06 m³/s when on; outlet=0.025 h m³/s.
  if(profile==='manual')s.h=Math.max(0,Math.min(2,s.h+dt*((s.pump?.06:0)-.025*s.h)));
  else if(profile==='sustained')s.h=s.t<10?.8:s.t<40?1.4:.9;
@@ -35,12 +36,14 @@ function step(s,p,dt=.1){
  else if(profile==='scale')s.h=.75+.01*s.t;
  else s.h=.8+.005*s.t;
  const frozen=s.freeze||(profile==='stale'&&s.t>=20&&s.t<35);
- if(!frozen){s.raw=Math.round(s.h/.001);s.pv=profile==='manual'&&!p.input?s.h:s.raw*(p.input?.scale??.001);s.source=s.t;}const fresh=s.t-s.source<=2;
+ if(!frozen){s.raw=Math.round(s.h/.001);s.pv=profile==='manual'&&!p.input?s.h:s.raw*(p.input?.scale??.001);s.source=s.t;}const quality=freshness(s),fresh=!quality.stale;
+ if(quality.stale&&!wasStale)event(s,'Source became STALE; last source time '+s.source.toFixed(1)+' s');
+ if(fresh&&wasStale)event(s,'Fresh source update received; source time '+s.source.toFixed(1)+' s');
  if(fresh){if(!s.active&&s.pv>=p.alarm.high){if(s.pending===0)s.aboveSince=s.t;s.pending+=dt;if(s.t-s.aboveSince+1e-8>=p.alarm.delay){s.active=true;s.acked=false;s.activations++;if(s.firstAlarm===null)s.firstAlarm=s.t;event(s,'HIGH activated');}}else s.pending=0;if(s.active&&s.pv<=p.alarm.high-p.alarm.deadband){s.active=false;event(s,'HIGH returned to normal');}}
  else s.pending=0;
- s.history.push({t:+s.t.toFixed(2),pv:s.pv,h:s.h,raw:s.raw,source:s.source,age:s.t-s.source,stale:!fresh,active:s.active,acked:s.acked});s.history=s.history.filter(r=>r.t>=s.t-120).slice(-1201);return s;
+ s.history.push({t:+s.t.toFixed(2),pv:s.pv,h:s.h,raw:s.raw,source:s.source,age:quality.age,stale:!fresh,active:s.active,acked:s.acked});s.history=s.history.filter(r=>r.t>=s.t-120).slice(-1201);return s;
 }
 function ack(s){if(s.active&&!s.acked){s.acked=true;event(s,'Operator acknowledged HIGH');}}
 function values(s){return {LT101:s.pv,P101:Number(s.pump),FLOW101:s.pump?.06:0,...(s.second?{LT102:s.second.pv,P102:Number(s.second.pump),FLOW102:s.second.pump?.06:0}:{})};}
-const api={tags,types,station,tank,dual,canvas,freePosition,starter,validate,initial,step,ack,event,values};if(typeof module!=='undefined')module.exports=api;else root.ScadaModel=api;
+const api={tags,types,station,tank,dual,canvas,freePosition,starter,validate,initial,step,ack,event,values,freshness};if(typeof module!=='undefined')module.exports=api;else root.ScadaModel=api;
 })(globalThis);

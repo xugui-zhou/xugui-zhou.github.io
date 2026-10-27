@@ -64,3 +64,11 @@ The station selector targets signal settings, alarm settings, event log, manual 
 P3 is guided dual-station practice: run P101 only, then P102 only, capture both 60 s trials and explain independent states. I3 is an independent binding diagnosis: TK102 tank/numeric graphics initially point to LT101, while its trend/alarm use LT102. Students must compare evidence, repair bindings, rerun and explain why GOOD quality is not a binding check. These are optional extensions/homework unless assigned; they do not add mandatory work to the existing class core. Presence checks appear when answers or captures exist, not as correctness grading.
 
 Loading a dual-task baseline replaces the editable layout after confirmation; saved captures remain. Returning to a core baseline removes second-station components/state. Old single-tank projects remain valid. Reports explicitly identify extension tasks and retain both stations' evidence. The separate state/configuration/binding pattern is the generalization exercise for larger installations, not a claim that this editor supports unlimited stations.
+
+## Lecture 10 bridge and station display verification
+
+P1 now asks for the last pre-freeze source timestamp, first STALE event and fresh-update recovery. Each station logs its own freshness transitions. P2 distinguishes fresh data, the HIGH process condition and operator acknowledgement. These explanations remain in the start guide because Lecture 11 is a guest seminar. The existing task counts and optional dual-tank extension are unchanged.
+
+All screen components use the state selected by their tag binding: value, source timestamp, age, trend, pump label, alarm and ACK text. Selecting a station changes configuration/event-log/ACK targets; it does not change graphic bindings. The regression suite deliberately freezes one tank at a time and checks that the other remains fresh, and verifies different histories and alarms. Saved screen reconstructions use the same station binding and show tag quality and alarm acknowledgement.
+
+The current round passed automated model/DOM/export checks. Browser visual acceptance is still pending: the browser tool rejected local file URLs.

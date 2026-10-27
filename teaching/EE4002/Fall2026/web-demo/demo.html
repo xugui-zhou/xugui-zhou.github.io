@@ -1938,7 +1938,7 @@ const LABS = [
   ["ML2 / Lab 4", "l4", "UART byte inspection, CRC, TCP buffering, address and scaling diagnosis. Offline simulation."],
   ["ML2 / Lab 5", "l5", "CAN arbitration, Ethernet queueing, deadline design and fresh-data recovery. Offline simulation; no physical redundancy protocol implementation."],
   ["ML3 / Lab 6", "l6", "Control performance and freshness under delay, jitter, packet loss, and stale data."],
-  ["ML3 / Lab 7", "l7", "SCADA screen editing, tag binding, moving-tank runtime, timestamps, alarm delay and acknowledgement. No installation."],
+  ["ML3 / Lab 7", "l7", "SCADA screen editing, independent tank stations, tag binding, freshness, alarm delay and acknowledgement. No installation."],
   ["ML4 / Lab 8", "l8", "Fictional access-policy comparisons, maintenance authorization and logging evidence."],
   ["ML4 / Lab 9", "l9", "Diagnose measurement, freshness and permission fixtures. Verify repairs and justify acceptance."]
 ];
@@ -3592,7 +3592,7 @@ for (const [id,number,title] of [["l5",5,"Network Timing and Recovery"],["l6",6,
   wire[id]=()=>{Rig.running=false;};
 }
 const buildCourseHome=build.m0;
-build.m0=function(){const html=buildCourseHome();const cards=[[5,"l5","Network timing and recovery","CAN arbitration, Ethernet queues, delivery deadlines and fresh-data recovery."],[6,"l6","Networked control","Compare level responses under delay, burst loss and fallback strategies."]].map(([n,id,title,description])=>`<section class="ic-launch"><h3>Lab ${n} · ${title}</h3><p>${description}</p><p>P1–P2 practice · I1–I2 independent work · Review &amp; Download</p><div class="launch-actions"><button class="btn" data-goto="${id}">Open Lab ${n}</button> <a class="btn" href="lab${n}/index.html" target="_blank" rel="noopener">Full window</a></div></section>`).join('');return html.replace('<section class="panel"><div class="panel-head"><span class="eyebrow">Labs 3–10', '<div class="lab-launch-grid">'+cards+'</div><section class="panel"><div class="panel-head"><span class="eyebrow">Labs 3–10');};
+build.m0=function(){const html=buildCourseHome();const cards=[[5,"l5","Network timing and recovery","CAN arbitration, Ethernet queues, delivery deadlines and fresh-data recovery."],[6,"l6","Networked control","Compare true level with received PV, inspect data age, and distinguish fresh-data recovery from process recovery."]].map(([n,id,title,description])=>`<section class="ic-launch"><h3>Lab ${n} · ${title}</h3><p>${description}</p><p>P1–P2 practice · I1–I2 independent work · Review &amp; Download</p><div class="launch-actions"><button class="btn" data-goto="${id}">Open Lab ${n}</button> <a class="btn" href="lab${n}/index.html" target="_blank" rel="noopener">Full window</a></div></section>`).join('');return html.replace('<section class="panel"><div class="panel-head"><span class="eyebrow">Labs 3–10', '<div class="lab-launch-grid">'+cards+'</div><section class="panel"><div class="panel-head"><span class="eyebrow">Labs 3–10');};
 build['archive-plc']=()=>'<p class="unified-note">Archived demonstration — not the current Lab 3. <a href="#l3">Open Lab 3 Virtual PLC Studio</a></p>'+build.m3();
 wire['archive-plc']=wire.m3;
 build['archive-protocol']=()=>'<p class="unified-note">Archived demonstration — uses a different register map. <a href="#l4">Open Lab 4 Serial &amp; Modbus</a></p>'+build.m4();

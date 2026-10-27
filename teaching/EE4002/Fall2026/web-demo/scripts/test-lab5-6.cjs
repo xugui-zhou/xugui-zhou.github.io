@@ -64,6 +64,22 @@ for(const lab of [5,6]){
  $('json').onclick();
  const data=JSON.parse(saved.values().next().value);assert.equal(data.tasks.P1.captures.length,2);assert(data.tasks.P1.captures.every(c=>c.samples.length<=241));
  $('nav').onclick({target:{dataset:{task:'P2'}}});assert.equal($('capture').disabled,true);assert($('readout').textContent.includes('No run yet'));
+ if(lab===6){
+  assert.equal($('c-burst').disabled,false);assert.equal($('c-kp').disabled,true);
+  assert($('taskReference').innerHTML.includes('Frozen source updates'));
+  for(const [id,setting,value] of [['P2','burst',true],['I1','kp',3],['I2','fallback','stop']]){
+   $('nav').onclick({target:{dataset:{task:id}}});assert.equal($('c-'+setting).disabled,false);
+   $('prediction').value='Prediction';$('prediction').oninput();$('overlay').value='';$('run').onclick();$('label').value='Baseline';$('capture').onclick();
+   if(setting==='burst')$('c-'+setting).checked=value;else $('c-'+setting).value=String(value);
+   $('settings').oninput();$('run').onclick();$('label').value='Candidate';$('capture').onclick();$('explanation').value='Comparison';$('explanation').oninput();
+   assert($('readout').textContent.includes('Source='));assert($('readout').textContent.includes('I='));
+   if(id==='I2'){assert($('result').innerHTML.includes('48.20 s'));assert($('result').innerHTML.includes('53.96 s'));}
+  }
+  $('report').onclick();assert(downloads.at(-1).includes('Received PV'));assert(downloads.at(-1).includes('Data age and usable limit'));assert(downloads.at(-1).includes('Burst recovery: three different events'));
+  $('json').onclick();const evidence=JSON.parse(downloads.at(-1));assert.equal(evidence.version,'1.2.0');assert(evidence.tasks.every(t=>t.captures.length===2));
+  // Four captures per task must fit the declared budget with the expanded trace fields.
+  const text=JSON.stringify({...evidence,tasks:evidence.tasks.map(t=>({...t,captures:t.captures.concat(t.captures)}))});assert(text.length<750000);
+ }
  if(lab===5){
   assert($('taskReference').innerHTML.includes('Changed-parameter exercise'));
   assert($('referenceText').textContent.includes('Delivery delay ='));

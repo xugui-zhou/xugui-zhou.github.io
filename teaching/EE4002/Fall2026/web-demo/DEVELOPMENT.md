@@ -106,3 +106,10 @@ Keep fixtures and policy models distinct from real SCADA/security tools: no netw
 hardware operations are implemented. test-lab7-9.cjs runs model and DOM-contract checks.
 Reports begin with completeness checks. Lab 7 I2 requires a sustained-high verification
 in addition to its chatter comparison. Four captures/task and 400k characters/lab bound drafts.
+
+
+### Current Lab 6 and Lab 7 sources
+
+Lab 6 uses shared/timing-model.js, timing-tasks.js and timing-workbench.js. Its optional Lecture 10 demonstration is separate in lab6/ideal-model.js and ideal-demo.js. The assessed plant remains the leaky PI tank. Lab 6 draft budget is 750k characters; the independent Lab 5 budget remains 400k. Run test-lab5-6.cjs and test-lab6-alignment.cjs after changes; shared timing edits must preserve Lab 5.
+
+The current Lab 7 entry redirects to lab7/studio.html. Its sources are studio-model.js, studio.js, tasks.js and evidence.js; shared/operations-* now serves only the legacy Lab 7 fixture and current Labs 8–9. The integrated Studio uses its own 24-capture limit (see lab7/README.md), not the old four-captures/task fixture limit. Run test-lab7-studio.cjs for integrated single/dual-station workflows and binding regressions. test-all.cjs discovers these tests automatically.

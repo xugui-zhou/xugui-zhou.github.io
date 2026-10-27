@@ -36,12 +36,19 @@
   const c={kp:finite(input.kp,4,0,10),ki:finite(input.ki,.12,0,1),delay:finite(input.delay,0,0,10),jitter:finite(input.jitter,0,0,3),loss:finite(input.loss,0,0,.5),burst:!!input.burst,ts:[.1,.2,.5,1].includes(+input.ts)?+input.ts:.2,limit:finite(input.limit,3,.2,30),fallback:['hold','stop','local'].includes(input.fallback)?input.fallback:'hold',seed:Math.round(finite(input.seed,42,1,99999))};
   let seed=c.seed;const random=()=>{seed=(1664525*seed+1013904223)>>>0;return seed/4294967296;};
   const dt=.02,ticks=Math.round(c.ts/dt),pending=[],samples=[];let h=.6,u=.5,pv=.6,src=0,integral=0,iae=0,peak=0,staleSeconds=0,saturatedSeconds=0,maxAge=0,losses=0,rejected=0;
+  const recovery={burstEndAtS:c.burst?48:null,firstPostBurstArrivalAtS:null,usablePostBurstAtS:null,firstStaleDuringFaultAtS:null,processInBandBeforeLoadAtS:null,observationEndAtS:60};
+  let firstPostBurstSource=null,lastOutsideBeforeLoad=null;
   for(let k=0;k<=6000;k++){
    const t=k*dt;
    if(k%ticks===0){const lost=(c.burst&&t>=40&&t<48)||random()<c.loss;if(lost)losses++;else pending.push({source:t,value:h,arrival:t+Math.max(0,c.delay+(2*random()-1)*c.jitter)});}
    pending.sort((a,b)=>a.arrival-b.arrival);
-   while(pending.length&&pending[0].arrival<=t+1e-8){const p=pending.shift();if(p.source>=src){src=p.source;pv=p.value;}else rejected++;}
+   while(pending.length&&pending[0].arrival<=t+1e-8){const p=pending.shift();if(p.source>=src){src=p.source;pv=p.value;if(c.burst&&p.source>=48&&recovery.firstPostBurstArrivalAtS===null){recovery.firstPostBurstArrivalAtS=t;firstPostBurstSource=p.source;}}else rejected++;}
    const age=t-src,stale=age>c.limit;
+   if(c.burst){
+    if(t>=40&&t<60&&stale&&recovery.firstStaleDuringFaultAtS===null)recovery.firstStaleDuringFaultAtS=t;
+    if(src>=48&&!stale&&recovery.usablePostBurstAtS===null)recovery.usablePostBurstAtS=t;
+    if(t>=48&&t<60&&Math.abs(h-1)>.02)lastOutsideBeforeLoad=t;
+   }
    if(k%ticks===0){
     if(stale&&c.fallback==='stop')u=0;
     else if(!(stale&&c.fallback==='hold')){
@@ -53,13 +60,15 @@
    }
    if(k<6000){iae+=Math.abs(1-h)*dt;if(stale)staleSeconds+=dt;if(u<=0||u>=1)saturatedSeconds+=dt;}
    maxAge=Math.max(maxAge,age);peak=Math.max(peak,h);
-   if(k%5===0)samples.push({t,h,u,age,pv,stale});
+   if(k%5===0)samples.push({t,h,u,age,pv,source:src,integral,stale});
    if(k<6000)h=Math.max(0,h+dt*(.04*u-.02*h-(t>=60?.008:0)));
   }
   // Recovery after the common outlet-load step at 60 s, sustained through the observation end.
   let lastOutside=-1;for(let i=0;i<samples.length;i++)if(samples[i].t>=60&&Math.abs(samples[i].h-1)>.02)lastOutside=i;
-  const recovery=lastOutside===samples.length-1?null:lastOutside<0?0:samples[lastOutside+1].t-60;
-  return {kind:'control',config:c,samples,metrics:{peakLevelM:peak,iaeMS:iae,finalErrorM:1-h,maxAgeS:maxAge,staleSeconds,saturatedSeconds,losses,rejectedOldPackets:rejected,recoveryAfterLoadS:recovery},scope:'Euler step 0.02 s. A=1 m², inlet=0.04u m³/s, outlet=0.02h m³/s plus 0.008 m³/s after 60 s. SP=1 m. Bias=0.5 balances nominal outlet at SP. Initial h=PV=0.6 m at t=0. P/PI output 0–1, conditional anti-windup. Receiver rejects older source timestamps. Local fallback assumes an additional available local sensor/control path. No actual network or PLC hardware.'};
+  const recoveryAfterLoad=lastOutside===samples.length-1?null:lastOutside<0?0:samples[lastOutside+1].t-60;
+  if(c.burst&& (lastOutsideBeforeLoad===null||lastOutsideBeforeLoad+dt<60-1e-8))recovery.processInBandBeforeLoadAtS=lastOutsideBeforeLoad===null?48:+(lastOutsideBeforeLoad+dt).toFixed(2);
+  recovery.firstPostBurstSourceAtS=firstPostBurstSource;
+  return {kind:'control',config:c,samples,recovery,metrics:{peakLevelM:peak,iaeMS:iae,finalErrorM:1-h,maxAgeS:maxAge,staleSeconds,saturatedSeconds,losses,rejectedOldPackets:rejected,recoveryAfterLoadS:recoveryAfterLoad},scope:'Euler step 0.02 s. A=1 m², inlet=0.04u m³/s, outlet=0.02h m³/s plus 0.008 m³/s after 60 s. SP=1 m. Bias=0.5 balances nominal outlet at SP. Initial h=PV=0.6 m at t=0. P/PI output 0–1, conditional anti-windup. Receiver rejects older source timestamps. Local fallback assumes an additional available local sensor/control path. Burst recovery timestamps are absolute simulation times. Process recovery after the burst means entering ±0.02 m from 48 s and staying there until just before the separate 60 s load step, measured at 0.02 s resolution. Post-load recovery is a separate duration measured from 60 s. No actual network or PLC hardware.'};
  }
  const api={network,control,arbitration};if(typeof module!=='undefined'&&module.exports)module.exports=api;root.TimingModel=api;
 })(typeof window==='undefined'?globalThis:window);
